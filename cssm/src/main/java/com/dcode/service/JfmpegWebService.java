@@ -35,8 +35,10 @@ public interface JfmpegWebService {
 	 * @param rtspUser rtsp 用户名
 	 * @param rtspPsd rtsp 密码
 	 * @param paddword jsmpeg 密码
+	 * 
+	 * @return
 	 * */
-	void OpenSingleStream(String rtspUrl,String rtspUser,String rtspPsd,String password);
+	List<JFmpeg> OpenSingleStream(String rtspUrl,String rtspUser,String rtspPsd,String password);
 	
 	/**
 	 * 通过进出端口号关闭一条JFmpeg视频流
@@ -44,7 +46,7 @@ public interface JfmpegWebService {
 	 * @param inPort 入端口
 	 * @param outPort 出端口
 	 * */
-	void CloseSingleStream(String rtspStreamUrl);
+	List<JFmpeg> CloseSingleStream(String rtspStreamUrl);
 	
 	/**
 	 * 开启所有的XML文件中 配置的JFmepg视频流通道
@@ -56,6 +58,6 @@ public interface JfmpegWebService {
 	 * 关闭所有的XML文件中 配置的JFmepg视频流通道
 	 * 
 	 * */
-	void CloseConfigStream();
+	List<JFmpeg> CloseConfigStream();
 	
 }

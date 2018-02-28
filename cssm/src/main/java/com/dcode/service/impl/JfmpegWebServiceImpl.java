@@ -96,7 +96,7 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 	 * @param rtspPsd rtsp 密码
 	 * @param paddword jsmpeg 密码
 	 * */
-	public void OpenSingleStream(String rtspUrl,String rtspUser,String rtspPsd,String password) {
+	public List<JFmpeg> OpenSingleStream(String rtspUrl,String rtspUser,String rtspPsd,String password) {
 		//打开一个JFmpeg视频流
 		OpenSingleJFmpeg openSingleJFmpeg=new OpenSingleJFmpeg();
 		openSingleJFmpeg.setRtspStreamUrl(rtspUrl);
@@ -104,40 +104,53 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 		openSingleJFmpeg.setRtspPsd(rtspPsd);
 		openSingleJFmpeg.setPassword(password);
 		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		
 		try {
 			ArrayOfJFmpeg openOneLaterList=GetServiceStub().openSingleJFmpeg(openSingleJFmpeg).getOpenSingleJFmpegResult();
 			
 			JFmpeg[] openOneJFmpeg = openOneLaterList.getJFmpeg();
 			for(JFmpeg jfmpeg : openOneJFmpeg){
-				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
-				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
+				jfmpegList.add(jfmpeg);
+//				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
+//				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
 			}
+			
+			return jfmpegList;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		
+		return jfmpegList;
 
 	}
 	
 	/**
-	 * 通过进出端口号关闭一条JFmpeg视频流
+	 * 通过rtsp流地址关闭一条JFmpeg视频流
 	 * @param inPort 入端口
 	 * @param outPort 出端口
 	 * */
-	public void CloseSingleStream(String rtspStreamUrl) {
+	public List<JFmpeg> CloseSingleStream(String rtspStreamUrl) {
 		
 		CloseSingleJFmpeg closeSingleJFmpeg=new CloseSingleJFmpeg();
 		closeSingleJFmpeg.setRtspStreamUrl(rtspStreamUrl);
+		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		
 		try {
 			ArrayOfJFmpeg closeOneLaterList=GetServiceStub().closeSingleJFmpeg(closeSingleJFmpeg).getCloseSingleJFmpegResult();
 			JFmpeg[] closeOneJFmpeg=closeOneLaterList.getJFmpeg();
 			for (JFmpeg jfmpeg : closeOneJFmpeg) {
-				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
-				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
+				jfmpegList.add(jfmpeg);
+//				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
+//				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
 			}
+			return jfmpegList;
 		} catch (RemoteException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		return jfmpegList;
 	}
 	
 	/**
@@ -168,16 +181,23 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 	/**
 	 * 关闭所有的XML文件中 配置的JFmepg视频流通道
 	 * */
-	public void CloseConfigStream() {
+	public List<JFmpeg> CloseConfigStream() {
 		KillAllJFmpegStream killAllJFmpegStream = new KillAllJFmpegStream();
-		//List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
 		
 		try {
-			System.out.println(GetServiceStub().killAllJFmpegStream(killAllJFmpegStream).getKillAllJFmpegStreamResult());
+			ArrayOfJFmpeg closeAllLaterList=GetServiceStub().killAllJFmpegStream(killAllJFmpegStream).getKillAllJFmpegStreamResult();
+			JFmpeg[] closeAllJFmpeg = closeAllLaterList.getJFmpeg();
 			
+			for(JFmpeg jfmpeg : closeAllJFmpeg){
+				jfmpegList.add(jfmpeg);
+			}
+			
+			return jfmpegList;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		return jfmpegList;
 	}
 
 }

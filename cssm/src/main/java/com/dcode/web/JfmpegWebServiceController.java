@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,11 @@ public class JfmpegWebServiceController {
 
 	@Autowired
 	private JfmpegWebService jfmpegService;
+	
+	@RequestMapping(value="/index",method=RequestMethod.GET)
+	public String GoIndex() {
+		return "index";
+	}
 	
 	@RequestMapping(value = "/serverip", method = RequestMethod.GET)
 	public String GetWebServerIp(Model model) {
@@ -53,16 +60,64 @@ public class JfmpegWebServiceController {
 	}
 	
 	@RequestMapping(value = "/closeconfigjfmpeg", method = RequestMethod.GET)
-	public String CloseConfigJfmpeg(Model model) {
-		jfmpegService.CloseConfigStream();
-		model.addAttribute("result", "all config jfmpeg stream is closed.");
-		return "msgtest";
+	@ResponseBody
+	public List<JFmpeg> CloseConfigJfmpeg(Model model) {
+		List<JFmpeg> jlist=jfmpegService.CloseConfigStream();
+		return jlist;
 	}
 	
+	/**
+	 * 通过地址转发到添加视频流页面
+	 * */
+	@RequestMapping(value="/addsinglejfmpeg",method=RequestMethod.GET)
+	public String addSingleJfmpeg() {
+		return "opensingle";
+	}
+	
+	/**
+	 * 通过提交的表单参数打开一个jfmpeg视频流
+	 * */
 	@RequestMapping(value = "/opensinglejfmpeg", method = RequestMethod.POST)
-	public String OpenSingleJfmpeg(String rtspUrl,String rtspUsername,String rtspPassword,String jsmpegPassword) {
+	@ResponseBody
+	public List<JFmpeg> OpenSingleJfmpeg(HttpServletRequest request) {
+		String rtspUrl=request.getParameter("rtspUrl");
+		String rtspUsername=request.getParameter("rtspUsername");
+		String rtspPassword=request.getParameter("rtspPassword");
+		String jsmpegPassword=request.getParameter("jsmpegPassword");
 		
-		return null;
+		List<JFmpeg> jlist=jfmpegService.OpenSingleStream(rtspUrl, rtspUsername, rtspPassword, jsmpegPassword);
+		
+		return jlist;
+	}
+	
+	/**
+	 * 通过地址转发到关闭视频流页面
+	 * */
+	@RequestMapping(value="/removesinglejfmpeg",method=RequestMethod.GET)
+	public String removeSingleJfmpeg() {
+		return "removesingle";
+	}
+	
+	/**
+	 * 通过提交的rtsp视频流地址关闭相应的转换进程
+	 * */
+	@RequestMapping(value = "/closesinglejfmpeg", method = RequestMethod.POST)
+	@ResponseBody
+	public List<JFmpeg> CloseSingleJfmpeg(HttpServletRequest request) {
+		String rtspStreamUrl=request.getParameter("rtspUrl");
+		
+		List<JFmpeg> jlist=jfmpegService.CloseSingleStream(rtspStreamUrl);
+		
+		return jlist;
+	}
+	
+	@RequestMapping(value = "/reset", method = RequestMethod.GET)
+	@ResponseBody
+	public String Reset() {
+		
+		String result=jfmpegService.Reset();
+		
+		return result;
 	}
 	
 }
