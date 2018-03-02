@@ -3,7 +3,9 @@ package com.dcode.web;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,12 +45,16 @@ public class JfmpegWebServiceController {
 	
 	@RequestMapping(value="/currentjfmpeglist",method=RequestMethod.GET)
 	@ResponseBody
-	public List<JFmpeg> GetCurrentJfmpegList(Model model) {
+	public Map<String,Object> GetCurrentJfmpegList(Model model) {
 		
 		List<JFmpeg> jlist=jfmpegService.GetCurWebServiceList();
 		
-		model.addAttribute("curjlist", jlist);
-		return jlist;
+		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
+		jfmpegMap.put("data", jlist);
+		jfmpegMap.put("code", 0);
+		jfmpegMap.put("msg", "");
+		jfmpegMap.put("count", jlist.size());
+		return jfmpegMap;
 	}
 	
 	@RequestMapping(value = "/openconfigjfmpeg", method = RequestMethod.GET)
@@ -118,6 +124,11 @@ public class JfmpegWebServiceController {
 		String result=jfmpegService.Reset();
 		
 		return result;
+	}
+	
+	@RequestMapping(value = "/video.html", method = RequestMethod.GET)
+	public String videopage() {
+		return "video";
 	}
 	
 }

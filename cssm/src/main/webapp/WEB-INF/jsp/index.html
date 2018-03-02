@@ -1,66 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Index Control Page</title>
-    <link rel="stylesheet" href="../resources/plugins/layui/css/layui.css" media="all">
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../resources/build/css/app.css" media="all">
-    <link rel="stylesheet" href="../resources/iconfont/iconfont.css" media="all">
-</head>
-<body>
-<!-- <ul> -->
-<!-- 	<li> -->
-<!-- 		<a href="openconfigjfmpeg"> -->
-<!-- 			<button>open configure stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="closeconfigjfmpeg"> -->
-<!-- 			<button>close configure stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="addsinglejfmpeg"> -->
-<!-- 			<button>open single stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="removesinglejfmpeg"> -->
-<!-- 			<button>close single stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="currentjfmpeglist"> -->
-<!-- 			<button>current stream list</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="serverip"> -->
-<!-- 			<button>server ip address</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="reset"> -->
-<!-- 			<button>reset server environment</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- </ul> -->
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>KIT ADMIN</title>
+    <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="build/css/app.css" media="all">
+    <link rel="stylesheet" href="iconfont/iconfont.css" media="all">
+
+</head>
+
+<body>
     <div class="layui-layout layui-layout-admin kit-layout-admin">
         <div class="layui-header">
             <div class="layui-logo">小浪底视频</div>
@@ -71,7 +23,7 @@
                 <div class="kit-side-fold">
                     <i class="fa fa-navicon" aria-hidden="true"></i>
                 </div>
-<!--                 左侧导航区域（可配合layui已有的垂直导航） -->
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
                 <ul class="layui-nav layui-nav-tree" lay-filter="kitNavbar" kit-navbar>
                     <li class="layui-nav-item">
                         <a class="" href="javascript:;"data-url="video.html" data-icon="fa-user" data-title="视频" kit-target data-id='-1'>
@@ -91,24 +43,23 @@
             </div>
         </div>
         <div class="layui-body" id="container">
-            内容主体区域
+            <!-- 内容主体区域 -->
             <div style="padding: 15px;">主体内容加载中,请稍等...</div>
         </div>
 
         <div class="layui-footer">
-            底部固定区域
+            <!-- 底部固定区域 -->
             2017 &copy;
             <a href="http://kit.zhengjinfan.cn/">kit.zhengjinfan.cn/</a> MIT license
 
         </div>
     </div>
 
-    <script src="../resources/plugins/layui/layui.js"></script>
-
+    <script src="./plugins/layui/layui.js"></script>
     <script>
         var message;
         layui.config({
-            base: '../resources/build/js/'
+            base: 'build/js/'
         }).use(['app', 'message'], function () {
             var app = layui.app,
                 $ = layui.jquery,
@@ -123,13 +74,15 @@
                 layer.open({
                     title: false,
                     type: 1,
-                    content: '<img src="../resources/build/images/pay.png" />',
+                    content: '<img src="/build/images/pay.png" />',
                     area: ['500px', '250px'],
                     shadeClose: true
                 });
             });
         });
 
+
     </script>
 </body>
+
 </html>
