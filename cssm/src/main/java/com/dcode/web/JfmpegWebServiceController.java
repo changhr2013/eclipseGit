@@ -67,9 +67,16 @@ public class JfmpegWebServiceController {
 	
 	@RequestMapping(value = "/closeconfigjfmpeg", method = RequestMethod.GET)
 	@ResponseBody
-	public List<JFmpeg> CloseConfigJfmpeg(Model model) {
+	public Map<String,Object> CloseConfigJfmpeg(Model model) {
 		List<JFmpeg> jlist=jfmpegService.CloseConfigStream();
-		return jlist;
+		
+		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
+		jfmpegMap.put("data", jlist);
+		jfmpegMap.put("code", 0);
+		jfmpegMap.put("msg", "");
+		jfmpegMap.put("count", jlist.size());
+		
+		return jfmpegMap;
 	}
 	
 	/**
@@ -85,7 +92,7 @@ public class JfmpegWebServiceController {
 	 * */
 	@RequestMapping(value = "/opensinglejfmpeg", method = RequestMethod.POST)
 	@ResponseBody
-	public List<JFmpeg> OpenSingleJfmpeg(HttpServletRequest request) {
+	public Map<String,Object> OpenSingleJfmpeg(HttpServletRequest request) {
 		String rtspUrl=request.getParameter("rtspUrl");
 		String rtspUsername=request.getParameter("rtspUsername");
 		String rtspPassword=request.getParameter("rtspPassword");
@@ -93,7 +100,13 @@ public class JfmpegWebServiceController {
 		
 		List<JFmpeg> jlist=jfmpegService.OpenSingleStream(rtspUrl, rtspUsername, rtspPassword, jsmpegPassword);
 		
-		return jlist;
+		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
+		jfmpegMap.put("data", jlist);
+		jfmpegMap.put("code", 0);
+		jfmpegMap.put("msg", "");
+		jfmpegMap.put("count", jlist.size());
+		
+		return jfmpegMap;
 	}
 	
 	/**
@@ -107,14 +120,20 @@ public class JfmpegWebServiceController {
 	/**
 	 * 通过提交的rtsp视频流地址关闭相应的转换进程
 	 * */
-	@RequestMapping(value = "/closesinglejfmpeg", method = RequestMethod.POST)
+	@RequestMapping(value = "/closesinglejfmpeg", method = RequestMethod.GET)
 	@ResponseBody
-	public List<JFmpeg> CloseSingleJfmpeg(HttpServletRequest request) {
+	public Map<String,Object> CloseSingleJfmpeg(HttpServletRequest request) {
 		String rtspStreamUrl=request.getParameter("rtspUrl");
 		
 		List<JFmpeg> jlist=jfmpegService.CloseSingleStream(rtspStreamUrl);
 		
-		return jlist;
+		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
+		jfmpegMap.put("data", jlist);
+		jfmpegMap.put("code", 0);
+		jfmpegMap.put("msg", "");
+		jfmpegMap.put("count", jlist.size());
+		
+		return jfmpegMap;
 	}
 	
 	@RequestMapping(value = "/reset", method = RequestMethod.GET)

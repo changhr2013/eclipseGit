@@ -34,32 +34,97 @@ img{
     padding-bottom: 20px;
 }
 .videolist{
-    border:5px solid #393d49;
     padding: 0px;
 }
 .webright{
-    position: fixed;
+    position:relative;
     height: 100%;
     overflow-x: hidden;
-    bottom: 0px;
-    right:0px;
-    margin-left: 2px;
-    border-left:1px solid #393d49;
-    background: #fff;
+    background: #393d49;
+    width: 24%;
+    margin-left: 1%;
 }
-.webright .layui-tab{
-    margin-top: 0px;
+.webright .btngroup{
+    text-align: center;
+}
+.webright .btngroup button{
+    width: 60px;
+    height: 20px;
+    background: #009688;
+    border:none;
+    color:#fff;
+    box-shadow: 0px 0px 1px #02564e;
+    border-radius: 8px;
+    margin:10px 6px;
+}
+.webrightpad{
+    padding-left: 20px;
+}
+.webright .right-top{
+    margin-left: 0px;
+}
+ .webright .right-top .layui-table button{
+    display: inline-block;
+    width: 35px;
+    height: 25px;
+    background: #009688;
+    border:none;
+    color:#fff;
+    box-shadow: 0px 0px 1px #02564e;
+    border-radius: 8px;
+    margin: 6px;
+} 
+.layui-table{
+    margin: 0px 0px 10px 0px;
+}
+.layui-table th{
+    height: 40px;
+    line-height: 40px;
+    padding: 0px;
+    text-align: center;
+}
+.layui-table td{
+    height: 40px;
+    line-height: 40px;
+    padding: 0px;
+    text-align: center;
+}
+
+.webright .right-top button:hover{
+    background:rgba(0,150,136,0.8);/*  */
+}
+
+.webright .right-top .on{
+    padding-top: 7px;
+}
+.webright .right-top .off{
+    padding-top: 7px;
+}
+.webright .right-top .on i{
+    font-size: 30px;
+    color:#009688;
+    margin-top: 20px !important;
+}
+.webright .right-top .off i{
+    font-size: 32px;
+    color:#e45807;
+}
+.btn_off{
+    background: #e45807 !important;
+    box-shadow: 0px 0px 1px #813204!important;
+
+}
+.webright .right-top .btn_off:hover{
+    background:rgba(228,88,7,0.8);
 }
 .control{
-    position: absolute;
-    bottom: 0px;
-    right:0px;
-    left: 5px;
+margin-top: 20px;
 }
 
 /* 选项 */
 .control1{
-    width: 100%;
+    width: 90%;
+    padding: 0 5%;
 }
 .control1-left{
     float: left;
@@ -126,7 +191,7 @@ img{
     height: 25px;
     line-height: 25px;
     text-align: center;
-    background: #393d49;
+    background: #6b7184;
     border-left:1px solid #63656d;
     color:#a7a6b2;
 }
@@ -137,6 +202,8 @@ img{
 /* 加速线样式 */
 .speed{
     margin: 20px 5px 10px 0;
+    width: 90%;
+    padding: 0 5%;
 }
 .speed .speedbg{
     display: inline-block;
@@ -148,7 +215,8 @@ img{
 
 /* 方向控制 */
 .direction{
-    width:100%;
+    width:90%;
+    padding: 0 5%;
     position: relative;
 }
 .direction ul{
@@ -365,4 +433,17 @@ img{
 }
 .dian2 span small{
     float: right;
+}
+
+/* 表格重置样式 */
+.layui-form-label{
+    float: left;
+    display: block;
+    /* padding: 9px 15px; */
+    width: 30px;
+    font-weight: 400;
+    text-align: right;
+}
+.layui-input-block{
+    margin-left: 30px;
 }

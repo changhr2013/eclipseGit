@@ -42,9 +42,9 @@
                 </div>
             </div>
             <!-- 4条视频 -->
-            <div class="layui-col-sm10 layui-col-md10 videofour" >
+            <div class="layui-col-sm9 layui-col-md9 videofour" >
                 <!-- 视频列表 -->
-                <div class="layui-row layui-col-space10">
+                <div class="layui-row">
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas21" style="width:100%;"></canvas>
                         <!-- <img src="images/video.png" class="layui-img"> -->
@@ -63,23 +63,16 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-sm2 layui-col-md2 webright ">
-                <div class="layui-tab">
-                    <ul class="layui-tab-title">
-                        <li class="layui-this">设备</li>
-                        <!-- <li>用户管理</li>
-                        <li>权限分配</li>
-                        <li>商品管理</li> -->
-                    </ul>
-                    <div class="layui-tab-content">
-<!--                         <div class="layui-tab-item layui-show" id="demo"></div> -->
-                        <table class="layui-hide" id="videostream" lay-filter="demo"></table>
-                        <!-- <div class="layui-tab-item">内容2</div>
-                        <div class="layui-tab-item">内容3</div>
-                        <div class="layui-tab-item">内容4</div>
-                        <div class="layui-tab-item">内容5</div> -->
-                    </div>
-                </div>
+            <div class="layui-col-sm3 layui-col-md3 webright ">
+			<div class="right-top">
+				<div class="layui-row btngroup">
+					<button>全部</button>
+					<button>全部</button>
+					<button>全部</button>
+				</div>
+				
+				<table class="layui-table" id="videostream" lay-filter="demo"></table>
+			</div>
                 <div class="control">
                     <div class="control1">
                         <div class="control1-left">
@@ -149,21 +142,29 @@
             </div>
         </div>
     </div>
+    
+    <%-- layui js库 --%>
     <script type="text/javascript" src="../resources/plugins/layui/layui.js"></script>
+    
+    <%-- jsmpeg依赖的js库 --%>
     <script type="text/javascript" src="../resources/jsmpeg.min.js"></script>
     
+	<%-- 表格控制按钮模板  --%>
     <script type="text/html" id="statcontrol">
+	<a class="layui-btn layui-btn-xs" lay-event="connect">播放</a>
     <a class="layui-btn layui-btn-xs" lay-event="open">开</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="close">关</a>
 	</script>
 	
+	<%-- 表格状态按钮模板 --%>
 	<script type="text/html" id="ffmpegpid">
-  {{#  if(d.ffmpegpid === 0){ }}
-<i class="layui-icon" style="font-size: 30px;color: #fb3d38;">&#x1007;</i>  
-  {{#  } else if(d.gradename!==0) { }}
-    <i class="layui-icon" style="font-size: 30px;color: #009485;">&#xe616;</i>  
+  	{{#  if(d.ffmpegpid === 0){ }}
+		<i class="layui-icon" style="font-size: 30px;color: #fb3d38;">&#x1007;</i>  
+  	{{#  } else if(d.gradename!==0) { }}
+    	<i class="layui-icon" style="font-size: 30px;color: #009485;">&#xe616;</i>  
 	{{#  } }}
 	</script>
+	
 	
     <script type="text/javascript">
 
@@ -247,7 +248,7 @@
         	    ,cols: [[ //表头
         	      {field: 'streamUrl', title: 'rtsp', width:80, fixed: 'left'}
         	      ,{field: 'ffmpegpid', title: '状态', width:60, fixed: 'left',templet:'#ffmpegpid'}
-        	      ,{fixed: 'right',title:'操作', width: 100, align:'center', toolbar: '#statcontrol'}
+        	      ,{fixed: 'right',width: 230,title:'操作', align:'center', toolbar: '#statcontrol'}
         	    ]]
         	  });
         	  
@@ -256,14 +257,31 @@
         	  table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         	    var data = obj.data //获得当前行数据
         	    ,layEvent = obj.event; //获得 lay-event 对应的值
+    	    	var streamUrl=data.streamUrl;
+        	    console.log(data);
         	    if(layEvent === 'open'){
         	      //layer.msg('开启视频流');
         	      tableIns.reload({
-			  		  url: 'currentjfmpeglist'});
+			  		 url: 'opensinglejfmpeg'
+			  		,where: {rtspUrl:streamUrl,
+			  			rtspUsername:data.rtspUsername,
+			  			rtspPassword:data.rtspPassword,
+			  			jsmpegPassword:data.password}
+        	      	,method: 'post'
+        	      	});
 
         	    } else if(layEvent === 'close'){
-        	    	layer.msg('关闭视频流');
-        	    }
+          	      tableIns.reload({
+ 			  		 url: 'closesinglejfmpeg'
+ 			  		,where: {rtspUrl:streamUrl}
+         	      	,method: 'get'
+         	      	});
+        	    }else if(layEvent === 'connect'){
+        	    	player1.destroy();
+        	    	var wsUrl="ws://192.168.0.90:"+data.outPort;
+        	    	player1 = new JSMpeg.Player(wsUrl, {canvas: canvas1});
+             	}
+        	    
         	  });
         	  
         	  
