@@ -61,23 +61,14 @@
             <div class="layui-col-sm3 layui-col-md3 webright ">
 			<div class="right-top">
 				<div class="layui-row btngroup">
-					<a onclick="openConfig()">开启配置流</a>
-					<a>关闭配置流</a>
-					<a>重置环境</a>
+					<form class="layui-form" action="">
+						<a lay-submit lay-filter="openconfig">开启配置流</a>
+						<a lay-submit lay-filter="closeconfig">关闭配置流</a>
+						<a lay-submit lay-filter="reset">重置环境</a>
+					</form>
 				</div>
 				
-<!-- 			########################### -->
-			<form class="layui-form" action="">
-				<div class="layui-form-item" style="margin-bottom:0">
-					<div class="layui-inline">
-						<button class="layui-btn layui-btn-sm" lay-submit lay-filter="formDemo">查询</button>
-						<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
-				    </div>
-				</div>
-			</form>
-<!-- 			########################### -->
-				
-				
+								
 				<table class="layui-table" id="videostream" lay-filter="demo"></table>
 			</div>
                 <div class="control">
@@ -210,26 +201,16 @@
          $(this).removeClass("show1");
     });
 
+    	//初始化cavas画布和Player播放器变量
         var canvas1 = document.getElementById('video-canvas11');
-        var url1 = 'ws://192.168.0.90:18144/';
-		var player1 = new JSMpeg.Player(url1, {canvas: canvas1});
-
         var canvas2 = document.getElementById('video-canvas21');
-		var url2 = 'ws://192.168.0.90:36719/';
-		var player2 = new JSMpeg.Player(url2, {canvas: canvas2});
-
         var canvas3 = document.getElementById('video-canvas22');
-		var url3 = 'ws://192.168.0.90:18144/';
-		var player3 = new JSMpeg.Player(url3, {canvas: canvas3});
-
         var canvas4 = document.getElementById('video-canvas23');
-		var url4 = 'ws://192.168.0.90:9339/';
-		var player4 = new JSMpeg.Player(url4, {canvas: canvas4});
-
         var canvas5 = document.getElementById('video-canvas24');
-		var url5 = 'ws://192.168.0.90:9339/';
-		var player5 = new JSMpeg.Player(url5, {canvas: canvas5});
+        
+		var player1,player2,player3,player4,player5;
 
+        //客户端刷新或者退出页面时关闭视频连接
         window.onbeforeunload = onbeforeunload_handler;
         function onbeforeunload_handler(){
             player1.destroy();
@@ -237,13 +218,15 @@
             player3.destroy();
             player4.destroy();
             player5.destroy();
+            
         }
         
-        layui.use(['laypage', 'layer', 'table', 'element'], function(){
+        layui.use(['laypage', 'layer', 'table', 'element','form'], function(){
         	  var laypage = layui.laypage //分页
         	  layer = layui.layer //弹层
         	  ,table = layui.table //表格
-        	  ,element = layui.element; //元素操作
+        	  ,element = layui.element //元素操作
+        	  ,form=layui.form;
         	  
         	  
         	  //执行一个 table 实例
@@ -284,11 +267,33 @@
          	      	,method: 'get'
          	      	});
         	    }else if(layEvent === 'connect'){
-        	    	player1.destroy();
+        	    	if(player1!==undefined){
+        	    		player1.destroy();
+        	    	}
         	    	var wsUrl="ws://192.168.0.90:"+data.outPort;
         	    	player1 = new JSMpeg.Player(wsUrl, {canvas: canvas1});
              	}
         	    
+        	  });
+        	  
+        	  //总控按钮：启动配置流，关闭配置流，重置环境
+        	  form.on('submit(openconfig)', function(data){
+        	      tableIns.reload({
+        		  		 url: 'openconfigjfmpeg'
+        		      	,method: 'get'
+        		      	});
+        	  });
+        	  form.on('submit(closeconfig)', function(data){
+        	      tableIns.reload({
+        		  		 url: 'closeconfigjfmpeg'
+        		      	,method: 'get'
+        		      	});
+        	  });
+        	  form.on('submit(reset)', function(data){
+        	      tableIns.reload({
+        		  		 url: 'reset'
+        		      	,method: 'get'
+        		      	});
         	  });
         	  
         	  
@@ -307,13 +312,7 @@
         	 
         	  
         	});
-  	  function openConfig(){
-  		  console.log(tableIns);
-	      tableIns.reload({
-	  		 url: 'openconfigjfmpeg'
-	      	,method: 'get'
-	      	});
-	  }
+
     </script>
 </body>
 </html>

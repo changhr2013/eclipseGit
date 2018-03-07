@@ -45,7 +45,7 @@ public class JfmpegWebServiceController {
 	
 	@RequestMapping(value="/currentjfmpeglist",method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String,Object> GetCurrentJfmpegList(Model model) {
+	public Map<String,Object> GetCurrentJfmpegList() {
 		
 		List<JFmpeg> jlist=jfmpegService.GetCurWebServiceList();
 		
@@ -59,10 +59,16 @@ public class JfmpegWebServiceController {
 	
 	@RequestMapping(value = "/openconfigjfmpeg", method = RequestMethod.GET)
 	@ResponseBody
-	public List<JFmpeg> OpenConfigJfmpeg(Model model) {
+	public Map<String,Object> OpenConfigJfmpeg(Model model) {
 		List<JFmpeg> jlist=jfmpegService.OpenConfigStream();
-		model.addAttribute("curjlist", jlist);
-		return jlist;
+		
+		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
+		jfmpegMap.put("data", jlist);
+		jfmpegMap.put("code", 0);
+		jfmpegMap.put("msg", "");
+		jfmpegMap.put("count", jlist.size());
+		
+		return jfmpegMap;
 	}
 	
 	@RequestMapping(value = "/closeconfigjfmpeg", method = RequestMethod.GET)
@@ -138,11 +144,22 @@ public class JfmpegWebServiceController {
 	
 	@RequestMapping(value = "/reset", method = RequestMethod.GET)
 	@ResponseBody
-	public String Reset() {
+	public Map<String,Object> Reset() {
 		
 		String result=jfmpegService.Reset();
+		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
+		if(!result.equals("JFmpeg's Environment has been Reset.")) {
+			jfmpegMap=GetCurrentJfmpegList();
+			return jfmpegMap;
+		}
 		
-		return result;
+		jfmpegMap.put("data", null);
+		jfmpegMap.put("code", 0);
+		jfmpegMap.put("msg", "重置出错，请重新重置。");
+		jfmpegMap.put("count", 0);
+		
+		return jfmpegMap;
+		
 	}
 	
 	@RequestMapping(value = "/video.html", method = RequestMethod.GET)
