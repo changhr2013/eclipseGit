@@ -33,10 +33,9 @@
         </div>
         <div class="layui-row video">
             <!-- 1条视频 -->
-            <div class="layui-col-sm10 layui-col-md10 videoone" style="display:none;">
+            <div class="layui-col-sm9 layui-col-md9 videoone" style="display:none;">
                 <div class="layui-row">
                     <div class="layui-col-sm12 layui-col-md12  videolist">
-                        <!-- <img src="images/video.png" class="layui-img"> -->
                         <canvas id="video-canvas11" style="width:100%;"></canvas>
                     </div>
                 </div>
@@ -47,29 +46,37 @@
                 <div class="layui-row">
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas21" style="width:100%;"></canvas>
-                        <!-- <img src="images/video.png" class="layui-img"> -->
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas22" style="width:100%;"></canvas>
-                        <!-- <img src="images/video.png" class="layui-img"> -->
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas23" style="width:100%;"></canvas>
-                        <!-- <img src="images/video.png" class="layui-img"> -->
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas24" style="width:100%;"></canvas>
-                        <!-- <img src="images/video.png" class="layui-img"> -->
                     </div>
                 </div>
             </div>
             <div class="layui-col-sm3 layui-col-md3 webright ">
 			<div class="right-top">
 				<div class="layui-row btngroup">
-					<button>全部</button>
-					<button>全部</button>
-					<button>全部</button>
+					<a onclick="openConfig()">开启配置流</a>
+					<a>关闭配置流</a>
+					<a>重置环境</a>
 				</div>
+				
+<!-- 			########################### -->
+			<form class="layui-form" action="">
+				<div class="layui-form-item" style="margin-bottom:0">
+					<div class="layui-inline">
+						<button class="layui-btn layui-btn-sm" lay-submit lay-filter="formDemo">查询</button>
+						<button type="reset" class="layui-btn layui-btn-sm layui-btn-primary">重置</button>
+				    </div>
+				</div>
+			</form>
+<!-- 			########################### -->
+				
 				
 				<table class="layui-table" id="videostream" lay-filter="demo"></table>
 			</div>
@@ -152,7 +159,7 @@
 	<%-- 表格控制按钮模板  --%>
     <script type="text/html" id="statcontrol">
 	<a class="layui-btn layui-btn-xs" lay-event="connect">播放</a>
-    <a class="layui-btn layui-btn-xs" lay-event="open">开</a>
+    <a class="layui-btn layui-btn-xs class="btn_on" lay-event="open">开</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="close">关</a>
 	</script>
 	
@@ -242,13 +249,13 @@
         	  //执行一个 table 实例
         	  var tableIns=table.render({
         	    elem: '#videostream'
-        	    ,height: 332
+        	    ,height: 330
         	    ,url: 'currentjfmpeglist' //数据接口
         	    ,page: true //开启分页
         	    ,cols: [[ //表头
-        	      {field: 'streamUrl', title: 'rtsp', width:80, fixed: 'left'}
+        	      {field: 'streamUrl', title: 'rtsp', width:119, fixed: 'left'}
         	      ,{field: 'ffmpegpid', title: '状态', width:60, fixed: 'left',templet:'#ffmpegpid'}
-        	      ,{fixed: 'right',width: 230,title:'操作', align:'center', toolbar: '#statcontrol'}
+        	      ,{width: 220,title:'操作', align:'center', toolbar: '#statcontrol'}
         	    ]]
         	  });
         	  
@@ -297,9 +304,16 @@
         	      }
         	    }
         	  });
+        	 
         	  
         	});
-
+  	  function openConfig(){
+  		  console.log(tableIns);
+	      tableIns.reload({
+	  		 url: 'openconfigjfmpeg'
+	      	,method: 'get'
+	      	});
+	  }
     </script>
 </body>
 </html>
