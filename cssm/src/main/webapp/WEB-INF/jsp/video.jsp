@@ -37,6 +37,7 @@
                 <div class="layui-row">
                     <div class="layui-col-sm12 layui-col-md12  videolist">
                         <canvas id="video-canvas11" style="width:100%;"></canvas>
+                        <a href="javascript:;" id="cicon-0" onclick="closePlayer(parseInt(id.slice(-1)))" class="close"></a>
                     </div>
                 </div>
             </div>
@@ -46,15 +47,19 @@
                 <div class="layui-row">
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas21" style="width:100%;"></canvas>
+                        <a href="javascript:;" id="cicon-1" onclick="closePlayer(parseInt(id.slice(-1)))" class="close"></a>
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas22" style="width:100%;"></canvas>
+                        <a href="javascript:;" id="cicon-2" onclick="closePlayer(parseInt(id.slice(-1)))" class="close"></a>
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas23" style="width:100%;"></canvas>
+                        <a href="javascript:;" id="cicon-3" onclick="closePlayer(parseInt(id.slice(-1)))" class="close"></a>
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
                         <canvas id="video-canvas24" style="width:100%;"></canvas>
+                        <a href="javascript:;" id="cicon-4" onclick="closePlayer(parseInt(id.slice(-1)))" class="close"></a>
                     </div>
                 </div>
             </div>
@@ -200,6 +205,31 @@
      $(".direction li:even").mouseout(function(){
          $(this).removeClass("show1");
     });
+     
+     //视频关闭
+     $(".videolist").each(function(index,element){
+         $(element).mouseover(function(){
+             $(element).find("a").css("display","block");
+             //在这里给a添加事件
+         });
+         $(element).mouseout(function(){
+             $(element).find("a").css("display","none");
+         });
+     })
+
+     function closePlayer(index){
+         //alert(index+" : "+typeof index);
+         playerList[index].destroy();
+         playerList.splice(index,1,undefined);
+         
+         var ctx=canvasList[index].getContext('webgl');
+         console.log(ctx);
+         ctx.clearColor(0, 0, 0, 3)
+         ctx.clearDepth(0.5);
+         ctx.clearStencil(1);
+         ctx.clear(ctx.DEPTH_BUFFER_BIT | ctx.COLOR_BUFFER_BIT);
+
+     }
 
     	//初始化cavas画布和Player播放器变量
         var canvas1 = document.getElementById('video-canvas11');
@@ -209,15 +239,19 @@
         var canvas5 = document.getElementById('video-canvas24');
         
 		var player1,player2,player3,player4,player5;
+		
+		var playerList=[player1,player2,player3,player4,player5]; 
+		var canvasList=[canvas1,canvas2,canvas3,canvas4,canvas5];
 
         //客户端刷新或者退出页面时关闭视频连接
         window.onbeforeunload = onbeforeunload_handler;
         function onbeforeunload_handler(){
-            player1.destroy();
-            player2.destroy();
-            player3.destroy();
-            player4.destroy();
-            player5.destroy();
+            
+            for(let i=0;i<playerList.length;i++){
+            	if(playerList[i]!==undefined){
+                	playerList[i].destroy();
+            	}
+            }
             
         }
         
@@ -267,11 +301,22 @@
          	      	,method: 'get'
          	      	});
         	    }else if(layEvent === 'connect'){
-        	    	if(player1!==undefined){
-        	    		player1.destroy();
+        	    	
+        	    	for(let i=0;i<playerList.length;i++){
+        	    		
+        	    		if(playerList[i]===undefined){
+        	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
+        	    			console.log(wsUrl);
+        	    			playerList[i] = new JSMpeg.Player(wsUrl, {canvas: canvasList[i]});
+        	    			return;
+        	    		}
+        	    		
+        	    		if(i===playerList.length-1){
+        	    			playerList[0].destroy();
+        	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
+        	    			playerList[0] = new JSMpeg.Player(wsUrl, {canvas: canvasList[0]});
+        	    		}
         	    	}
-        	    	var wsUrl="ws://192.168.0.90:"+data.outPort;
-        	    	player1 = new JSMpeg.Player(wsUrl, {canvas: canvas1});
              	}
         	    
         	  });

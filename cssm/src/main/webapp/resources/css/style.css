@@ -35,7 +35,18 @@ img{
 }
 .videolist{
     padding: 0px;
-    background:black;
+    background: black;
+    position: relative;
+}
+.videolist a{
+    position: absolute;
+    top:10px;
+    right:10px;
+    width: 30px;
+    height: 30px;
+    background: url(../images/close.png) no-repeat;
+    background-size: 80%;
+    display: none;
 }
 .webright{
     position:relative;
@@ -60,7 +71,6 @@ img{
     box-shadow: 0px 0px 1px #02564e;
     border-radius: 8px;
     margin:10px 6px;
-    cursor: pointer;
 }
 .webrightpad{
     padding-left: 20px;
@@ -126,7 +136,7 @@ img{
 margin-top: 20px;
 }
 
-/* 閫夐」 */
+/* 选项 */
 .control1{
     width: 90%;
     padding: 0 5%;
@@ -204,7 +214,7 @@ margin-top: 20px;
     background: #616265;
 }
 
-/* 鍔犻�熺嚎鏍峰紡 */
+/* 加速线样式 */
 .speed{
     margin: 20px 5px 10px 0;
     width: 90%;
@@ -218,7 +228,7 @@ margin-top: 20px;
 #example-32 .rating-32 {border: 1px solid #d8d8d8; border-width: 0 1px 0 1px; margin-bottom: 20px}
 #currentval-32 {border: 1px solid #d8d8d8; padding: 4px}
 
-/* 鏂瑰悜鎺у埗 */
+/* 方向控制 */
 .direction{
     width:90%;
     padding: 0 5%;
@@ -380,7 +390,7 @@ margin-top: 20px;
 
 
 
-/* 瑙嗛鎾斁绾挎潯 */
+/* 视频播放线条 */
 #videoControls{
     width: 100%;
     margin-top: 0px;
@@ -440,7 +450,7 @@ margin-top: 20px;
     float: right;
 }
 
-/* 琛ㄦ牸閲嶇疆鏍峰紡 */
+/* 表格重置样式 */
 .layui-form-label{
     float: left;
     display: block;
