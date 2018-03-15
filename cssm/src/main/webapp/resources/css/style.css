@@ -37,6 +37,19 @@ img{
     padding: 0px;
     background: black;
     position: relative;
+  	overflow: hidden;
+  	
+    width: 50%;
+    /*margin: 5px 1%;*/
+    border: 4px solid #bbb;
+    height: 0;
+    padding-bottom: 27%;
+}
+.videolist1{
+	width:100%;
+	margin:0;
+	height:0;
+	padding-bottom: 55.8%;
 }
 .videolist a{
     position: absolute;
@@ -71,6 +84,7 @@ img{
     box-shadow: 0px 0px 1px #02564e;
     border-radius: 8px;
     margin:10px 6px;
+    cursor: pointer;
 }
 .webrightpad{
     padding-left: 20px;
@@ -466,4 +480,75 @@ margin-top: 20px;
 .layui-btn{
 	height:30px;
 	line-height:30px;
+	position: absolute;
+    left: 34px;
+    top: 0px;
+}
+
+/* 控制开关 */
+
+.switch{
+    display: inline-block;
+    position: relative;
+    height: 24px;
+    line-height: 22px;
+    width: 52px;
+    padding: 0 5px;
+    margin-top: 2px;
+    margin-left: 87px;
+    border: 1px solid #d2d2d2;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: #fff;
+    -webkit-transition: .1s linear;
+    transition: .1s linear;
+}
+.switchoff em{
+    font-weight: 500;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    width: 25px;
+    padding: 0!important;
+    text-align: center!important;
+    color: #999!important;
+    font-style: normal!important;
+    font-size: 12px;
+}
+.switchoff i{
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 20px;
+    background-color: #d2d2d2;
+    -webkit-transition: .1s linear;
+    transition: .1s linear;
+}
+.switchon{
+    border-color: #5FB878;
+    background-color: #5FB878;
+}
+.switchon em{
+    left: 5px;
+    right: auto;
+    color: #fff!important;
+    position: absolute;
+    top: 0;
+    width: 25px;
+    padding: 0!important;
+    text-align: center!important;
+    font-style: normal!important;
+    font-size: 12px;
+}
+.switchon i{
+    right: 3px;
+    background-color: #fff;
+    position: absolute;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 20px;
+    transition: .1s linear;
 }

@@ -35,7 +35,7 @@
             <!-- 1条视频 -->
             <div class="layui-col-sm9 layui-col-md9 videoone" style="display:none;">
                 <div class="layui-row">
-                    <div class="layui-col-sm12 layui-col-md12  videolist">
+                    <div class="layui-col-sm12 layui-col-md12 videolist videolist1">
                         <canvas id="video-canvas11" style="width:100%;"></canvas>
                         <a href="javascript:;" id="cicon-0" onclick="closePlayer(parseInt(id.slice(-1)))" class="close"></a>
                     </div>
@@ -74,7 +74,7 @@
 				</div>
 				
 								
-				<table class="layui-table" id="videostream" lay-filter="demo"></table>
+				<table class="layui-table" id="videostream" lay-filter="switchdemo"></table>
 			</div>
                 <div class="control">
                     <div class="control1">
@@ -157,6 +157,14 @@
 	<a class="layui-btn layui-btn-xs" lay-event="connect">播放</a>
     <a class="layui-btn layui-btn-xs class="btn_on" lay-event="open">开</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="close">关</a>
+	</script>
+	
+	<script type="text/html" id="switchTpl">
+	<a class="layui-btn layui-btn-xs" lay-event="connect">播放</a>
+	<a lay-event="{{ d.jsmpegpid != 0 ? 'checked' : 'unchecked' }}" class="layui-row switch {{ d.jsmpegpid != 0 ? 'switchon' : 'switchoff' }}">
+                        <em></em>
+                        <i></i>
+                    </a>
 	</script>
 	
 	<%-- 表格状态按钮模板 --%>
@@ -270,9 +278,10 @@
         	    ,url: 'currentjfmpeglist' //数据接口
         	    ,page: true //开启分页
         	    ,cols: [[ //表头
-        	      {field: 'streamUrl', title: 'rtsp', width:119, fixed: 'left'}
-        	      ,{field: 'ffmpegpid', title: '状态', width:60, fixed: 'left',templet:'#ffmpegpid'}
-        	      ,{width: 220,title:'操作', align:'center', toolbar: '#statcontrol'}
+        	      {field: 'streamUrl', title: 'rtsp', width:180, fixed: 'left'}
+//         	      ,{field: 'ffmpegpid', title: '状态', width:60, fixed: 'left',templet:'#ffmpegpid'}
+//         	      ,{width: 220,title:'操作', align:'center', toolbar: '#statcontrol'}
+        	      ,{field:'jsmpegpid', title:'操作', width:220, toolbar:'#switchTpl',unresize: true}
         	    ]]
         	  });
         	  
@@ -282,7 +291,7 @@
         	    var data = obj.data //获得当前行数据
         	    ,layEvent = obj.event; //获得 lay-event 对应的值
     	    	var streamUrl=data.streamUrl;
-        	    console.log(data);
+        	    //console.log(data);
         	    if(layEvent === 'open'){
         	      //layer.msg('开启视频流');
         	      tableIns.reload({
@@ -306,8 +315,22 @@
         	    		
         	    		if(playerList[i]===undefined){
         	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
-        	    			console.log(wsUrl);
-        	    			playerList[i] = new JSMpeg.Player(wsUrl, {canvas: canvasList[i]});
+        	    			let imgUrl="../resources/images/video.png";
+        	    			//console.log(wsUrl);
+        	    			playerList[i] = new JSMpeg.Player(wsUrl, {canvas: canvasList[i],poster:imgUrl});
+        	    			console.log(playerList[i]);
+    	    				layer.msg("加载中...",{time:1000});
+        	    			setTimeout(function(index){
+            	    			if(playerList[index].demuxer.bits===null){
+            	    				layer.open({
+            	    					  title: '信息提示'
+            	    					  ,content: '播放失败，请检查视频源或后台服务进程。'
+            	    					});
+            	    				playerList[index].destroy();
+            	    				playerList.splice(index,1,undefined);
+            	    			}
+        	    			},2000, i);
+
         	    			return;
         	    		}
         	    		
@@ -315,10 +338,70 @@
         	    			playerList[0].destroy();
         	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
         	    			playerList[0] = new JSMpeg.Player(wsUrl, {canvas: canvasList[0]});
+        	    			console.log(playerList);
         	    		}
         	    	}
              	}
         	    
+        	  });
+        	  
+        	  //监听性别操作
+        	  table.on('tool(switchdemo)', function(obj){
+        	  
+          	    var data = obj.data //获得当前行数据
+          	    ,layEvent = obj.event; //获得 lay-event 对应的值
+      	    	var streamUrl=data.streamUrl;
+          	    //console.log(data);
+          	    if(layEvent === 'unchecked'){
+          	      //layer.msg('开启视频流');
+          	      tableIns.reload({
+  			  		 url: 'opensinglejfmpeg'
+  			  		,where: {rtspUrl:streamUrl,
+  			  			rtspUsername:data.rtspUsername,
+  			  			rtspPassword:data.rtspPassword,
+  			  			jsmpegPassword:data.password}
+          	      	,method: 'post'
+          	      	});
+
+          	    } else if(layEvent === 'checked'){
+            	      tableIns.reload({
+   			  		 url: 'closesinglejfmpeg'
+   			  		,where: {rtspUrl:streamUrl}
+           	      	,method: 'get'
+           	      	});
+          	    }else if(layEvent === 'connect'){
+        	    	
+        	    	for(let i=0;i<playerList.length;i++){
+        	    		
+        	    		if(playerList[i]===undefined){
+        	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
+        	    			let imgUrl="../resources/images/video.png";
+        	    			//console.log(wsUrl);
+        	    			playerList[i] = new JSMpeg.Player(wsUrl, {canvas: canvasList[i],poster:imgUrl});
+        	    			console.log(playerList[i]);
+    	    				layer.msg("加载中...",{time:1000});
+        	    			setTimeout(function(index){
+            	    			if(playerList[index].demuxer.bits===null){
+            	    				layer.open({
+            	    					  title: '信息提示'
+            	    					  ,content: '播放失败，请检查视频源或后台服务进程。'
+            	    					});
+            	    				playerList[index].destroy();
+            	    				playerList.splice(index,1,undefined);
+            	    			}
+        	    			},2000, i);
+
+        	    			return;
+        	    		}
+        	    		
+        	    		if(i===playerList.length-1){
+        	    			playerList[0].destroy();
+        	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
+        	    			playerList[0] = new JSMpeg.Player(wsUrl, {canvas: canvasList[0]});
+        	    			console.log(playerList);
+        	    		}
+        	    	}
+             	}
         	  });
         	  
         	  //总控按钮：启动配置流，关闭配置流，重置环境
