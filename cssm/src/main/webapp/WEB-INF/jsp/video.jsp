@@ -275,7 +275,7 @@
         	  var tableIns=table.render({
         	    elem: '#videostream'
         	    ,height: 330
-        	    ,url: 'currentjfmpeglist' //数据接口
+        	    ,url: 'curstreamlist' //数据接口
         	    ,page: true //开启分页
         	    ,cols: [[ //表头
         	      {field: 'streamUrl', title: 'rtsp', width:180, fixed: 'left'}
@@ -345,7 +345,7 @@
         	    
         	  });
         	  
-        	  //监听性别操作
+        	  //监听switch开关操作
         	  table.on('tool(switchdemo)', function(obj){
         	  
           	    var data = obj.data //获得当前行数据
@@ -407,14 +407,14 @@
         	  //总控按钮：启动配置流，关闭配置流，重置环境
         	  form.on('submit(openconfig)', function(data){
         	      tableIns.reload({
-        		  		 url: 'openconfigjfmpeg'
-        		      	,method: 'get'
+        		  		 url: 'openjfmpeg'
+        		      	,method: 'post'
         		      	});
         	  });
         	  form.on('submit(closeconfig)', function(data){
         	      tableIns.reload({
-        		  		 url: 'closeconfigjfmpeg'
-        		      	,method: 'get'
+        		  		 url: 'closejfmpeg'
+        		      	,method: 'post'
         		      	});
         	  });
         	  form.on('submit(reset)', function(data){

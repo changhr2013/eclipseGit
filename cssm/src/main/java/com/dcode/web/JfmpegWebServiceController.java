@@ -12,11 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tempuri.MyWebServiceStub.ArrayOfJFmpeg;
 import org.tempuri.MyWebServiceStub.JFmpeg;
 
 import com.dcode.service.JfmpegWebService;
@@ -36,18 +35,27 @@ public class JfmpegWebServiceController {
 		return "index";
 	}
 	
+	//返回WebService服务器的ip地址
 	@RequestMapping(value = "/serverip", method = RequestMethod.GET)
-	public String GetWebServerIp(Model model) {
+	@ResponseBody
+	public String GetWebServerIp() {
 		String serverip=jfmpegService.GetWebServerIp();
-		model.addAttribute("serverip", serverip);
-		return "msgtest";
+		return serverip;
 	}
 	
-	@RequestMapping(value="/currentjfmpeglist",method=RequestMethod.GET)
+	//获取最新的视频流列表信息
+	@RequestMapping(value="/curstreamlist",method=RequestMethod.GET)
 	@ResponseBody
-	public Map<String,Object> GetCurrentJfmpegList() {
+	public Map<String,Object> GetCurrentJfmpegList(HttpServletRequest request) {
 		
-		List<JFmpeg> jlist=jfmpegService.GetCurWebServiceList();
+		String regionId=request.getParameter("regionId");
+		List<JFmpeg> jlist=new ArrayList<JFmpeg>();
+		
+		if(StringUtils.isEmpty(regionId)) {
+			jlist=jfmpegService.GetCurWebServiceList();
+		}else {
+			jlist=jfmpegService.GetCurrentStreamListByRegion(Integer.getInteger(regionId));
+		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
 		jfmpegMap.put("data", jlist);
@@ -56,11 +64,24 @@ public class JfmpegWebServiceController {
 		jfmpegMap.put("count", jlist.size());
 		return jfmpegMap;
 	}
-	
-	@RequestMapping(value = "/openconfigjfmpeg", method = RequestMethod.GET)
+
+	//通过参数打开相应的流（1.无参数打开所有 2.有regionId打开区域内的流3.有regionId和rtspUrl打开单个流）
+	@RequestMapping(value = "/openjfmpeg", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> OpenConfigJfmpeg(Model model) {
-		List<JFmpeg> jlist=jfmpegService.OpenConfigStream();
+	public Map<String,Object> OpenConfigJfmpeg(HttpServletRequest request) {
+		
+		String regionId = request.getParameter("regionId");
+		String rtspStreamUrl=request.getParameter("rtspStreamUrl");
+		
+		List<JFmpeg> jlist=new ArrayList<JFmpeg>();
+		
+		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
+			jlist=jfmpegService.OpenAllStream();
+		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
+			jlist=jfmpegService.OpenStreamListByRegion(Integer.getInteger(regionId));
+		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
+			jlist=jfmpegService.OpenOneJFmpeg(rtspStreamUrl, Integer.getInteger(regionId));
+		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
 		jfmpegMap.put("data", jlist);
@@ -71,10 +92,23 @@ public class JfmpegWebServiceController {
 		return jfmpegMap;
 	}
 	
-	@RequestMapping(value = "/closeconfigjfmpeg", method = RequestMethod.GET)
+	//通过参数关闭相应的流（1.无参数关闭所有 2.有regionId关闭区域内的流 3.有regionId和rtspUrl关闭单个流）
+	@RequestMapping(value = "/closejfmpeg", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> CloseConfigJfmpeg(Model model) {
-		List<JFmpeg> jlist=jfmpegService.CloseConfigStream();
+	public Map<String,Object> CloseConfigJfmpeg(HttpServletRequest request) {
+		
+		String regionId = request.getParameter("regionId");
+		String rtspStreamUrl=request.getParameter("rtspStreamUrl");
+		
+		List<JFmpeg> jlist=new ArrayList<JFmpeg>();
+		
+		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
+			jlist=jfmpegService.CloseAllStream();
+		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
+			jlist=jfmpegService.CloseStreamListByRegion(Integer.getInteger(regionId));
+		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
+			jlist=jfmpegService.CloseOneJFmpeg(rtspStreamUrl, Integer.getInteger(regionId));
+		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
 		jfmpegMap.put("data", jlist);
@@ -142,6 +176,7 @@ public class JfmpegWebServiceController {
 		return jfmpegMap;
 	}
 	
+	//强制杀死所有与webservice相关的进程，重置webservice服务器的系统环境
 	@RequestMapping(value = "/reset", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object> Reset() {
@@ -149,10 +184,17 @@ public class JfmpegWebServiceController {
 		String result=jfmpegService.Reset();
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
 		if(!result.equals("JFmpeg's Environment has been Reset.")) {
-			jfmpegMap=GetCurrentJfmpegList();
+			
+			List<JFmpeg> jlist=jfmpegService.GetCurWebServiceList();
+			
+			jfmpegMap.put("data", jlist);
+			jfmpegMap.put("code", 0);
+			jfmpegMap.put("msg", "重置成功");
+			jfmpegMap.put("count", jlist.size());
 			return jfmpegMap;
 		}
 		
+		logger.info("重置环境出错！");
 		jfmpegMap.put("data", null);
 		jfmpegMap.put("code", 0);
 		jfmpegMap.put("msg", "重置出错，请重新重置。");
@@ -162,6 +204,7 @@ public class JfmpegWebServiceController {
 		
 	}
 	
+	//video页面辅助重定向(暂用)
 	@RequestMapping(value = "/video.html", method = RequestMethod.GET)
 	public String videopage() {
 		return "video";

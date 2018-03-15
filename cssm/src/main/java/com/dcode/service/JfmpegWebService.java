@@ -22,11 +22,14 @@ public interface JfmpegWebService {
 	String Reset();
 	
 	/**
-	 * 打印当前的配置视频流信息
+	 * 返回当前的所有配置视频流信息
 	 * 
 	 * @return
 	 * */
 	List<JFmpeg> GetCurWebServiceList();
+	
+	//通过区域id得到对应区域下的最新流列表信息
+	List<JFmpeg> GetCurrentStreamListByRegion(int regionId);
 	
 	/**
 	 * 通过参数打开一个JFmpeg视频直播流
@@ -52,12 +55,20 @@ public interface JfmpegWebService {
 	 * 开启所有的XML文件中 配置的JFmepg视频流通道
 	 * 
 	 * */
-	List<JFmpeg> OpenConfigStream();
+	List<JFmpeg> OpenAllStream();
 	
 	/**
 	 * 关闭所有的XML文件中 配置的JFmepg视频流通道
 	 * 
 	 * */
-	List<JFmpeg> CloseConfigStream();
+	List<JFmpeg> CloseAllStream();
+	
+	List<JFmpeg> OpenOneJFmpeg(String rtspStreamUrl,int regionId);
+	
+	List<JFmpeg> CloseOneJFmpeg(String rtspStreamUrl,int regionId);
+	
+	List<JFmpeg> OpenStreamListByRegion(int regionId);
+	
+	List<JFmpeg> CloseStreamListByRegion(int regionId);
 	
 }

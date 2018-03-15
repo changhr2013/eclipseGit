@@ -39,6 +39,126 @@ public abstract class MyWebServiceCallbackHandler {
     }
 
     /**
+     * auto generated Axis2 call back method for closeOneJFmpeg method
+     * override this method for handling normal response from closeOneJFmpeg operation
+     */
+    public void receiveResultcloseOneJFmpeg(
+        org.tempuri.MyWebServiceStub.CloseOneJFmpegResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from closeOneJFmpeg operation
+     */
+    public void receiveErrorcloseOneJFmpeg(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for getCurrentStreamListByRegion method
+     * override this method for handling normal response from getCurrentStreamListByRegion operation
+     */
+    public void receiveResultgetCurrentStreamListByRegion(
+        org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegionResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from getCurrentStreamListByRegion operation
+     */
+    public void receiveErrorgetCurrentStreamListByRegion(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for closeSingleJFmpeg method
+     * override this method for handling normal response from closeSingleJFmpeg operation
+     */
+    public void receiveResultcloseSingleJFmpeg(
+        org.tempuri.MyWebServiceStub.CloseSingleJFmpegResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from closeSingleJFmpeg operation
+     */
+    public void receiveErrorcloseSingleJFmpeg(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for closeStreamListByRegion method
+     * override this method for handling normal response from closeStreamListByRegion operation
+     */
+    public void receiveResultcloseStreamListByRegion(
+        org.tempuri.MyWebServiceStub.CloseStreamListByRegionResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from closeStreamListByRegion operation
+     */
+    public void receiveErrorcloseStreamListByRegion(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for openAllStream method
+     * override this method for handling normal response from openAllStream operation
+     */
+    public void receiveResultopenAllStream(
+        org.tempuri.MyWebServiceStub.OpenAllStreamResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from openAllStream operation
+     */
+    public void receiveErroropenAllStream(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for getAllRegionList method
+     * override this method for handling normal response from getAllRegionList operation
+     */
+    public void receiveResultgetAllRegionList(
+        org.tempuri.MyWebServiceStub.GetAllRegionListResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from getAllRegionList operation
+     */
+    public void receiveErrorgetAllRegionList(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for closeAllStream method
+     * override this method for handling normal response from closeAllStream operation
+     */
+    public void receiveResultcloseAllStream(
+        org.tempuri.MyWebServiceStub.CloseAllStreamResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from closeAllStream operation
+     */
+    public void receiveErrorcloseAllStream(java.lang.Exception e) {
+    }
+
+    /**
+     * auto generated Axis2 call back method for openStreamListByRegion method
+     * override this method for handling normal response from openStreamListByRegion operation
+     */
+    public void receiveResultopenStreamListByRegion(
+        org.tempuri.MyWebServiceStub.OpenStreamListByRegionResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from openStreamListByRegion operation
+     */
+    public void receiveErroropenStreamListByRegion(java.lang.Exception e) {
+    }
+
+    /**
      * auto generated Axis2 call back method for openSingleJFmpeg method
      * override this method for handling normal response from openSingleJFmpeg operation
      */
@@ -69,18 +189,18 @@ public abstract class MyWebServiceCallbackHandler {
     }
 
     /**
-     * auto generated Axis2 call back method for runExecute method
-     * override this method for handling normal response from runExecute operation
+     * auto generated Axis2 call back method for openOneJFmpeg method
+     * override this method for handling normal response from openOneJFmpeg operation
      */
-    public void receiveResultrunExecute(
-        org.tempuri.MyWebServiceStub.RunExecuteResponse result) {
+    public void receiveResultopenOneJFmpeg(
+        org.tempuri.MyWebServiceStub.OpenOneJFmpegResponse result) {
     }
 
     /**
      * auto generated Axis2 Error handler
-     * override this method for handling error response from runExecute operation
+     * override this method for handling error response from openOneJFmpeg operation
      */
-    public void receiveErrorrunExecute(java.lang.Exception e) {
+    public void receiveErroropenOneJFmpeg(java.lang.Exception e) {
     }
 
     /**
@@ -96,66 +216,6 @@ public abstract class MyWebServiceCallbackHandler {
      * override this method for handling error response from getCurrentJFmpegList operation
      */
     public void receiveErrorgetCurrentJFmpegList(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for closeSingleJFmpeg method
-     * override this method for handling normal response from closeSingleJFmpeg operation
-     */
-    public void receiveResultcloseSingleJFmpeg(
-        org.tempuri.MyWebServiceStub.CloseSingleJFmpegResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from closeSingleJFmpeg operation
-     */
-    public void receiveErrorcloseSingleJFmpeg(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for getUnusedInOutPort method
-     * override this method for handling normal response from getUnusedInOutPort operation
-     */
-    public void receiveResultgetUnusedInOutPort(
-        org.tempuri.MyWebServiceStub.GetUnusedInOutPortResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from getUnusedInOutPort operation
-     */
-    public void receiveErrorgetUnusedInOutPort(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for killAllJFmpegStream method
-     * override this method for handling normal response from killAllJFmpegStream operation
-     */
-    public void receiveResultkillAllJFmpegStream(
-        org.tempuri.MyWebServiceStub.KillAllJFmpegStreamResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from killAllJFmpegStream operation
-     */
-    public void receiveErrorkillAllJFmpegStream(java.lang.Exception e) {
-    }
-
-    /**
-     * auto generated Axis2 call back method for runAllConfigJFmpeg method
-     * override this method for handling normal response from runAllConfigJFmpeg operation
-     */
-    public void receiveResultrunAllConfigJFmpeg(
-        org.tempuri.MyWebServiceStub.RunAllConfigJFmpegResponse result) {
-    }
-
-    /**
-     * auto generated Axis2 Error handler
-     * override this method for handling error response from runAllConfigJFmpeg operation
-     */
-    public void receiveErrorrunAllConfigJFmpeg(java.lang.Exception e) {
     }
 
     /**

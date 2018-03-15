@@ -6,15 +6,25 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 import org.tempuri.MyWebServiceStub;
-import org.tempuri.MyWebServiceStub.ArrayOfJFmpeg;
-import org.tempuri.MyWebServiceStub.CloseSingleJFmpeg;
-import org.tempuri.MyWebServiceStub.GetCurrentJFmpegList;
-import org.tempuri.MyWebServiceStub.GetServerIpAddress;
 import org.tempuri.MyWebServiceStub.JFmpeg;
-import org.tempuri.MyWebServiceStub.KillAllJFmpegStream;
-import org.tempuri.MyWebServiceStub.OpenSingleJFmpeg;
+import org.tempuri.MyWebServiceStub.Region;
+import org.tempuri.MyWebServiceStub.ArrayOfJFmpeg;
+import org.tempuri.MyWebServiceStub.ArrayOfRegion;
+import org.tempuri.MyWebServiceStub.GetCurrentJFmpegList;
+import org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegion;
+import org.tempuri.MyWebServiceStub.GetServerIpAddress;
+import org.tempuri.MyWebServiceStub.GetAllRegionList;
 import org.tempuri.MyWebServiceStub.ResetJFmpeg;
-import org.tempuri.MyWebServiceStub.RunAllConfigJFmpeg;
+
+import org.tempuri.MyWebServiceStub.OpenAllStream;
+import org.tempuri.MyWebServiceStub.OpenSingleJFmpeg;
+import org.tempuri.MyWebServiceStub.OpenOneJFmpeg;
+import org.tempuri.MyWebServiceStub.OpenStreamListByRegion;
+
+import org.tempuri.MyWebServiceStub.CloseAllStream;
+import org.tempuri.MyWebServiceStub.CloseSingleJFmpeg;
+import org.tempuri.MyWebServiceStub.CloseOneJFmpeg;
+import org.tempuri.MyWebServiceStub.CloseStreamListByRegion;
 
 import com.dcode.service.JfmpegWebService;
 
@@ -66,22 +76,113 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 	}
 	
 	/**
+	 * 获取区域列表
+	 * */
+	public List<Region> GetAllRegionList() {
+		GetAllRegionList getAllRegionList=new GetAllRegionList();
+		
+		List<Region> regions=new ArrayList<Region>();
+		try {
+			ArrayOfRegion arrayOfRegion=GetServiceStub().
+					getAllRegionList(getAllRegionList).getGetAllRegionListResult();
+			Region[] regionsArr=arrayOfRegion.getRegion();
+			
+			for (Region region : regionsArr) {
+				regions.add(region);
+			}
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return regions;
+		
+	}
+	
+	/**
 	 * 获取当前的配置视频流信息
 	 * */
 	public List<JFmpeg> GetCurWebServiceList() {
-		//打印当前的视频流信息
 		GetCurrentJFmpegList curJFmepgs=new GetCurrentJFmpegList();
 		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
 		
 		try {
-			ArrayOfJFmpeg arrayOfJFmpeg = GetServiceStub().getCurrentJFmpegList(curJFmepgs).getGetCurrentJFmpegListResult();
+			ArrayOfJFmpeg arrayOfJFmpeg = GetServiceStub().
+					getCurrentJFmpegList(curJFmepgs).getGetCurrentJFmpegListResult();
 			JFmpeg[] jfmpegs = arrayOfJFmpeg.getJFmpeg();
 			
 			for(JFmpeg jfmpeg : jfmpegs){
 				jfmpegList.add(jfmpeg);
-				
-//				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
-//				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return jfmpegList;
+	}
+
+	/**
+	 * 根据区域id获取指定区域的视频流列表信息
+	 * */
+	public List<JFmpeg> GetCurrentStreamListByRegion(int regionId){
+		
+		GetCurrentStreamListByRegion getCurrentStreamListByRegion=new GetCurrentStreamListByRegion();
+		getCurrentStreamListByRegion.setRegionId(regionId);
+		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		try {
+			ArrayOfJFmpeg arrayOfJFmpeg=GetServiceStub().
+					getCurrentStreamListByRegion(getCurrentStreamListByRegion).getGetCurrentStreamListByRegionResult();
+			JFmpeg[] jfmpegs = arrayOfJFmpeg.getJFmpeg();
+			
+			for(JFmpeg jfmpeg : jfmpegs){
+				jfmpegList.add(jfmpeg);
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return jfmpegList;
+	}
+
+	/**
+	 * 根据区域id打开指定区域的视频流列表信息
+	 * */
+	public List<JFmpeg> OpenStreamListByRegion(int regionId){
+		
+		OpenStreamListByRegion openStreamListByRegion=new OpenStreamListByRegion();
+		openStreamListByRegion.setRegionId(regionId);
+		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		
+		try {
+			ArrayOfJFmpeg arrayOfJFmpeg=GetServiceStub().
+					openStreamListByRegion(openStreamListByRegion).getOpenStreamListByRegionResult();
+			JFmpeg[] jfmpegs = arrayOfJFmpeg.getJFmpeg();
+			
+			for(JFmpeg jfmpeg : jfmpegs){
+				jfmpegList.add(jfmpeg);
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return jfmpegList;
+	}
+	
+	/**
+	 * 根据区域id关闭指定区域的视频流列表信息
+	 * */
+	public List<JFmpeg> CloseStreamListByRegion(int regionId){
+		
+		CloseStreamListByRegion closeStreamListByRegion=new CloseStreamListByRegion();
+		closeStreamListByRegion.setRegionId(regionId);
+		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		
+		try {
+			ArrayOfJFmpeg arrayOfJFmpeg=GetServiceStub().
+					closeStreamListByRegion(closeStreamListByRegion).getCloseStreamListByRegionResult();
+			JFmpeg[] jfmpegs = arrayOfJFmpeg.getJFmpeg();
+			
+			for(JFmpeg jfmpeg : jfmpegs){
+				jfmpegList.add(jfmpeg);
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -112,8 +213,6 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 			JFmpeg[] openOneJFmpeg = openOneLaterList.getJFmpeg();
 			for(JFmpeg jfmpeg : openOneJFmpeg){
 				jfmpegList.add(jfmpeg);
-//				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
-//				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
 			}
 			
 			return jfmpegList;
@@ -142,8 +241,6 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 			JFmpeg[] closeOneJFmpeg=closeOneLaterList.getJFmpeg();
 			for (JFmpeg jfmpeg : closeOneJFmpeg) {
 				jfmpegList.add(jfmpeg);
-//				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
-//				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
 			}
 			return jfmpegList;
 		} catch (RemoteException e) {
@@ -154,22 +251,19 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 	}
 	
 	/**
-	 * 开启所有的XML文件中 配置的JFmepg视频流通道
+	 * 开启所有配置的JFmepg视频流通道
 	 * */
-	public List<JFmpeg> OpenConfigStream() {
+	public List<JFmpeg> OpenAllStream() {
 		
-		RunAllConfigJFmpeg runAllConfigJFmpeg=new RunAllConfigJFmpeg();
+		OpenAllStream openAllStream=new OpenAllStream();
 		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
 		
 		try {
-			ArrayOfJFmpeg openAllLaterList=GetServiceStub().runAllConfigJFmpeg(runAllConfigJFmpeg).getRunAllConfigJFmpegResult();
-			
+			ArrayOfJFmpeg openAllLaterList=GetServiceStub().openAllStream(openAllStream).getOpenAllStreamResult();			
 			JFmpeg[] openAllJFmpeg = openAllLaterList.getJFmpeg();
 			
 			for(JFmpeg jfmpeg : openAllJFmpeg){
 				jfmpegList.add(jfmpeg);
-//				System.out.println(jfmpeg.getStreamUrl()+" ==> In Port:"+jfmpeg.getInPort()+" Out Port:"+jfmpeg.getOutPort()
-//				+" Jsmpeg Process Pid:"+jfmpeg.getJsmpegpid()+" FFmpeg Process Pid:"+jfmpeg.getFfmpegpid());
 			}
 			return jfmpegList;
 		} catch (RemoteException e) {
@@ -181,12 +275,13 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 	/**
 	 * 关闭所有的XML文件中 配置的JFmepg视频流通道
 	 * */
-	public List<JFmpeg> CloseConfigStream() {
-		KillAllJFmpegStream killAllJFmpegStream = new KillAllJFmpegStream();
+	public List<JFmpeg> CloseAllStream() {
+		
+		CloseAllStream closeAllStream=new CloseAllStream();
 		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
 		
 		try {
-			ArrayOfJFmpeg closeAllLaterList=GetServiceStub().killAllJFmpegStream(killAllJFmpegStream).getKillAllJFmpegStreamResult();
+			ArrayOfJFmpeg closeAllLaterList=GetServiceStub().closeAllStream(closeAllStream).getCloseAllStreamResult();
 			JFmpeg[] closeAllJFmpeg = closeAllLaterList.getJFmpeg();
 			
 			for(JFmpeg jfmpeg : closeAllJFmpeg){
@@ -198,6 +293,60 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 			e.printStackTrace();
 		}
 		return jfmpegList;
+	}
+	
+	/**
+	 * 通过区域id和url开启单个视频流,返回区域列表状态
+	 * */
+	public List<JFmpeg> OpenOneJFmpeg(String rtspStreamUrl,int regionId){
+		
+		OpenOneJFmpeg openOneJFmpeg=new OpenOneJFmpeg();
+		openOneJFmpeg.setRtspStreamUrl(rtspStreamUrl);
+		openOneJFmpeg.setRegionId(regionId);
+		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		
+		try {
+			ArrayOfJFmpeg openOneLaterList=GetServiceStub().openOneJFmpeg(openOneJFmpeg).getOpenOneJFmpegResult();
+			JFmpeg[] jFmpegs = openOneLaterList.getJFmpeg();
+			
+			for(JFmpeg jfmpeg : jFmpegs){
+				jfmpegList.add(jfmpeg);
+			}
+			
+			return jfmpegList;
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return jfmpegList;
+		
+	}
+	
+	/**
+	 * 通过区域id和url关闭单个视频流，返回区域列表状态
+	 * */
+	public List<JFmpeg> CloseOneJFmpeg(String rtspStreamUrl,int regionId){
+		
+		CloseOneJFmpeg closeOneJFmpeg=new CloseOneJFmpeg();
+		closeOneJFmpeg.setRtspStreamUrl(rtspStreamUrl);
+		closeOneJFmpeg.setRegionId(regionId);
+		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		
+		try {
+			ArrayOfJFmpeg closeOneLaterList=GetServiceStub().closeOneJFmpeg(closeOneJFmpeg).getCloseOneJFmpegResult();
+			JFmpeg[] jFmpegs = closeOneLaterList.getJFmpeg();
+			
+			for(JFmpeg jfmpeg : jFmpegs){
+				jfmpegList.add(jfmpeg);
+			}
+			
+			return jfmpegList;
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return jfmpegList;
+		
 	}
 
 }
