@@ -65,14 +65,52 @@
             </div>
             <div class="layui-col-sm3 layui-col-md3 webright ">
 			<div class="right-top">
-				<div class="layui-row btngroup">
-					<form class="layui-form" action="">
-						<a lay-submit lay-filter="openconfig">开启配置流</a>
-						<a lay-submit lay-filter="closeconfig">关闭配置流</a>
-						<a lay-submit lay-filter="reset">重置环境</a>
-					</form>
-				</div>
+			
+			  
+<!-- 				<div class="layui-row btngroup"> -->
+<!-- 					<form class="layui-form" action=""> -->
+<!-- 						<a lay-submit lay-filter="openconfig">开启配置流</a> -->
+<!-- 						<a lay-submit lay-filter="closeconfig">关闭配置流</a> -->
+<!-- 						<a lay-submit lay-filter="reset">重置环境</a> -->
+<!-- 					</form> -->
+<!-- 				</div> -->
+
+<!-- 			<div class="layui-row" style="text-align:center;"> -->
+<!-- 			<form class="layui-form" action="" style="margin-top:10px;"> -->
+			
+<!-- 			    <div class="layui-inline"> -->
+<!-- 			      <div class="layui-input-inline"> -->
+<!-- 			        <select name="modules" lay-verify="required" lay-search=""> -->
+<!-- 			          <option value="">直接选择或搜索选择</option> -->
+<!-- 			          <option value="1">layer</option> -->
+<!-- 			          <option value="2">form</option> -->
+<!-- 			          <option value="3">layim</option> -->
+<!-- 			          <option value="4">element</option> -->
+<!-- 			          <option value="5">laytpl</option> -->
+<!-- 			        </select> -->
+<!-- 			      </div> -->
+<!-- 			    </div> -->
+<!-- 			      <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button> -->
+<!-- 			</form> -->
+<!-- 			</div> -->
+			
+				<div class="layui-row" style="text-align:center;">
 				
+<!-- 				  <div class="layui-btn-group" style=""> -->
+				  <div style="margin:8px 0;">
+				    <button lay-submit lay-filter="openconfig" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">开启所有</button>
+				    <button lay-submit lay-filter="closeconfig" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">关闭所有</button>
+				    <button lay-submit lay-filter="reset" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">重置环境</button>
+				  </div>
+				  
+				<form class="layui-form" action="" style="margin-bottom:-10px;">
+		        <select id="regionSelect" name="region" lay-filter="region" lay-verify="required" lay-search="">
+		          <option value="">搜索或选择区域</option>
+		        </select>
+				</form>
+				
+				</div>
+			
 								
 				<table class="layui-table" id="videostream" lay-filter="switchdemo"></table>
 			</div>
@@ -160,7 +198,7 @@
 	</script>
 	
 	<script type="text/html" id="switchTpl">
-	<a class="layui-btn layui-btn-xs" lay-event="connect">播放</a>
+	<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 34px;top: 0px;" lay-event="connect">播放</a>
 	<a lay-event="{{ d.jsmpegpid != 0 ? 'checked' : 'unchecked' }}" class="layui-row switch {{ d.jsmpegpid != 0 ? 'switchon' : 'switchoff' }}">
                         <em></em>
                         <i></i>
@@ -176,9 +214,37 @@
 	{{#  } }}
 	</script>
 	
+	<%-- rtsp流状态模板 --%>
+	<script type="text/html" id="status">
+  	{{#  if(d.ffmpegpid === 0){ }}
+		<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63e;</i>
+  	{{#  } else if(d.gradename!==0) { }}
+    	<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63e;</i>
+	{{#  } }}
+	</script>
+	
 	
     <script type="text/javascript">
-
+    //全局对象，用来存储WebServer返回的常量
+	var STREAM_SERVER={};
+    
+	    //页面初始化
+	    $(function(){  
+	    	//页面初始化时向服务请求区域列表并动态加载到select中
+	    	$.get('regionlist').done(function(data){
+	    		for(var i=0;i<data.length;i++){
+		       	    var obj=document.getElementById('regionSelect'); 
+		       	    obj.options.add(new Option(data[i].regionName,data[i].regionId)); 
+	    		}
+	    	});
+	    	
+	    	//获取webservice的ip地址
+	    	$.get("serverip").done(function(data){
+	    		STREAM_SERVER.ip=data;
+	    	});
+	    });  
+    
+    
         //速度控制线
         $(document).ready(function () {
             $('#rating-31').slidy();
@@ -225,13 +291,15 @@
          });
      })
 
+     //关闭销毁jsmpeg播放器对象的方法
      function closePlayer(index){
-         //alert(index+" : "+typeof index);
+    	 
          playerList[index].destroy();
          playerList.splice(index,1,undefined);
          
+         //获取webgl对象，将canvas画布设为黑色。
          var ctx=canvasList[index].getContext('webgl');
-         console.log(ctx);
+         //console.log(ctx);
          ctx.clearColor(0, 0, 0, 3)
          ctx.clearDepth(0.5);
          ctx.clearStencil(1);
@@ -263,6 +331,7 @@
             
         }
         
+        //layui相关的操作
         layui.use(['laypage', 'layer', 'table', 'element','form'], function(){
         	  var laypage = layui.laypage //分页
         	  layer = layui.layer //弹层
@@ -274,19 +343,61 @@
         	  //执行一个 table 实例
         	  var tableIns=table.render({
         	    elem: '#videostream'
-        	    ,height: 330
+        	    ,height: 400
         	    ,url: 'curstreamlist' //数据接口
         	    ,page: true //开启分页
         	    ,cols: [[ //表头
-        	      {field: 'streamUrl', title: 'rtsp', width:180, fixed: 'left'}
-//         	      ,{field: 'ffmpegpid', title: '状态', width:60, fixed: 'left',templet:'#ffmpegpid'}
+        	      {field: 'streamUrl', title: 'rtsp', width:140, fixed: 'left'}
+        	      ,{field: 'ffmpegpid', title: '状态', width:60, fixed: 'left',templet:'#status'}
 //         	      ,{width: 220,title:'操作', align:'center', toolbar: '#statcontrol'}
-        	      ,{field:'jsmpegpid', title:'操作', width:220, toolbar:'#switchTpl',unresize: true}
+        	      ,{field:'jsmpegpid', title:'操作', width:200, toolbar:'#switchTpl',unresize: true}
         	    ]]
+        	  	,done: function(res, curr, count){
+          		  console.log(res);
+          		  let data=res.data;
+          		  
+          		  for(let i=0;i<count;i++){
+          			  
+				  let parser=document.createElement('a');
+				  parser.href='http://'+data[i].streamUrl
+				  let port=parser.port;
+          	    	$.post("getstatus",{
+          	    		url:'rtsp://'+data[i].rtspUsername+':'+data[i].rtspPassword+'@'+data[i].streamUrl
+          	    		,ip:data[i].streamUrl.split(':')[0]
+          	    		,port:port
+          	    		,status:'0'
+          	    		,index:i
+          	    	}).done(function(newdata){
+          	    		console.log(newdata);
+          	    		if(newdata.status==='0'){
+                    		let nodelist=$('.layui-table-cell.laytable-cell-1-ffmpegpid');
+                    		let index= parseInt(newdata.index)+1;
+                    		nodelist[index].innerHTML='<i class="layui-icon">&#x1007;</i>';
+                    		nodelist[index+count+1].innerHTML='<i class="layui-icon">&#x1007;</i>';
+                    		return;
+          	    		}else if(newdata.status==='1'){
+                    		let nodelist=$('.layui-table-cell.laytable-cell-1-ffmpegpid');
+                    		let sucindex= parseInt(newdata.index)+1;
+                    		nodelist[sucindex].innerHTML='<i class="layui-icon">&#x1005;</i>';
+                    		nodelist[sucindex+count+1].innerHTML='<i class="layui-icon">&#x1005;</i>';
+                    		return;
+          	    		}
+        	    	});
+          		  }
+          		  
+
+          		  
+// 	        	  for(let i=0;i<nodelist.length;i++){
+// 	        		  if((i!==0)&&(i!==nodelist.length/2)){
+// 	        			  nodelist[i].innerHTML='<i class="layui-icon">&#xe616;</i>';
+// 	        		  }
+//         	  }
+          		
+          	  }
         	  });
         	  
         	  
-        	  //监听工具条
+        	  //监听工具条（弃用）
         	  table.on('tool(demo)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
         	    var data = obj.data //获得当前行数据
         	    ,layEvent = obj.event; //获得 lay-event 对应的值
@@ -356,12 +467,18 @@
           	      //layer.msg('开启视频流');
           	      tableIns.reload({
   			  		 url: 'opensinglejfmpeg'
-  			  		,where: {rtspUrl:streamUrl,
-  			  			rtspUsername:data.rtspUsername,
-  			  			rtspPassword:data.rtspPassword,
-  			  			jsmpegPassword:data.password}
+  			  		,where: {
+  			  			rtspUrl:streamUrl
+  			  			,rtspUsername:data.rtspUsername
+  			  			,rtspPassword:data.rtspPassword
+  			  			,jsmpegPassword:data.password
+  			  			}
           	      	,method: 'post'
           	      	});
+//           	      console.log(obj);
+// 					obj.update({ffmpegpid:123,jsmpegpid:456
+						
+// 					});
 
           	    } else if(layEvent === 'checked'){
             	      tableIns.reload({
@@ -374,7 +491,7 @@
         	    	for(let i=0;i<playerList.length;i++){
         	    		
         	    		if(playerList[i]===undefined){
-        	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
+        	    			let wsUrl="ws://"+STREAM_SERVER.ip+":"+data.outPort;
         	    			let imgUrl="../resources/images/video.png";
         	    			//console.log(wsUrl);
         	    			playerList[i] = new JSMpeg.Player(wsUrl, {canvas: canvasList[i],poster:imgUrl});
@@ -396,7 +513,7 @@
         	    		
         	    		if(i===playerList.length-1){
         	    			playerList[0].destroy();
-        	    			let wsUrl="ws://192.168.0.90:"+data.outPort;
+        	    			let wsUrl="ws://"+STREAM_SERVER.ip+":"+data.outPort;
         	    			playerList[0] = new JSMpeg.Player(wsUrl, {canvas: canvasList[0]});
         	    			console.log(playerList);
         	    		}
@@ -406,14 +523,22 @@
         	  
         	  //总控按钮：启动配置流，关闭配置流，重置环境
         	  form.on('submit(openconfig)', function(data){
+        		  STREAM_SERVER.regionId=$("#regionSelect option:selected").val();
         	      tableIns.reload({
         		  		 url: 'openjfmpeg'
-        		      	,method: 'post'
+   	  			  		,where: {
+   	  			  		regionId:STREAM_SERVER.regionId
+   	  			  			}
+   	          	      	,method: 'post'
         		      	});
         	  });
         	  form.on('submit(closeconfig)', function(data){
+        		  STREAM_SERVER.regionId=$("#regionSelect option:selected").val();
         	      tableIns.reload({
         		  		 url: 'closejfmpeg'
+   	  			  		,where: {
+   	   	  			  		regionId:STREAM_SERVER.regionId
+   	   	  			  			}
         		      	,method: 'post'
         		      	});
         	  });
@@ -424,6 +549,17 @@
         		      	});
         	  });
         	  
+        	  form.on('select(region)', function(data){
+        		  console.log(data);
+        		  STREAM_SERVER.regionId=$("#regionSelect option:selected").val();
+        	      tableIns.reload({
+        		  		 url: 'curstreamlist'
+ 	  			  		,where: {
+   	   	  			  		regionId:STREAM_SERVER.regionId
+   	   	  			  			}
+        		      	,method: 'post'
+        		      	});
+        		});
         	  
         	  //分页
         	  laypage.render({

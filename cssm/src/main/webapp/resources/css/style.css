@@ -477,16 +477,9 @@ margin-top: 20px;
     margin-left: 30px;
 }
 
-.layui-btn{
-	height:30px;
-	line-height:30px;
-	position: absolute;
-    left: 34px;
-    top: 0px;
-}
+
 
 /* 控制开关 */
-
 .switch{
     display: inline-block;
     position: relative;
@@ -527,8 +520,8 @@ margin-top: 20px;
     transition: .1s linear;
 }
 .switchon{
-    border-color: #5FB878;
-    background-color: #5FB878;
+    border-color: #157671;
+    background-color: #068D82;
 }
 .switchon em{
     left: 5px;
@@ -551,4 +544,14 @@ margin-top: 20px;
     height: 16px;
     border-radius: 20px;
     transition: .1s linear;
+}
+
+/*区域select下拉选框*/
+.layui-form-select dl {
+    top: 37px;
+    border-top: 1px solid #d2d2d2;
+}
+.layui-form-select dl dd,
+.layui-form-select dl dt {
+	border-top: 1px solid #ececec;
 }

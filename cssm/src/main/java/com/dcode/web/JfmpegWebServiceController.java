@@ -16,9 +16,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.tempuri.MyWebServiceStub.GetAllRegionList;
 import org.tempuri.MyWebServiceStub.JFmpeg;
+import org.tempuri.MyWebServiceStub.Region;
 
 import com.dcode.service.JfmpegWebService;
+import com.xrzn.rtsp.util.RtspOnlineCheck;
 
 
 @Controller
@@ -43,8 +46,16 @@ public class JfmpegWebServiceController {
 		return serverip;
 	}
 	
+	//返回region列表数据
+	@RequestMapping(value="/regionlist",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Region> GetAllRegionList(){
+		return jfmpegService.GetAllRegionList();
+	}
+	
+	
 	//获取最新的视频流列表信息
-	@RequestMapping(value="/curstreamlist",method=RequestMethod.GET)
+	@RequestMapping(value="/curstreamlist")
 	@ResponseBody
 	public Map<String,Object> GetCurrentJfmpegList(HttpServletRequest request) {
 		
@@ -54,7 +65,7 @@ public class JfmpegWebServiceController {
 		if(StringUtils.isEmpty(regionId)) {
 			jlist=jfmpegService.GetCurWebServiceList();
 		}else {
-			jlist=jfmpegService.GetCurrentStreamListByRegion(Integer.getInteger(regionId));
+			jlist=jfmpegService.GetCurrentStreamListByRegion(Integer.parseInt(regionId));
 		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
@@ -78,9 +89,9 @@ public class JfmpegWebServiceController {
 		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
 			jlist=jfmpegService.OpenAllStream();
 		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
-			jlist=jfmpegService.OpenStreamListByRegion(Integer.getInteger(regionId));
+			jlist=jfmpegService.OpenStreamListByRegion(Integer.parseInt(regionId));
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
-			jlist=jfmpegService.OpenOneJFmpeg(rtspStreamUrl, Integer.getInteger(regionId));
+			jlist=jfmpegService.OpenOneJFmpeg(rtspStreamUrl, Integer.parseInt(regionId));
 		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
@@ -105,9 +116,9 @@ public class JfmpegWebServiceController {
 		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
 			jlist=jfmpegService.CloseAllStream();
 		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
-			jlist=jfmpegService.CloseStreamListByRegion(Integer.getInteger(regionId));
+			jlist=jfmpegService.CloseStreamListByRegion(Integer.parseInt(regionId));
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
-			jlist=jfmpegService.CloseOneJFmpeg(rtspStreamUrl, Integer.getInteger(regionId));
+			jlist=jfmpegService.CloseOneJFmpeg(rtspStreamUrl, Integer.parseInt(regionId));
 		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
@@ -183,7 +194,7 @@ public class JfmpegWebServiceController {
 		
 		String result=jfmpegService.Reset();
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
-		if(!result.equals("JFmpeg's Environment has been Reset.")) {
+		if(result.equals("JFmpeg's Environment has been Reset.")) {
 			
 			List<JFmpeg> jlist=jfmpegService.GetCurWebServiceList();
 			
@@ -208,6 +219,35 @@ public class JfmpegWebServiceController {
 	@RequestMapping(value = "/video.html", method = RequestMethod.GET)
 	public String videopage() {
 		return "video";
+	}
+	
+	@RequestMapping(value="/getstatus",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> getStatus(HttpServletRequest request) throws InterruptedException{
+		
+		String url=request.getParameter("url");
+		String port=request.getParameter("port");
+		String ip=request.getParameter("ip");
+		String status=request.getParameter("status");
+		
+		RtspOnlineCheck instance=RtspOnlineCheck.getInstance();
+		Map<String, String> statusMap=new HashMap<String, String>();
+		statusMap.put("url", request.getParameter("url"));
+		statusMap.put("ip", request.getParameter("ip"));
+		statusMap.put("port", request.getParameter("port"));
+		statusMap.put("status", request.getParameter("status"));
+		statusMap.put("index", request.getParameter("index"));
+		
+		List<Map<String, String>> statusList=new ArrayList<Map<String,String>>();
+		statusList.add(statusMap);
+		String checkNum=instance.check(statusList);
+		while(true) {
+			if(instance.hasChecked(checkNum)) {
+				return statusList.get(0);
+			}
+			Thread.sleep(1000);
+		}
+		
 	}
 	
 }

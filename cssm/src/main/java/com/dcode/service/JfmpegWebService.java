@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.tempuri.MyWebServiceStub.ArrayOfJFmpeg;
 import org.tempuri.MyWebServiceStub.JFmpeg;
+import org.tempuri.MyWebServiceStub.Region;
 
 public interface JfmpegWebService {
 
@@ -13,6 +14,9 @@ public interface JfmpegWebService {
 	 * @return
 	 * */
 	String GetWebServerIp();
+	
+	//获得所有的区域列表
+	List<Region> GetAllRegionList();
 	
 	/**
 	 * 重新初始化服务器视频流环境
@@ -62,6 +66,7 @@ public interface JfmpegWebService {
 	 * 
 	 * */
 	List<JFmpeg> CloseAllStream();
+	
 	
 	List<JFmpeg> OpenOneJFmpeg(String rtspStreamUrl,int regionId);
 	
