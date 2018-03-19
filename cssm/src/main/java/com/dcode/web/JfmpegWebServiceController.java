@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -92,6 +93,8 @@ public class JfmpegWebServiceController {
 			jlist=jfmpegService.OpenStreamListByRegion(Integer.parseInt(regionId));
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
 			jlist=jfmpegService.OpenOneJFmpeg(rtspStreamUrl, Integer.parseInt(regionId));
+		}else if(StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))) {
+			jlist=jfmpegService.OpenOneJFmpeg(rtspStreamUrl, 0);
 		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
@@ -114,11 +117,17 @@ public class JfmpegWebServiceController {
 		List<JFmpeg> jlist=new ArrayList<JFmpeg>();
 		
 		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
+			//没有区域id和流地址，关闭所有流
 			jlist=jfmpegService.CloseAllStream();
 		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
+			//有区域id没有流地址，关闭区域内的所有流
 			jlist=jfmpegService.CloseStreamListByRegion(Integer.parseInt(regionId));
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
+			//有区域id和流地址，关闭视频流返回当前区域内流信息
 			jlist=jfmpegService.CloseOneJFmpeg(rtspStreamUrl, Integer.parseInt(regionId));
+		}else if(StringUtils.isEmpty(regionId)&&!StringUtils.isEmpty(rtspStreamUrl)) {
+			//没有区域id有流地址，关闭视频流返回当前所有流信息
+			jlist=jfmpegService.CloseOneJFmpeg(rtspStreamUrl, 0);
 		}
 		
 		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
@@ -237,6 +246,7 @@ public class JfmpegWebServiceController {
 		statusMap.put("port", request.getParameter("port"));
 		statusMap.put("status", request.getParameter("status"));
 		statusMap.put("index", request.getParameter("index"));
+		statusMap.put("rtspUrl", request.getParameter("rtspUrl"));
 		
 		List<Map<String, String>> statusList=new ArrayList<Map<String,String>>();
 		statusList.add(statusMap);
@@ -248,6 +258,11 @@ public class JfmpegWebServiceController {
 			Thread.sleep(1000);
 		}
 		
+	}
+	
+	@RequestMapping(value="/table",method=RequestMethod.GET)
+	public String testTable(Model model) {
+		return "layuitable";
 	}
 	
 }
