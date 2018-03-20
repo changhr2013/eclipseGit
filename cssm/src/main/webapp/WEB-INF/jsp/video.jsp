@@ -179,18 +179,22 @@
     <script type="text/javascript">
     //全局对象，用来存储WebServer返回的常量
 	var STREAM_SERVER={};
-	STREAM_SERVER.statusMap=new Map();
+// 	STREAM_SERVER.statusMap=new Map();
     
 	    //页面初始化
 	    $(function(){  
 	    	//页面初始化时向服务请求区域列表并动态加载到select中
-	    	$.get('regionlist').done(function(data){
-	    		for(let i=0;i<data.length;i++){
-	    			//debugger;
-		       	    let selDom=$('#regionSelect');
-		       	 	selDom.append('<option value='+data[i].regionId+'>'+data[i].regionName+'</option>');
+	    	$.get('regionlist').done(function(regions){
+	    		let selDom = $('#regionSelect');
+	    		for(let i=0;i<regions.length;i++){
+		       	 	selDom.append('<option value='+regions[i].regionId+'>'+regions[i].regionName+'</option>');
 	    		}
-	    	});
+	    		//重新渲染form表单
+				 layui.use('form', function(){
+				   var form = layui.form;
+				   form.render();
+				  });
+			});
 	    	
 	    	//获取webservice的ip地址
 	    	$.get("serverip").done(function(data){
@@ -306,34 +310,36 @@
         	  	,done: function(res, curr, count){
           		  //console.log(res);
           		  let data=res.data;
+
           		  for(let i=0;i<count;i++){
-          			let urlKey=data[i].streamUrl;
-          			if(STREAM_SERVER.statusMap.has(urlKey)){
-          				console.log(data[i].streamUrl);
-          				console.log(STREAM_SERVER.statusMap);
-          				let successStatus='<i class="layui-icon" style="font-size:25px;">&#x1005;</i>';
-      	    			let failStatus='<i class="layui-icon" style="font-size:25px;">&#x1007;</i>';
-      	    			let nodelist=$('.layui-table-cell.laytable-cell-1-status');
-      	    			let index= i+1;
-          				if(STREAM_SERVER.statusMap.get(urlKey)==='0'){
-          	    			//rtsp异常时
-                    		nodelist[index].innerHTML=failStatus;
-                    		continue;
-          				}else if(STREAM_SERVER.statusMap.get(urlKey)==='1'){
-          					
-                    		nodelist[index].innerHTML=successStatus;
-          	    			//获取事件绑定状态
-          	    			let selectStr='.layui-row.switch:eq('+(index-1)+')';
-          	    			//如果流已经启动，跳出方法
-          	    			if($(selectStr).attr('lay-event')==='checked'){
-          	    				continue;
-          	    			}
-          	    			//如果流未启动，返回可以启动的事件绑定
-          	    			$(selectStr).attr('lay-event','unchecked');
-                    		continue;
-          				}
-          			}
-          			  
+<%--
+          			  let urlKey=data[i].streamUrl;
+           			if(STREAM_SERVER.statusMap.has(urlKey)){
+           				console.log(data[i].streamUrl);
+           				console.log(STREAM_SERVER.statusMap);
+           				let successStatus='<i class="layui-icon" style="font-size:25px;">&#x1005;</i>';
+       	    			let failStatus='<i class="layui-icon" style="font-size:25px;">&#x1007;</i>';
+       	    			let nodelist=$('.layui-table-cell.laytable-cell-1-status');
+       	    			let index= i+1;
+           				if(STREAM_SERVER.statusMap.get(urlKey)==='0'){
+           	    			//rtsp异常时
+                     		nodelist[index].innerHTML=failStatus;
+                     		continue;
+           				}else if(STREAM_SERVER.statusMap.get(urlKey)==='1'){
+        					
+                     		nodelist[index].innerHTML=successStatus;
+           	    			//获取事件绑定状态
+           	    			let selectStr='.layui-row.switch:eq('+(index-1)+')';
+           	    			//如果流已经启动，跳出方法
+           	    			if($(selectStr).attr('lay-event')==='checked'){
+           	    				continue;
+           	    			}
+           	    			//如果流未启动，返回可以启动的事件绑定
+           	    			$(selectStr).attr('lay-event','unchecked');
+                     		continue;
+           				}
+           			}
+--%>
           			  
 					//获取rtsp流地址的端口号          			  
 				  	let parser=document.createElement('a');
@@ -355,14 +361,7 @@
           	    		let failStatus='<i class="layui-icon" style="font-size:25px;">&#x1007;</i>';
                 		let nodelist=$('.layui-table-cell.laytable-cell-1-status');
                 		let index= parseInt(newdata.index)+1;
-                		STREAM_SERVER.statusMap.set(newdata.rtspUrl,newdata.status);
-                		
-                		//测试=================================
-//                 			$('.layui-row.switch.switchoff:eq(0)').attr('lay-event','testchecked')
-//                 			console.log($('.layui-row.switch.switchoff'));
-                		//<a lay-event="unchecked" class="layui-row switch switchoff"> <em></em> <i></i> </a>
-                		//测试=================================
-                		
+                		<%--STREAM_SERVER.statusMap.set(newdata.rtspUrl,newdata.status);--%>
                 		
           	    		if(newdata.status==='0'){
           	    			//rtsp异常时
@@ -409,30 +408,29 @@
           	      	,method: 'post'
           	      	});
 
-
-//           	      $.post('openjfmpeg',{
-//           	      	rtspStreamUrl:streamUrl
-//     			  	,regionId:STREAM_SERVER.regionId
-//     			  	}).done(function(data){
-//     			  		console.log(data);
-//           	    	  obj.update({
-//           	    		  jsmpegpid:'<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 34px;top: 0px;" lay-event="connect">播放</a>'
-//           	    		  +'<a lay-event="checked" class="layui-row switch switchon">'
-//           	    		  +'<em></em><i></i></a>'
-//           	    	  });
-//           	      });
-
-          	    } else if(layEvent === 'checked'){
+<%-- 操作dom局部render
+           	      $.post('openjfmpeg',{
+           	      	rtspStreamUrl:streamUrl
+     			  	,regionId:STREAM_SERVER.regionId
+     			  	}).done(function(data){
+     			  		console.log(data);
+           	    	  obj.update({
+           	    		  jsmpegpid:'<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 34px;top: 0px;" lay-event="connect">播放</a>'
+           	    		  +'<a lay-event="checked" class="layui-row switch switchon">'
+           	    		  +'<em></em><i></i></a>'
+           	    	  });
+           	      });
+--%>
+          	    }else if(layEvent === 'checked'){
           	    	STREAM_SERVER.regionId=$("#regionSelect option:selected").val();
             	      tableIns.reload({
-//    			  		 url: 'closesinglejfmpeg'
-					url: 'closejfmpeg'
-   			  		,where: {
-   			  		rtspStreamUrl:streamUrl
-   			  		,regionId:STREAM_SERVER.regionId
-   			  		}
-           	      	,method: 'post'
-           	      	});
+						url: 'closejfmpeg'
+	   			  		,where: {
+	   			  		rtspStreamUrl:streamUrl
+	   			  		,regionId:STREAM_SERVER.regionId
+	   			  		}
+	           	      	,method: 'post'
+	           	      	});
           	    }else if(layEvent === 'connect'){
         	    	
         	    	for(let i=0;i<playerList.length;i++){

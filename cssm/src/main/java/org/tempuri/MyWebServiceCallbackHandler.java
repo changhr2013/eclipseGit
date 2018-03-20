@@ -39,6 +39,21 @@ public abstract class MyWebServiceCallbackHandler {
     }
 
     /**
+     * auto generated Axis2 call back method for getAllJfmpegList method
+     * override this method for handling normal response from getAllJfmpegList operation
+     */
+    public void receiveResultgetAllJfmpegList(
+        org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse result) {
+    }
+
+    /**
+     * auto generated Axis2 Error handler
+     * override this method for handling error response from getAllJfmpegList operation
+     */
+    public void receiveErrorgetAllJfmpegList(java.lang.Exception e) {
+    }
+
+    /**
      * auto generated Axis2 call back method for closeOneJFmpeg method
      * override this method for handling normal response from closeOneJFmpeg operation
      */

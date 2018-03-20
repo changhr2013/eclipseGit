@@ -2,6 +2,8 @@ package com.dcode.web;
 
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,18 +13,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tempuri.MyWebServiceStub.GetAllRegionList;
 import org.tempuri.MyWebServiceStub.JFmpeg;
 import org.tempuri.MyWebServiceStub.Region;
 
 import com.dcode.service.JfmpegWebService;
-import com.xrzn.rtsp.util.RtspOnlineCheck;
+import com.xrzn.rtsp.DeviceCheckUtil;
+import com.xrzn.rtsp.MinaTask;
 
 
 @Controller
@@ -43,7 +46,7 @@ public class JfmpegWebServiceController {
 	@RequestMapping(value = "/serverip", method = RequestMethod.GET)
 	@ResponseBody
 	public String GetWebServerIp() {
-		String serverip=jfmpegService.GetWebServerIp();
+		String serverip = jfmpegService.GetWebServerIp();
 		return serverip;
 	}
 	
@@ -53,7 +56,6 @@ public class JfmpegWebServiceController {
 	public List<Region> GetAllRegionList(){
 		return jfmpegService.GetAllRegionList();
 	}
-	
 	
 	//获取最新的视频流列表信息
 	@RequestMapping(value="/curstreamlist")
@@ -235,34 +237,59 @@ public class JfmpegWebServiceController {
 	public Map<String, String> getStatus(HttpServletRequest request) throws InterruptedException{
 		
 		String url=request.getParameter("url");
-		String port=request.getParameter("port");
+		int port=Integer.parseInt(request.getParameter("port"));
 		String ip=request.getParameter("ip");
-		String status=request.getParameter("status");
+		String index=request.getParameter("index");
+		String rtspUrl=request.getParameter("rtspUrl");
 		
-		RtspOnlineCheck instance=RtspOnlineCheck.getInstance();
 		Map<String, String> statusMap=new HashMap<String, String>();
-		statusMap.put("url", request.getParameter("url"));
-		statusMap.put("ip", request.getParameter("ip"));
-		statusMap.put("port", request.getParameter("port"));
-		statusMap.put("status", request.getParameter("status"));
-		statusMap.put("index", request.getParameter("index"));
-		statusMap.put("rtspUrl", request.getParameter("rtspUrl"));
-		
-		List<Map<String, String>> statusList=new ArrayList<Map<String,String>>();
-		statusList.add(statusMap);
-		String checkNum=instance.check(statusList);
-		while(true) {
-			if(instance.hasChecked(checkNum)) {
-				return statusList.get(0);
-			}
-			Thread.sleep(1000);
-		}
-		
+		DeviceCheckUtil.getInstance().registDevice(ip, port, url);
+		statusMap=DeviceCheckUtil.getInstance().getDeviceStatus(ip, port, url);
+		statusMap.put("index", index);
+		statusMap.put("rtspUrl", rtspUrl);
+
+		return statusMap;
 	}
 	
 	@RequestMapping(value="/table",method=RequestMethod.GET)
 	public String testTable(Model model) {
 		return "layuitable";
+	}
+	
+	//单例
+    private static MinaTask instance;
+    public static MinaTask getInstance(){
+        if(instance==null){
+            instance=new MinaTask();
+        }
+        return instance;
+    }
+	//配置定时任务，10分钟执行一次
+	@Scheduled(cron="0 */10 * * * ?")
+	public void queryRtspStatus() throws InterruptedException, URISyntaxException {
+		logger.info("执行定时任务，开始注册所有摄像头...");
+		List<JFmpeg> jfmepgList = jfmpegService.GetAllJfmpegList();
+		
+//		MinaTask task = new MinaTask();
+		MinaTask task = getInstance();
+		task.initTask(60);
+		
+		for (JFmpeg jFmpeg : jfmepgList) {
+			String rtspTunnel = "";
+			if(StringUtils.isEmpty(jFmpeg.getRtspUsername())) {
+				rtspTunnel="rtsp://"+jFmpeg.getStreamUrl();
+			}
+			rtspTunnel="rtsp://"+jFmpeg.getRtspUsername()+":"+jFmpeg.getRtspPassword()+"@"+jFmpeg.getStreamUrl();
+			
+			//使用URI获取host地址和端口号
+			URI uri=new URI("http://"+jFmpeg.getStreamUrl());
+			String host=uri.getHost();
+			int port=uri.getPort();
+			
+			//注册rtsp地址
+			DeviceCheckUtil.getInstance().registDevice(host, port, rtspTunnel);
+		}
+		logger.info("所有摄像头注册完成。");
 	}
 	
 }

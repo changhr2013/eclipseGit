@@ -59,14 +59,14 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
     public MyWebServiceStub(
         org.apache.axis2.context.ConfigurationContext configurationContext)
         throws org.apache.axis2.AxisFault {
-        this(configurationContext, "http://localhost:8089/MyWebService.asmx");
+        this(configurationContext, "http://127.0.0.1:8089/MyWebService.asmx");
     }
 
     /**
      * Default Constructor
      */
     public MyWebServiceStub() throws org.apache.axis2.AxisFault {
-        this("http://localhost:8089/MyWebService.asmx");
+        this("http://127.0.0.1:8089/MyWebService.asmx");
     }
 
     /**
@@ -98,12 +98,12 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //creating the operations
         org.apache.axis2.description.AxisOperation __operation;
 
-        _operations = new org.apache.axis2.description.AxisOperation[13];
+        _operations = new org.apache.axis2.description.AxisOperation[14];
 
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "closeOneJFmpeg"));
+                "http://tempuri.org/", "getAllJfmpegList"));
         _service.addOperation(__operation);
 
         _operations[0] = __operation;
@@ -111,7 +111,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "getCurrentStreamListByRegion"));
+                "http://tempuri.org/", "closeOneJFmpeg"));
         _service.addOperation(__operation);
 
         _operations[1] = __operation;
@@ -119,7 +119,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "closeSingleJFmpeg"));
+                "http://tempuri.org/", "getCurrentStreamListByRegion"));
         _service.addOperation(__operation);
 
         _operations[2] = __operation;
@@ -127,7 +127,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "closeStreamListByRegion"));
+                "http://tempuri.org/", "closeSingleJFmpeg"));
         _service.addOperation(__operation);
 
         _operations[3] = __operation;
@@ -135,7 +135,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "openAllStream"));
+                "http://tempuri.org/", "closeStreamListByRegion"));
         _service.addOperation(__operation);
 
         _operations[4] = __operation;
@@ -143,7 +143,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "getAllRegionList"));
+                "http://tempuri.org/", "openAllStream"));
         _service.addOperation(__operation);
 
         _operations[5] = __operation;
@@ -151,7 +151,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "closeAllStream"));
+                "http://tempuri.org/", "getAllRegionList"));
         _service.addOperation(__operation);
 
         _operations[6] = __operation;
@@ -159,7 +159,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "openStreamListByRegion"));
+                "http://tempuri.org/", "closeAllStream"));
         _service.addOperation(__operation);
 
         _operations[7] = __operation;
@@ -167,7 +167,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "openSingleJFmpeg"));
+                "http://tempuri.org/", "openStreamListByRegion"));
         _service.addOperation(__operation);
 
         _operations[8] = __operation;
@@ -175,7 +175,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "resetJFmpeg"));
+                "http://tempuri.org/", "openSingleJFmpeg"));
         _service.addOperation(__operation);
 
         _operations[9] = __operation;
@@ -183,7 +183,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "openOneJFmpeg"));
+                "http://tempuri.org/", "resetJFmpeg"));
         _service.addOperation(__operation);
 
         _operations[10] = __operation;
@@ -191,7 +191,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "getCurrentJFmpegList"));
+                "http://tempuri.org/", "openOneJFmpeg"));
         _service.addOperation(__operation);
 
         _operations[11] = __operation;
@@ -199,10 +199,18 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         __operation = new org.apache.axis2.description.OutInAxisOperation();
 
         __operation.setName(new javax.xml.namespace.QName(
-                "http://tempuri.org/", "getServerIpAddress"));
+                "http://tempuri.org/", "getCurrentJFmpegList"));
         _service.addOperation(__operation);
 
         _operations[12] = __operation;
+
+        __operation = new org.apache.axis2.description.OutInAxisOperation();
+
+        __operation.setName(new javax.xml.namespace.QName(
+                "http://tempuri.org/", "getServerIpAddress"));
+        _service.addOperation(__operation);
+
+        _operations[13] = __operation;
     }
 
     //populates the faults
@@ -212,16 +220,277 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
     /**
      * Auto generated method signature
      *
-     * @see org.tempuri.MyWebService#closeOneJFmpeg
-     * @param closeOneJFmpeg0
+     * @see org.tempuri.MyWebService#getAllJfmpegList
+     * @param getAllJfmpegList0
      */
-    public org.tempuri.MyWebServiceStub.CloseOneJFmpegResponse closeOneJFmpeg(
-        org.tempuri.MyWebServiceStub.CloseOneJFmpeg closeOneJFmpeg0)
+    public org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse getAllJfmpegList(
+        org.tempuri.MyWebServiceStub.GetAllJfmpegList getAllJfmpegList0)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
             org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+            _operationClient.getOptions()
+                            .setAction("http://tempuri.org/GetAllJfmpegList");
+            _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
+
+            addPropertyToOperationClient(_operationClient,
+                org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,
+                "&");
+
+            // create SOAP envelope with that payload
+            org.apache.axiom.soap.SOAPEnvelope env = null;
+
+            env = toEnvelope(getFactory(_operationClient.getOptions()
+                                                        .getSoapVersionURI()),
+                    getAllJfmpegList0,
+                    optimizeContent(
+                        new javax.xml.namespace.QName("http://tempuri.org/",
+                            "getAllJfmpegList")),
+                    new javax.xml.namespace.QName("http://tempuri.org/",
+                        "GetAllJfmpegList"));
+
+            //adding SOAP soap_headers
+            _serviceClient.addHeadersToEnvelope(env);
+            // set the message context with that soap envelope
+            _messageContext.setEnvelope(env);
+
+            // add the message contxt to the operation client
+            _operationClient.addMessageContext(_messageContext);
+
+            //execute the operation client
+            _operationClient.execute(true);
+
+            org.apache.axis2.context.MessageContext _returnMessageContext = _operationClient.getMessageContext(org.apache.axis2.wsdl.WSDLConstants.MESSAGE_LABEL_IN_VALUE);
+            org.apache.axiom.soap.SOAPEnvelope _returnEnv = _returnMessageContext.getEnvelope();
+
+            java.lang.Object object = fromOM(_returnEnv.getBody()
+                                                       .getFirstElement(),
+                    org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse.class);
+
+            return (org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse) object;
+        } catch (org.apache.axis2.AxisFault f) {
+            org.apache.axiom.om.OMElement faultElt = f.getDetail();
+
+            if (faultElt != null) {
+                if (faultExceptionNameMap.containsKey(
+                            new org.apache.axis2.client.FaultMapKey(
+                                faultElt.getQName(), "GetAllJfmpegList"))) {
+                    //make the fault by reflection
+                    try {
+                        java.lang.String exceptionClassName = (java.lang.String) faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(
+                                    faultElt.getQName(), "GetAllJfmpegList"));
+                        java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
+                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(java.lang.String.class);
+                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+
+                        //message class
+                        java.lang.String messageClassName = (java.lang.String) faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(
+                                    faultElt.getQName(), "GetAllJfmpegList"));
+                        java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
+                        java.lang.Object messageObject = fromOM(faultElt,
+                                messageClass);
+                        java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
+                                new java.lang.Class[] { messageClass });
+                        m.invoke(ex, new java.lang.Object[] { messageObject });
+
+                        throw new java.rmi.RemoteException(ex.getMessage(), ex);
+                    } catch (java.lang.ClassCastException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.ClassNotFoundException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.NoSuchMethodException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.reflect.InvocationTargetException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.IllegalAccessException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    } catch (java.lang.InstantiationException e) {
+                        // we cannot intantiate the class - throw the original Axis fault
+                        throw f;
+                    }
+                } else {
+                    throw f;
+                }
+            } else {
+                throw f;
+            }
+        } finally {
+            if (_messageContext.getTransportOut() != null) {
+                _messageContext.getTransportOut().getSender()
+                               .cleanup(_messageContext);
+            }
+        }
+    }
+
+    /**
+     * Auto generated method signature for Asynchronous Invocations
+     *
+     * @see org.tempuri.MyWebService#startgetAllJfmpegList
+     * @param getAllJfmpegList0
+     */
+    public void startgetAllJfmpegList(
+        org.tempuri.MyWebServiceStub.GetAllJfmpegList getAllJfmpegList0,
+        final org.tempuri.MyWebServiceCallbackHandler callback)
+        throws java.rmi.RemoteException {
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+        _operationClient.getOptions()
+                        .setAction("http://tempuri.org/GetAllJfmpegList");
+        _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
+
+        addPropertyToOperationClient(_operationClient,
+            org.apache.axis2.description.WSDL2Constants.ATTR_WHTTP_QUERY_PARAMETER_SEPARATOR,
+            "&");
+
+        // create SOAP envelope with that payload
+        org.apache.axiom.soap.SOAPEnvelope env = null;
+        final org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
+
+        //Style is Doc.
+        env = toEnvelope(getFactory(_operationClient.getOptions()
+                                                    .getSoapVersionURI()),
+                getAllJfmpegList0,
+                optimizeContent(
+                    new javax.xml.namespace.QName("http://tempuri.org/",
+                        "getAllJfmpegList")),
+                new javax.xml.namespace.QName("http://tempuri.org/",
+                    "GetAllJfmpegList"));
+
+        // adding SOAP soap_headers
+        _serviceClient.addHeadersToEnvelope(env);
+        // create message context with that soap envelope
+        _messageContext.setEnvelope(env);
+
+        // add the message context to the operation client
+        _operationClient.addMessageContext(_messageContext);
+
+        _operationClient.setCallback(new org.apache.axis2.client.async.AxisCallback() {
+                public void onMessage(
+                    org.apache.axis2.context.MessageContext resultContext) {
+                    try {
+                        org.apache.axiom.soap.SOAPEnvelope resultEnv = resultContext.getEnvelope();
+
+                        java.lang.Object object = fromOM(resultEnv.getBody()
+                                                                  .getFirstElement(),
+                                org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse.class);
+                        callback.receiveResultgetAllJfmpegList((org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse) object);
+                    } catch (org.apache.axis2.AxisFault e) {
+                        callback.receiveErrorgetAllJfmpegList(e);
+                    }
+                }
+
+                public void onError(java.lang.Exception error) {
+                    if (error instanceof org.apache.axis2.AxisFault) {
+                        org.apache.axis2.AxisFault f = (org.apache.axis2.AxisFault) error;
+                        org.apache.axiom.om.OMElement faultElt = f.getDetail();
+
+                        if (faultElt != null) {
+                            if (faultExceptionNameMap.containsKey(
+                                        new org.apache.axis2.client.FaultMapKey(
+                                            faultElt.getQName(),
+                                            "GetAllJfmpegList"))) {
+                                //make the fault by reflection
+                                try {
+                                    java.lang.String exceptionClassName = (java.lang.String) faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(
+                                                faultElt.getQName(),
+                                                "GetAllJfmpegList"));
+                                    java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
+                                    java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(java.lang.String.class);
+                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+
+                                    //message class
+                                    java.lang.String messageClassName = (java.lang.String) faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(
+                                                faultElt.getQName(),
+                                                "GetAllJfmpegList"));
+                                    java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
+                                    java.lang.Object messageObject = fromOM(faultElt,
+                                            messageClass);
+                                    java.lang.reflect.Method m = exceptionClass.getMethod("setFaultMessage",
+                                            new java.lang.Class[] { messageClass });
+                                    m.invoke(ex,
+                                        new java.lang.Object[] { messageObject });
+
+                                    callback.receiveErrorgetAllJfmpegList(new java.rmi.RemoteException(
+                                            ex.getMessage(), ex));
+                                } catch (java.lang.ClassCastException e) {
+                                    // we cannot intantiate the class - throw the original Axis fault
+                                    callback.receiveErrorgetAllJfmpegList(f);
+                                } catch (java.lang.ClassNotFoundException e) {
+                                    // we cannot intantiate the class - throw the original Axis fault
+                                    callback.receiveErrorgetAllJfmpegList(f);
+                                } catch (java.lang.NoSuchMethodException e) {
+                                    // we cannot intantiate the class - throw the original Axis fault
+                                    callback.receiveErrorgetAllJfmpegList(f);
+                                } catch (java.lang.reflect.InvocationTargetException e) {
+                                    // we cannot intantiate the class - throw the original Axis fault
+                                    callback.receiveErrorgetAllJfmpegList(f);
+                                } catch (java.lang.IllegalAccessException e) {
+                                    // we cannot intantiate the class - throw the original Axis fault
+                                    callback.receiveErrorgetAllJfmpegList(f);
+                                } catch (java.lang.InstantiationException e) {
+                                    // we cannot intantiate the class - throw the original Axis fault
+                                    callback.receiveErrorgetAllJfmpegList(f);
+                                } catch (org.apache.axis2.AxisFault e) {
+                                    // we cannot intantiate the class - throw the original Axis fault
+                                    callback.receiveErrorgetAllJfmpegList(f);
+                                }
+                            } else {
+                                callback.receiveErrorgetAllJfmpegList(f);
+                            }
+                        } else {
+                            callback.receiveErrorgetAllJfmpegList(f);
+                        }
+                    } else {
+                        callback.receiveErrorgetAllJfmpegList(error);
+                    }
+                }
+
+                public void onFault(
+                    org.apache.axis2.context.MessageContext faultContext) {
+                    org.apache.axis2.AxisFault fault = org.apache.axis2.util.Utils.getInboundFaultFromMessageContext(faultContext);
+                    onError(fault);
+                }
+
+                public void onComplete() {
+                    try {
+                        _messageContext.getTransportOut().getSender()
+                                       .cleanup(_messageContext);
+                    } catch (org.apache.axis2.AxisFault axisFault) {
+                        callback.receiveErrorgetAllJfmpegList(axisFault);
+                    }
+                }
+            });
+
+        org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
+
+        if ((_operations[0].getMessageReceiver() == null) &&
+                _operationClient.getOptions().isUseSeparateListener()) {
+            _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
+            _operations[0].setMessageReceiver(_callbackReceiver);
+        }
+
+        //execute the operation client
+        _operationClient.execute(false);
+    }
+
+    /**
+     * Auto generated method signature
+     *
+     * @see org.tempuri.MyWebService#closeOneJFmpeg
+     * @param closeOneJFmpeg2
+     */
+    public org.tempuri.MyWebServiceStub.CloseOneJFmpegResponse closeOneJFmpeg(
+        org.tempuri.MyWebServiceStub.CloseOneJFmpeg closeOneJFmpeg2)
+        throws java.rmi.RemoteException {
+        org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
+
+        try {
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/CloseOneJFmpeg");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -235,7 +504,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    closeOneJFmpeg0,
+                    closeOneJFmpeg2,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "closeOneJFmpeg")),
@@ -324,13 +593,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startcloseOneJFmpeg
-     * @param closeOneJFmpeg0
+     * @param closeOneJFmpeg2
      */
     public void startcloseOneJFmpeg(
-        org.tempuri.MyWebServiceStub.CloseOneJFmpeg closeOneJFmpeg0,
+        org.tempuri.MyWebServiceStub.CloseOneJFmpeg closeOneJFmpeg2,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[0].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/CloseOneJFmpeg");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -346,7 +615,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                closeOneJFmpeg0,
+                closeOneJFmpeg2,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "closeOneJFmpeg")),
@@ -460,10 +729,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[0].getMessageReceiver() == null) &&
+        if ((_operations[1].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[0].setMessageReceiver(_callbackReceiver);
+            _operations[1].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -474,15 +743,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#getCurrentStreamListByRegion
-     * @param getCurrentStreamListByRegion2
+     * @param getCurrentStreamListByRegion4
      */
     public org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegionResponse getCurrentStreamListByRegion(
-        org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegion getCurrentStreamListByRegion2)
+        org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegion getCurrentStreamListByRegion4)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[2].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/GetCurrentStreamListByRegion");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -496,7 +765,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    getCurrentStreamListByRegion2,
+                    getCurrentStreamListByRegion4,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "getCurrentStreamListByRegion")),
@@ -588,13 +857,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startgetCurrentStreamListByRegion
-     * @param getCurrentStreamListByRegion2
+     * @param getCurrentStreamListByRegion4
      */
     public void startgetCurrentStreamListByRegion(
-        org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegion getCurrentStreamListByRegion2,
+        org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegion getCurrentStreamListByRegion4,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[1].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[2].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/GetCurrentStreamListByRegion");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -610,7 +879,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                getCurrentStreamListByRegion2,
+                getCurrentStreamListByRegion4,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "getCurrentStreamListByRegion")),
@@ -724,10 +993,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[1].getMessageReceiver() == null) &&
+        if ((_operations[2].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[1].setMessageReceiver(_callbackReceiver);
+            _operations[2].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -738,15 +1007,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#closeSingleJFmpeg
-     * @param closeSingleJFmpeg4
+     * @param closeSingleJFmpeg6
      */
     public org.tempuri.MyWebServiceStub.CloseSingleJFmpegResponse closeSingleJFmpeg(
-        org.tempuri.MyWebServiceStub.CloseSingleJFmpeg closeSingleJFmpeg4)
+        org.tempuri.MyWebServiceStub.CloseSingleJFmpeg closeSingleJFmpeg6)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[2].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[3].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/CloseSingleJFmpeg");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -760,7 +1029,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    closeSingleJFmpeg4,
+                    closeSingleJFmpeg6,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "closeSingleJFmpeg")),
@@ -849,13 +1118,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startcloseSingleJFmpeg
-     * @param closeSingleJFmpeg4
+     * @param closeSingleJFmpeg6
      */
     public void startcloseSingleJFmpeg(
-        org.tempuri.MyWebServiceStub.CloseSingleJFmpeg closeSingleJFmpeg4,
+        org.tempuri.MyWebServiceStub.CloseSingleJFmpeg closeSingleJFmpeg6,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[2].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[3].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/CloseSingleJFmpeg");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -871,7 +1140,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                closeSingleJFmpeg4,
+                closeSingleJFmpeg6,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "closeSingleJFmpeg")),
@@ -985,10 +1254,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[2].getMessageReceiver() == null) &&
+        if ((_operations[3].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[2].setMessageReceiver(_callbackReceiver);
+            _operations[3].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -999,15 +1268,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#closeStreamListByRegion
-     * @param closeStreamListByRegion6
+     * @param closeStreamListByRegion8
      */
     public org.tempuri.MyWebServiceStub.CloseStreamListByRegionResponse closeStreamListByRegion(
-        org.tempuri.MyWebServiceStub.CloseStreamListByRegion closeStreamListByRegion6)
+        org.tempuri.MyWebServiceStub.CloseStreamListByRegion closeStreamListByRegion8)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[3].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[4].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/CloseStreamListByRegion");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1021,7 +1290,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    closeStreamListByRegion6,
+                    closeStreamListByRegion8,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "closeStreamListByRegion")),
@@ -1112,13 +1381,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startcloseStreamListByRegion
-     * @param closeStreamListByRegion6
+     * @param closeStreamListByRegion8
      */
     public void startcloseStreamListByRegion(
-        org.tempuri.MyWebServiceStub.CloseStreamListByRegion closeStreamListByRegion6,
+        org.tempuri.MyWebServiceStub.CloseStreamListByRegion closeStreamListByRegion8,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[3].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[4].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/CloseStreamListByRegion");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1134,7 +1403,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                closeStreamListByRegion6,
+                closeStreamListByRegion8,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "closeStreamListByRegion")),
@@ -1248,10 +1517,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[3].getMessageReceiver() == null) &&
+        if ((_operations[4].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[3].setMessageReceiver(_callbackReceiver);
+            _operations[4].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -1262,15 +1531,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#openAllStream
-     * @param openAllStream8
+     * @param openAllStream10
      */
     public org.tempuri.MyWebServiceStub.OpenAllStreamResponse openAllStream(
-        org.tempuri.MyWebServiceStub.OpenAllStream openAllStream8)
+        org.tempuri.MyWebServiceStub.OpenAllStream openAllStream10)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[4].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[5].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/OpenAllStream");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1284,7 +1553,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    openAllStream8,
+                    openAllStream10,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "openAllStream")),
@@ -1373,13 +1642,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startopenAllStream
-     * @param openAllStream8
+     * @param openAllStream10
      */
     public void startopenAllStream(
-        org.tempuri.MyWebServiceStub.OpenAllStream openAllStream8,
+        org.tempuri.MyWebServiceStub.OpenAllStream openAllStream10,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[4].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[5].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/OpenAllStream");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1395,7 +1664,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                openAllStream8,
+                openAllStream10,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "openAllStream")),
@@ -1508,10 +1777,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[4].getMessageReceiver() == null) &&
+        if ((_operations[5].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[4].setMessageReceiver(_callbackReceiver);
+            _operations[5].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -1522,15 +1791,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#getAllRegionList
-     * @param getAllRegionList10
+     * @param getAllRegionList12
      */
     public org.tempuri.MyWebServiceStub.GetAllRegionListResponse getAllRegionList(
-        org.tempuri.MyWebServiceStub.GetAllRegionList getAllRegionList10)
+        org.tempuri.MyWebServiceStub.GetAllRegionList getAllRegionList12)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[5].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[6].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/GetAllRegionList");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1544,7 +1813,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    getAllRegionList10,
+                    getAllRegionList12,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "getAllRegionList")),
@@ -1633,13 +1902,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startgetAllRegionList
-     * @param getAllRegionList10
+     * @param getAllRegionList12
      */
     public void startgetAllRegionList(
-        org.tempuri.MyWebServiceStub.GetAllRegionList getAllRegionList10,
+        org.tempuri.MyWebServiceStub.GetAllRegionList getAllRegionList12,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[5].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[6].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/GetAllRegionList");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1655,7 +1924,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                getAllRegionList10,
+                getAllRegionList12,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "getAllRegionList")),
@@ -1769,10 +2038,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[5].getMessageReceiver() == null) &&
+        if ((_operations[6].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[5].setMessageReceiver(_callbackReceiver);
+            _operations[6].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -1783,15 +2052,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#closeAllStream
-     * @param closeAllStream12
+     * @param closeAllStream14
      */
     public org.tempuri.MyWebServiceStub.CloseAllStreamResponse closeAllStream(
-        org.tempuri.MyWebServiceStub.CloseAllStream closeAllStream12)
+        org.tempuri.MyWebServiceStub.CloseAllStream closeAllStream14)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[6].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[7].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/CloseAllStream");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1805,7 +2074,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    closeAllStream12,
+                    closeAllStream14,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "closeAllStream")),
@@ -1894,13 +2163,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startcloseAllStream
-     * @param closeAllStream12
+     * @param closeAllStream14
      */
     public void startcloseAllStream(
-        org.tempuri.MyWebServiceStub.CloseAllStream closeAllStream12,
+        org.tempuri.MyWebServiceStub.CloseAllStream closeAllStream14,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[6].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[7].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/CloseAllStream");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -1916,7 +2185,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                closeAllStream12,
+                closeAllStream14,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "closeAllStream")),
@@ -2030,10 +2299,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[6].getMessageReceiver() == null) &&
+        if ((_operations[7].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[6].setMessageReceiver(_callbackReceiver);
+            _operations[7].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -2044,15 +2313,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#openStreamListByRegion
-     * @param openStreamListByRegion14
+     * @param openStreamListByRegion16
      */
     public org.tempuri.MyWebServiceStub.OpenStreamListByRegionResponse openStreamListByRegion(
-        org.tempuri.MyWebServiceStub.OpenStreamListByRegion openStreamListByRegion14)
+        org.tempuri.MyWebServiceStub.OpenStreamListByRegion openStreamListByRegion16)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[7].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[8].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/OpenStreamListByRegion");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -2066,7 +2335,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    openStreamListByRegion14,
+                    openStreamListByRegion16,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "openStreamListByRegion")),
@@ -2157,13 +2426,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startopenStreamListByRegion
-     * @param openStreamListByRegion14
+     * @param openStreamListByRegion16
      */
     public void startopenStreamListByRegion(
-        org.tempuri.MyWebServiceStub.OpenStreamListByRegion openStreamListByRegion14,
+        org.tempuri.MyWebServiceStub.OpenStreamListByRegion openStreamListByRegion16,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[7].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[8].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/OpenStreamListByRegion");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -2179,7 +2448,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                openStreamListByRegion14,
+                openStreamListByRegion16,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "openStreamListByRegion")),
@@ -2293,10 +2562,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[7].getMessageReceiver() == null) &&
+        if ((_operations[8].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[7].setMessageReceiver(_callbackReceiver);
+            _operations[8].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -2307,15 +2576,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#openSingleJFmpeg
-     * @param openSingleJFmpeg16
+     * @param openSingleJFmpeg18
      */
     public org.tempuri.MyWebServiceStub.OpenSingleJFmpegResponse openSingleJFmpeg(
-        org.tempuri.MyWebServiceStub.OpenSingleJFmpeg openSingleJFmpeg16)
+        org.tempuri.MyWebServiceStub.OpenSingleJFmpeg openSingleJFmpeg18)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[8].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[9].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/OpenSingleJFmpeg");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -2329,7 +2598,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    openSingleJFmpeg16,
+                    openSingleJFmpeg18,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "openSingleJFmpeg")),
@@ -2418,13 +2687,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startopenSingleJFmpeg
-     * @param openSingleJFmpeg16
+     * @param openSingleJFmpeg18
      */
     public void startopenSingleJFmpeg(
-        org.tempuri.MyWebServiceStub.OpenSingleJFmpeg openSingleJFmpeg16,
+        org.tempuri.MyWebServiceStub.OpenSingleJFmpeg openSingleJFmpeg18,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[8].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[9].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/OpenSingleJFmpeg");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -2440,7 +2709,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                openSingleJFmpeg16,
+                openSingleJFmpeg18,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "openSingleJFmpeg")),
@@ -2554,10 +2823,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[8].getMessageReceiver() == null) &&
+        if ((_operations[9].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[8].setMessageReceiver(_callbackReceiver);
+            _operations[9].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -2568,15 +2837,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#resetJFmpeg
-     * @param resetJFmpeg18
+     * @param resetJFmpeg20
      */
     public org.tempuri.MyWebServiceStub.ResetJFmpegResponse resetJFmpeg(
-        org.tempuri.MyWebServiceStub.ResetJFmpeg resetJFmpeg18)
+        org.tempuri.MyWebServiceStub.ResetJFmpeg resetJFmpeg20)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[9].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[10].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/ResetJFmpeg");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -2590,7 +2859,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    resetJFmpeg18,
+                    resetJFmpeg20,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "resetJFmpeg")),
@@ -2679,13 +2948,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startresetJFmpeg
-     * @param resetJFmpeg18
+     * @param resetJFmpeg20
      */
     public void startresetJFmpeg(
-        org.tempuri.MyWebServiceStub.ResetJFmpeg resetJFmpeg18,
+        org.tempuri.MyWebServiceStub.ResetJFmpeg resetJFmpeg20,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[9].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[10].getName());
         _operationClient.getOptions().setAction("http://tempuri.org/ResetJFmpeg");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
 
@@ -2700,7 +2969,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                resetJFmpeg18,
+                resetJFmpeg20,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "resetJFmpeg")),
@@ -2813,10 +3082,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[9].getMessageReceiver() == null) &&
+        if ((_operations[10].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[9].setMessageReceiver(_callbackReceiver);
+            _operations[10].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -2827,15 +3096,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#openOneJFmpeg
-     * @param openOneJFmpeg20
+     * @param openOneJFmpeg22
      */
     public org.tempuri.MyWebServiceStub.OpenOneJFmpegResponse openOneJFmpeg(
-        org.tempuri.MyWebServiceStub.OpenOneJFmpeg openOneJFmpeg20)
+        org.tempuri.MyWebServiceStub.OpenOneJFmpeg openOneJFmpeg22)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[10].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[11].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/OpenOneJFmpeg");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -2849,7 +3118,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    openOneJFmpeg20,
+                    openOneJFmpeg22,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "openOneJFmpeg")),
@@ -2938,13 +3207,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startopenOneJFmpeg
-     * @param openOneJFmpeg20
+     * @param openOneJFmpeg22
      */
     public void startopenOneJFmpeg(
-        org.tempuri.MyWebServiceStub.OpenOneJFmpeg openOneJFmpeg20,
+        org.tempuri.MyWebServiceStub.OpenOneJFmpeg openOneJFmpeg22,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[10].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[11].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/OpenOneJFmpeg");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -2960,7 +3229,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                openOneJFmpeg20,
+                openOneJFmpeg22,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "openOneJFmpeg")),
@@ -3073,10 +3342,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[10].getMessageReceiver() == null) &&
+        if ((_operations[11].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[10].setMessageReceiver(_callbackReceiver);
+            _operations[11].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -3087,15 +3356,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#getCurrentJFmpegList
-     * @param getCurrentJFmpegList22
+     * @param getCurrentJFmpegList24
      */
     public org.tempuri.MyWebServiceStub.GetCurrentJFmpegListResponse getCurrentJFmpegList(
-        org.tempuri.MyWebServiceStub.GetCurrentJFmpegList getCurrentJFmpegList22)
+        org.tempuri.MyWebServiceStub.GetCurrentJFmpegList getCurrentJFmpegList24)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[11].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[12].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/GetCurrentJFmpegList");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -3109,7 +3378,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    getCurrentJFmpegList22,
+                    getCurrentJFmpegList24,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "getCurrentJFmpegList")),
@@ -3198,13 +3467,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startgetCurrentJFmpegList
-     * @param getCurrentJFmpegList22
+     * @param getCurrentJFmpegList24
      */
     public void startgetCurrentJFmpegList(
-        org.tempuri.MyWebServiceStub.GetCurrentJFmpegList getCurrentJFmpegList22,
+        org.tempuri.MyWebServiceStub.GetCurrentJFmpegList getCurrentJFmpegList24,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[11].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[12].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/GetCurrentJFmpegList");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -3220,7 +3489,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                getCurrentJFmpegList22,
+                getCurrentJFmpegList24,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "getCurrentJFmpegList")),
@@ -3334,10 +3603,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[11].getMessageReceiver() == null) &&
+        if ((_operations[12].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[11].setMessageReceiver(_callbackReceiver);
+            _operations[12].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -3348,15 +3617,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature
      *
      * @see org.tempuri.MyWebService#getServerIpAddress
-     * @param getServerIpAddress24
+     * @param getServerIpAddress26
      */
     public org.tempuri.MyWebServiceStub.GetServerIpAddressResponse getServerIpAddress(
-        org.tempuri.MyWebServiceStub.GetServerIpAddress getServerIpAddress24)
+        org.tempuri.MyWebServiceStub.GetServerIpAddress getServerIpAddress26)
         throws java.rmi.RemoteException {
         org.apache.axis2.context.MessageContext _messageContext = new org.apache.axis2.context.MessageContext();
 
         try {
-            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[12].getName());
+            org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[13].getName());
             _operationClient.getOptions()
                             .setAction("http://tempuri.org/GetServerIpAddress");
             _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -3370,7 +3639,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
             env = toEnvelope(getFactory(_operationClient.getOptions()
                                                         .getSoapVersionURI()),
-                    getServerIpAddress24,
+                    getServerIpAddress26,
                     optimizeContent(
                         new javax.xml.namespace.QName("http://tempuri.org/",
                             "getServerIpAddress")),
@@ -3459,13 +3728,13 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
      * Auto generated method signature for Asynchronous Invocations
      *
      * @see org.tempuri.MyWebService#startgetServerIpAddress
-     * @param getServerIpAddress24
+     * @param getServerIpAddress26
      */
     public void startgetServerIpAddress(
-        org.tempuri.MyWebServiceStub.GetServerIpAddress getServerIpAddress24,
+        org.tempuri.MyWebServiceStub.GetServerIpAddress getServerIpAddress26,
         final org.tempuri.MyWebServiceCallbackHandler callback)
         throws java.rmi.RemoteException {
-        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[12].getName());
+        org.apache.axis2.client.OperationClient _operationClient = _serviceClient.createClient(_operations[13].getName());
         _operationClient.getOptions()
                         .setAction("http://tempuri.org/GetServerIpAddress");
         _operationClient.getOptions().setExceptionToBeThrownOnSOAPFault(true);
@@ -3481,7 +3750,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         //Style is Doc.
         env = toEnvelope(getFactory(_operationClient.getOptions()
                                                     .getSoapVersionURI()),
-                getServerIpAddress24,
+                getServerIpAddress26,
                 optimizeContent(
                     new javax.xml.namespace.QName("http://tempuri.org/",
                         "getServerIpAddress")),
@@ -3595,10 +3864,10 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
         org.apache.axis2.util.CallbackReceiver _callbackReceiver = null;
 
-        if ((_operations[12].getMessageReceiver() == null) &&
+        if ((_operations[13].getMessageReceiver() == null) &&
                 _operationClient.getOptions().isUseSeparateListener()) {
             _callbackReceiver = new org.apache.axis2.util.CallbackReceiver();
-            _operations[12].setMessageReceiver(_callbackReceiver);
+            _operations[13].setMessageReceiver(_callbackReceiver);
         }
 
         //execute the operation client
@@ -3617,6 +3886,28 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         }
 
         return false;
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        org.tempuri.MyWebServiceStub.GetAllJfmpegList param,
+        boolean optimizeContent) throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(org.tempuri.MyWebServiceStub.GetAllJfmpegList.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    private org.apache.axiom.om.OMElement toOM(
+        org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse param,
+        boolean optimizeContent) throws org.apache.axis2.AxisFault {
+        try {
+            return param.getOMElement(org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse.MY_QNAME,
+                org.apache.axiom.om.OMAbstractFactory.getOMFactory());
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
     }
 
     private org.apache.axiom.om.OMElement toOM(
@@ -3905,6 +4196,25 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         }
     }
 
+    private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
+        org.apache.axiom.soap.SOAPFactory factory,
+        org.tempuri.MyWebServiceStub.GetAllJfmpegList param,
+        boolean optimizeContent, javax.xml.namespace.QName elementQName)
+        throws org.apache.axis2.AxisFault {
+        try {
+            org.apache.axiom.soap.SOAPEnvelope emptyEnvelope = factory.getDefaultEnvelope();
+            emptyEnvelope.getBody()
+                         .addChild(param.getOMElement(
+                    org.tempuri.MyWebServiceStub.GetAllJfmpegList.MY_QNAME,
+                    factory));
+
+            return emptyEnvelope;
+        } catch (org.apache.axis2.databinding.ADBException e) {
+            throw org.apache.axis2.AxisFault.makeFault(e);
+        }
+    }
+
+    /* methods to provide back word compatibility */
     private org.apache.axiom.soap.SOAPEnvelope toEnvelope(
         org.apache.axiom.soap.SOAPFactory factory,
         org.tempuri.MyWebServiceStub.CloseOneJFmpeg param,
@@ -4199,6 +4509,15 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
                 return org.tempuri.MyWebServiceStub.CloseStreamListByRegionResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
 
+            if (org.tempuri.MyWebServiceStub.GetAllJfmpegList.class.equals(type)) {
+                return org.tempuri.MyWebServiceStub.GetAllJfmpegList.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
+            if (org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse.class.equals(
+                        type)) {
+                return org.tempuri.MyWebServiceStub.GetAllJfmpegListResponse.Factory.parse(param.getXMLStreamReaderWithoutCaching());
+            }
+
             if (org.tempuri.MyWebServiceStub.GetAllRegionList.class.equals(type)) {
                 return org.tempuri.MyWebServiceStub.GetAllRegionList.Factory.parse(param.getXMLStreamReaderWithoutCaching());
             }
@@ -4290,7 +4609,7 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
         return null;
     }
 
-    //http://localhost:8089/MyWebService.asmx
+    //http://127.0.0.1:8089/MyWebService.asmx
     public static class OpenAllStreamResponse implements org.apache.axis2.databinding.ADBBean {
         public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://tempuri.org/",
                 "OpenAllStreamResponse", "ns1");
@@ -4686,6 +5005,342 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
                         throw new org.apache.axis2.databinding.ADBException(
                             "Unexpected subelement " + reader.getName());
                     }
+                } catch (javax.xml.stream.XMLStreamException e) {
+                    throw new java.lang.Exception(e);
+                }
+
+                return object;
+            }
+        } //end of factory class
+    }
+
+    public static class GetAllJfmpegList implements org.apache.axis2.databinding.ADBBean {
+        public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://tempuri.org/",
+                "GetAllJfmpegList", "ns1");
+
+        /**
+         *
+         * @param parentQName
+         * @param factory
+         * @return org.apache.axiom.om.OMElement
+         */
+        public org.apache.axiom.om.OMElement getOMElement(
+            final javax.xml.namespace.QName parentQName,
+            final org.apache.axiom.om.OMFactory factory)
+            throws org.apache.axis2.databinding.ADBException {
+            return factory.createOMElement(new org.apache.axis2.databinding.ADBDataSource(
+                    this, MY_QNAME));
+        }
+
+        public void serialize(final javax.xml.namespace.QName parentQName,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException,
+                org.apache.axis2.databinding.ADBException {
+            serialize(parentQName, xmlWriter, false);
+        }
+
+        public void serialize(final javax.xml.namespace.QName parentQName,
+            javax.xml.stream.XMLStreamWriter xmlWriter, boolean serializeType)
+            throws javax.xml.stream.XMLStreamException,
+                org.apache.axis2.databinding.ADBException {
+            java.lang.String prefix = null;
+            java.lang.String namespace = null;
+
+            prefix = parentQName.getPrefix();
+            namespace = parentQName.getNamespaceURI();
+            writeStartElement(prefix, namespace, parentQName.getLocalPart(),
+                xmlWriter);
+
+            if (serializeType) {
+                java.lang.String namespacePrefix = registerPrefix(xmlWriter,
+                        "http://tempuri.org/");
+
+                if ((namespacePrefix != null) &&
+                        (namespacePrefix.trim().length() > 0)) {
+                    writeAttribute("xsi",
+                        "http://www.w3.org/2001/XMLSchema-instance", "type",
+                        namespacePrefix + ":GetAllJfmpegList", xmlWriter);
+                } else {
+                    writeAttribute("xsi",
+                        "http://www.w3.org/2001/XMLSchema-instance", "type",
+                        "GetAllJfmpegList", xmlWriter);
+                }
+            }
+
+            xmlWriter.writeEndElement();
+        }
+
+        private static java.lang.String generatePrefix(
+            java.lang.String namespace) {
+            if (namespace.equals("http://tempuri.org/")) {
+                return "ns1";
+            }
+
+            return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+        }
+
+        /**
+         * Utility method to write an element start tag.
+         */
+        private void writeStartElement(java.lang.String prefix,
+            java.lang.String namespace, java.lang.String localPart,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+
+            if (writerPrefix != null) {
+                xmlWriter.writeStartElement(writerPrefix, localPart, namespace);
+            } else {
+                if (namespace.length() == 0) {
+                    prefix = "";
+                } else if (prefix == null) {
+                    prefix = generatePrefix(namespace);
+                }
+
+                xmlWriter.writeStartElement(prefix, localPart, namespace);
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+        }
+
+        /**
+         * Util method to write an attribute with the ns prefix
+         */
+        private void writeAttribute(java.lang.String prefix,
+            java.lang.String namespace, java.lang.String attName,
+            java.lang.String attValue,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+
+            if (writerPrefix != null) {
+                xmlWriter.writeAttribute(writerPrefix, namespace, attName,
+                    attValue);
+            } else {
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+                xmlWriter.writeAttribute(prefix, namespace, attName, attValue);
+            }
+        }
+
+        /**
+         * Util method to write an attribute without the ns prefix
+         */
+        private void writeAttribute(java.lang.String namespace,
+            java.lang.String attName, java.lang.String attValue,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            if (namespace.equals("")) {
+                xmlWriter.writeAttribute(attName, attValue);
+            } else {
+                xmlWriter.writeAttribute(registerPrefix(xmlWriter, namespace),
+                    namespace, attName, attValue);
+            }
+        }
+
+        /**
+         * Util method to write an attribute without the ns prefix
+         */
+        private void writeQNameAttribute(java.lang.String namespace,
+            java.lang.String attName, javax.xml.namespace.QName qname,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String attributeNamespace = qname.getNamespaceURI();
+            java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
+
+            if (attributePrefix == null) {
+                attributePrefix = registerPrefix(xmlWriter, attributeNamespace);
+            }
+
+            java.lang.String attributeValue;
+
+            if (attributePrefix.trim().length() > 0) {
+                attributeValue = attributePrefix + ":" + qname.getLocalPart();
+            } else {
+                attributeValue = qname.getLocalPart();
+            }
+
+            if (namespace.equals("")) {
+                xmlWriter.writeAttribute(attName, attributeValue);
+            } else {
+                registerPrefix(xmlWriter, namespace);
+                xmlWriter.writeAttribute(attributePrefix, namespace, attName,
+                    attributeValue);
+            }
+        }
+
+        /**
+         *  method to handle Qnames
+         */
+        private void writeQName(javax.xml.namespace.QName qname,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String namespaceURI = qname.getNamespaceURI();
+
+            if (namespaceURI != null) {
+                java.lang.String prefix = xmlWriter.getPrefix(namespaceURI);
+
+                if (prefix == null) {
+                    prefix = generatePrefix(namespaceURI);
+                    xmlWriter.writeNamespace(prefix, namespaceURI);
+                    xmlWriter.setPrefix(prefix, namespaceURI);
+                }
+
+                if (prefix.trim().length() > 0) {
+                    xmlWriter.writeCharacters(prefix + ":" +
+                        org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                            qname));
+                } else {
+                    // i.e this is the default namespace
+                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                            qname));
+                }
+            } else {
+                xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                        qname));
+            }
+        }
+
+        private void writeQNames(javax.xml.namespace.QName[] qnames,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            if (qnames != null) {
+                // we have to store this data until last moment since it is not possible to write any
+                // namespace data after writing the charactor data
+                java.lang.StringBuffer stringToWrite = new java.lang.StringBuffer();
+                java.lang.String namespaceURI = null;
+                java.lang.String prefix = null;
+
+                for (int i = 0; i < qnames.length; i++) {
+                    if (i > 0) {
+                        stringToWrite.append(" ");
+                    }
+
+                    namespaceURI = qnames[i].getNamespaceURI();
+
+                    if (namespaceURI != null) {
+                        prefix = xmlWriter.getPrefix(namespaceURI);
+
+                        if ((prefix == null) || (prefix.length() == 0)) {
+                            prefix = generatePrefix(namespaceURI);
+                            xmlWriter.writeNamespace(prefix, namespaceURI);
+                            xmlWriter.setPrefix(prefix, namespaceURI);
+                        }
+
+                        if (prefix.trim().length() > 0) {
+                            stringToWrite.append(prefix).append(":")
+                                         .append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                    qnames[i]));
+                        } else {
+                            stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                    qnames[i]));
+                        }
+                    } else {
+                        stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                qnames[i]));
+                    }
+                }
+
+                xmlWriter.writeCharacters(stringToWrite.toString());
+            }
+        }
+
+        /**
+         * Register a namespace prefix
+         */
+        private java.lang.String registerPrefix(
+            javax.xml.stream.XMLStreamWriter xmlWriter,
+            java.lang.String namespace)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String prefix = xmlWriter.getPrefix(namespace);
+
+            if (prefix == null) {
+                prefix = generatePrefix(namespace);
+
+                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
+
+                while (true) {
+                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
+
+                    if ((uri == null) || (uri.length() == 0)) {
+                        break;
+                    }
+
+                    prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+                }
+
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+
+            return prefix;
+        }
+
+        /**
+         *  Factory class that keeps the parse method
+         */
+        public static class Factory {
+            private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Factory.class);
+
+            /**
+             * static method to create the object
+             * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
+             *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+             * Postcondition: If this object is an element, the reader is positioned at its end element
+             *                If this object is a complex type, the reader is positioned at the end element of its outer element
+             */
+            public static GetAllJfmpegList parse(
+                javax.xml.stream.XMLStreamReader reader)
+                throws java.lang.Exception {
+                GetAllJfmpegList object = new GetAllJfmpegList();
+
+                int event;
+                javax.xml.namespace.QName currentQName = null;
+                java.lang.String nillableValue = null;
+                java.lang.String prefix = "";
+                java.lang.String namespaceuri = "";
+
+                try {
+                    while (!reader.isStartElement() && !reader.isEndElement())
+                        reader.next();
+
+                    currentQName = reader.getName();
+
+                    if (reader.getAttributeValue(
+                                "http://www.w3.org/2001/XMLSchema-instance",
+                                "type") != null) {
+                        java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                                "type");
+
+                        if (fullTypeName != null) {
+                            java.lang.String nsPrefix = null;
+
+                            if (fullTypeName.indexOf(":") > -1) {
+                                nsPrefix = fullTypeName.substring(0,
+                                        fullTypeName.indexOf(":"));
+                            }
+
+                            nsPrefix = (nsPrefix == null) ? "" : nsPrefix;
+
+                            java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
+                                        ":") + 1);
+
+                            if (!"GetAllJfmpegList".equals(type)) {
+                                //find namespace for the prefix
+                                java.lang.String nsUri = reader.getNamespaceContext()
+                                                               .getNamespaceURI(nsPrefix);
+
+                                return (GetAllJfmpegList) ExtensionMapper.getTypeObject(nsUri,
+                                    type, reader);
+                            }
+                        }
+                    }
+
+                    // Note all attributes that were handled. Used to differ normal attributes
+                    // from anyAttributes.
+                    java.util.Vector handledAttributes = new java.util.Vector();
+
+                    reader.next();
                 } catch (javax.xml.stream.XMLStreamException e) {
                     throw new java.lang.Exception(e);
                 }
@@ -5658,6 +6313,411 @@ public class MyWebServiceStub extends org.apache.axis2.client.Stub {
 
                         object.setRtspAlias(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
                                 content));
+
+                        reader.next();
+                    } // End of if for expected property start element
+
+                    else {
+                    }
+
+                    while (!reader.isStartElement() && !reader.isEndElement())
+                        reader.next();
+
+                    if (reader.isStartElement()) {
+                        // 2 - A start element we are not expecting indicates a trailing invalid property
+                        throw new org.apache.axis2.databinding.ADBException(
+                            "Unexpected subelement " + reader.getName());
+                    }
+                } catch (javax.xml.stream.XMLStreamException e) {
+                    throw new java.lang.Exception(e);
+                }
+
+                return object;
+            }
+        } //end of factory class
+    }
+
+    public static class GetAllJfmpegListResponse implements org.apache.axis2.databinding.ADBBean {
+        public static final javax.xml.namespace.QName MY_QNAME = new javax.xml.namespace.QName("http://tempuri.org/",
+                "GetAllJfmpegListResponse", "ns1");
+
+        /**
+         * field for GetAllJfmpegListResult
+         */
+        protected ArrayOfJFmpeg localGetAllJfmpegListResult;
+
+        /*  This tracker boolean wil be used to detect whether the user called the set method
+         *   for this attribute. It will be used to determine whether to include this field
+         *   in the serialized XML
+         */
+        protected boolean localGetAllJfmpegListResultTracker = false;
+
+        public boolean isGetAllJfmpegListResultSpecified() {
+            return localGetAllJfmpegListResultTracker;
+        }
+
+        /**
+         * Auto generated getter method
+         * @return ArrayOfJFmpeg
+         */
+        public ArrayOfJFmpeg getGetAllJfmpegListResult() {
+            return localGetAllJfmpegListResult;
+        }
+
+        /**
+         * Auto generated setter method
+         * @param param GetAllJfmpegListResult
+         */
+        public void setGetAllJfmpegListResult(ArrayOfJFmpeg param) {
+            localGetAllJfmpegListResultTracker = param != null;
+
+            this.localGetAllJfmpegListResult = param;
+        }
+
+        /**
+         *
+         * @param parentQName
+         * @param factory
+         * @return org.apache.axiom.om.OMElement
+         */
+        public org.apache.axiom.om.OMElement getOMElement(
+            final javax.xml.namespace.QName parentQName,
+            final org.apache.axiom.om.OMFactory factory)
+            throws org.apache.axis2.databinding.ADBException {
+            return factory.createOMElement(new org.apache.axis2.databinding.ADBDataSource(
+                    this, MY_QNAME));
+        }
+
+        public void serialize(final javax.xml.namespace.QName parentQName,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException,
+                org.apache.axis2.databinding.ADBException {
+            serialize(parentQName, xmlWriter, false);
+        }
+
+        public void serialize(final javax.xml.namespace.QName parentQName,
+            javax.xml.stream.XMLStreamWriter xmlWriter, boolean serializeType)
+            throws javax.xml.stream.XMLStreamException,
+                org.apache.axis2.databinding.ADBException {
+            java.lang.String prefix = null;
+            java.lang.String namespace = null;
+
+            prefix = parentQName.getPrefix();
+            namespace = parentQName.getNamespaceURI();
+            writeStartElement(prefix, namespace, parentQName.getLocalPart(),
+                xmlWriter);
+
+            if (serializeType) {
+                java.lang.String namespacePrefix = registerPrefix(xmlWriter,
+                        "http://tempuri.org/");
+
+                if ((namespacePrefix != null) &&
+                        (namespacePrefix.trim().length() > 0)) {
+                    writeAttribute("xsi",
+                        "http://www.w3.org/2001/XMLSchema-instance", "type",
+                        namespacePrefix + ":GetAllJfmpegListResponse", xmlWriter);
+                } else {
+                    writeAttribute("xsi",
+                        "http://www.w3.org/2001/XMLSchema-instance", "type",
+                        "GetAllJfmpegListResponse", xmlWriter);
+                }
+            }
+
+            if (localGetAllJfmpegListResultTracker) {
+                if (localGetAllJfmpegListResult == null) {
+                    throw new org.apache.axis2.databinding.ADBException(
+                        "GetAllJfmpegListResult cannot be null!!");
+                }
+
+                localGetAllJfmpegListResult.serialize(new javax.xml.namespace.QName(
+                        "http://tempuri.org/", "GetAllJfmpegListResult"),
+                    xmlWriter);
+            }
+
+            xmlWriter.writeEndElement();
+        }
+
+        private static java.lang.String generatePrefix(
+            java.lang.String namespace) {
+            if (namespace.equals("http://tempuri.org/")) {
+                return "ns1";
+            }
+
+            return org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+        }
+
+        /**
+         * Utility method to write an element start tag.
+         */
+        private void writeStartElement(java.lang.String prefix,
+            java.lang.String namespace, java.lang.String localPart,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+
+            if (writerPrefix != null) {
+                xmlWriter.writeStartElement(writerPrefix, localPart, namespace);
+            } else {
+                if (namespace.length() == 0) {
+                    prefix = "";
+                } else if (prefix == null) {
+                    prefix = generatePrefix(namespace);
+                }
+
+                xmlWriter.writeStartElement(prefix, localPart, namespace);
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+        }
+
+        /**
+         * Util method to write an attribute with the ns prefix
+         */
+        private void writeAttribute(java.lang.String prefix,
+            java.lang.String namespace, java.lang.String attName,
+            java.lang.String attValue,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String writerPrefix = xmlWriter.getPrefix(namespace);
+
+            if (writerPrefix != null) {
+                xmlWriter.writeAttribute(writerPrefix, namespace, attName,
+                    attValue);
+            } else {
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+                xmlWriter.writeAttribute(prefix, namespace, attName, attValue);
+            }
+        }
+
+        /**
+         * Util method to write an attribute without the ns prefix
+         */
+        private void writeAttribute(java.lang.String namespace,
+            java.lang.String attName, java.lang.String attValue,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            if (namespace.equals("")) {
+                xmlWriter.writeAttribute(attName, attValue);
+            } else {
+                xmlWriter.writeAttribute(registerPrefix(xmlWriter, namespace),
+                    namespace, attName, attValue);
+            }
+        }
+
+        /**
+         * Util method to write an attribute without the ns prefix
+         */
+        private void writeQNameAttribute(java.lang.String namespace,
+            java.lang.String attName, javax.xml.namespace.QName qname,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String attributeNamespace = qname.getNamespaceURI();
+            java.lang.String attributePrefix = xmlWriter.getPrefix(attributeNamespace);
+
+            if (attributePrefix == null) {
+                attributePrefix = registerPrefix(xmlWriter, attributeNamespace);
+            }
+
+            java.lang.String attributeValue;
+
+            if (attributePrefix.trim().length() > 0) {
+                attributeValue = attributePrefix + ":" + qname.getLocalPart();
+            } else {
+                attributeValue = qname.getLocalPart();
+            }
+
+            if (namespace.equals("")) {
+                xmlWriter.writeAttribute(attName, attributeValue);
+            } else {
+                registerPrefix(xmlWriter, namespace);
+                xmlWriter.writeAttribute(attributePrefix, namespace, attName,
+                    attributeValue);
+            }
+        }
+
+        /**
+         *  method to handle Qnames
+         */
+        private void writeQName(javax.xml.namespace.QName qname,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String namespaceURI = qname.getNamespaceURI();
+
+            if (namespaceURI != null) {
+                java.lang.String prefix = xmlWriter.getPrefix(namespaceURI);
+
+                if (prefix == null) {
+                    prefix = generatePrefix(namespaceURI);
+                    xmlWriter.writeNamespace(prefix, namespaceURI);
+                    xmlWriter.setPrefix(prefix, namespaceURI);
+                }
+
+                if (prefix.trim().length() > 0) {
+                    xmlWriter.writeCharacters(prefix + ":" +
+                        org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                            qname));
+                } else {
+                    // i.e this is the default namespace
+                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                            qname));
+                }
+            } else {
+                xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                        qname));
+            }
+        }
+
+        private void writeQNames(javax.xml.namespace.QName[] qnames,
+            javax.xml.stream.XMLStreamWriter xmlWriter)
+            throws javax.xml.stream.XMLStreamException {
+            if (qnames != null) {
+                // we have to store this data until last moment since it is not possible to write any
+                // namespace data after writing the charactor data
+                java.lang.StringBuffer stringToWrite = new java.lang.StringBuffer();
+                java.lang.String namespaceURI = null;
+                java.lang.String prefix = null;
+
+                for (int i = 0; i < qnames.length; i++) {
+                    if (i > 0) {
+                        stringToWrite.append(" ");
+                    }
+
+                    namespaceURI = qnames[i].getNamespaceURI();
+
+                    if (namespaceURI != null) {
+                        prefix = xmlWriter.getPrefix(namespaceURI);
+
+                        if ((prefix == null) || (prefix.length() == 0)) {
+                            prefix = generatePrefix(namespaceURI);
+                            xmlWriter.writeNamespace(prefix, namespaceURI);
+                            xmlWriter.setPrefix(prefix, namespaceURI);
+                        }
+
+                        if (prefix.trim().length() > 0) {
+                            stringToWrite.append(prefix).append(":")
+                                         .append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                    qnames[i]));
+                        } else {
+                            stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                    qnames[i]));
+                        }
+                    } else {
+                        stringToWrite.append(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(
+                                qnames[i]));
+                    }
+                }
+
+                xmlWriter.writeCharacters(stringToWrite.toString());
+            }
+        }
+
+        /**
+         * Register a namespace prefix
+         */
+        private java.lang.String registerPrefix(
+            javax.xml.stream.XMLStreamWriter xmlWriter,
+            java.lang.String namespace)
+            throws javax.xml.stream.XMLStreamException {
+            java.lang.String prefix = xmlWriter.getPrefix(namespace);
+
+            if (prefix == null) {
+                prefix = generatePrefix(namespace);
+
+                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
+
+                while (true) {
+                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
+
+                    if ((uri == null) || (uri.length() == 0)) {
+                        break;
+                    }
+
+                    prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
+                }
+
+                xmlWriter.writeNamespace(prefix, namespace);
+                xmlWriter.setPrefix(prefix, namespace);
+            }
+
+            return prefix;
+        }
+
+        /**
+         *  Factory class that keeps the parse method
+         */
+        public static class Factory {
+            private static org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(Factory.class);
+
+            /**
+             * static method to create the object
+             * Precondition:  If this object is an element, the current or next start element starts this object and any intervening reader events are ignorable
+             *                If this object is not an element, it is a complex type and the reader is at the event just after the outer start element
+             * Postcondition: If this object is an element, the reader is positioned at its end element
+             *                If this object is a complex type, the reader is positioned at the end element of its outer element
+             */
+            public static GetAllJfmpegListResponse parse(
+                javax.xml.stream.XMLStreamReader reader)
+                throws java.lang.Exception {
+                GetAllJfmpegListResponse object = new GetAllJfmpegListResponse();
+
+                int event;
+                javax.xml.namespace.QName currentQName = null;
+                java.lang.String nillableValue = null;
+                java.lang.String prefix = "";
+                java.lang.String namespaceuri = "";
+
+                try {
+                    while (!reader.isStartElement() && !reader.isEndElement())
+                        reader.next();
+
+                    currentQName = reader.getName();
+
+                    if (reader.getAttributeValue(
+                                "http://www.w3.org/2001/XMLSchema-instance",
+                                "type") != null) {
+                        java.lang.String fullTypeName = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance",
+                                "type");
+
+                        if (fullTypeName != null) {
+                            java.lang.String nsPrefix = null;
+
+                            if (fullTypeName.indexOf(":") > -1) {
+                                nsPrefix = fullTypeName.substring(0,
+                                        fullTypeName.indexOf(":"));
+                            }
+
+                            nsPrefix = (nsPrefix == null) ? "" : nsPrefix;
+
+                            java.lang.String type = fullTypeName.substring(fullTypeName.indexOf(
+                                        ":") + 1);
+
+                            if (!"GetAllJfmpegListResponse".equals(type)) {
+                                //find namespace for the prefix
+                                java.lang.String nsUri = reader.getNamespaceContext()
+                                                               .getNamespaceURI(nsPrefix);
+
+                                return (GetAllJfmpegListResponse) ExtensionMapper.getTypeObject(nsUri,
+                                    type, reader);
+                            }
+                        }
+                    }
+
+                    // Note all attributes that were handled. Used to differ normal attributes
+                    // from anyAttributes.
+                    java.util.Vector handledAttributes = new java.util.Vector();
+
+                    reader.next();
+
+                    while (!reader.isStartElement() && !reader.isEndElement())
+                        reader.next();
+
+                    if (reader.isStartElement() &&
+                            new javax.xml.namespace.QName(
+                                "http://tempuri.org/", "GetAllJfmpegListResult").equals(
+                                reader.getName())) {
+                        object.setGetAllJfmpegListResult(ArrayOfJFmpeg.Factory.parse(
+                                reader));
 
                         reader.next();
                     } // End of if for expected property start element

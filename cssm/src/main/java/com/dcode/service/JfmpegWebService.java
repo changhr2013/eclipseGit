@@ -35,6 +35,9 @@ public interface JfmpegWebService {
 	//通过区域id得到对应区域下的最新流列表信息
 	List<JFmpeg> GetCurrentStreamListByRegion(int regionId);
 	
+	//获取所有的配置列表
+	List<JFmpeg> GetAllJfmpegList();
+	
 	/**
 	 * 通过参数打开一个JFmpeg视频直播流
 	 * 

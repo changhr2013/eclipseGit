@@ -15,6 +15,7 @@ import org.tempuri.MyWebServiceStub.GetCurrentStreamListByRegion;
 import org.tempuri.MyWebServiceStub.GetServerIpAddress;
 import org.tempuri.MyWebServiceStub.GetAllRegionList;
 import org.tempuri.MyWebServiceStub.ResetJFmpeg;
+import org.tempuri.MyWebServiceStub.GetAllJfmpegList;
 
 import org.tempuri.MyWebServiceStub.OpenAllStream;
 import org.tempuri.MyWebServiceStub.OpenSingleJFmpeg;
@@ -60,6 +61,26 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	//得到所有的配置列表信息
+	public List<JFmpeg> GetAllJfmpegList(){
+		GetAllJfmpegList getAllJfmpegList=new GetAllJfmpegList();
+		
+		List<JFmpeg> jfmpegList=new ArrayList<JFmpeg>();
+		
+		try {
+			ArrayOfJFmpeg arrayOfJFmpeg= GetServiceStub().
+					getAllJfmpegList(getAllJfmpegList).getGetAllJfmpegListResult();
+			JFmpeg[] jfmpegs=arrayOfJFmpeg.getJFmpeg();
+			
+			for(JFmpeg jfmpeg : jfmpegs){
+				jfmpegList.add(jfmpeg);
+			}
+		}catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return jfmpegList;
 	}
 	
 	/**
