@@ -17,7 +17,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/main/webapp/WEB-INF/lib"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -26,5 +26,24 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/MineClient.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-core-2.0.17.jar" sourcepath="D:/changhrData/javalib/Mina/apache-mina-2.0.17">
+		<attributes>
+			<attribute name="source_encoding" value="UTF-8"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-example-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-filter-compression-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-http-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-integration-beans-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-integration-jmx-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-integration-ognl-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-integration-xbean-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-statemachine-2.0.17.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/mina-transport-apr-2.0.17.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

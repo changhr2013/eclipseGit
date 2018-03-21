@@ -24,6 +24,7 @@ import org.tempuri.MyWebServiceStub.JFmpeg;
 import org.tempuri.MyWebServiceStub.Region;
 
 import com.dcode.service.JfmpegWebService;
+import com.mysql.jdbc.MiniAdmin;
 import com.xrzn.rtsp.DeviceCheckUtil;
 import com.xrzn.rtsp.MinaTask;
 
@@ -82,7 +83,7 @@ public class JfmpegWebServiceController {
 	//通过参数打开相应的流（1.无参数打开所有 2.有regionId打开区域内的流3.有regionId和rtspUrl打开单个流）
 	@RequestMapping(value = "/openjfmpeg", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> OpenConfigJfmpeg(HttpServletRequest request) {
+	public Map<String,Object> OpenConfigJfmpeg(HttpServletRequest request) throws URISyntaxException {
 		
 		String regionId = request.getParameter("regionId");
 		String rtspStreamUrl=request.getParameter("rtspStreamUrl");
@@ -90,12 +91,19 @@ public class JfmpegWebServiceController {
 		List<JFmpeg> jlist=new ArrayList<JFmpeg>();
 		
 		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
-			jlist=jfmpegService.OpenAllStream();
+			//区域id和流地址都为空时，打开所有流
+			//在返回列表前执行过滤操作
+			jlist=this.statusJfmpegList(jfmpegService.OpenAllStream());
 		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
-			jlist=jfmpegService.OpenStreamListByRegion(Integer.parseInt(regionId));
+			//有区域id没有流地址时，打开区域内的流
+			//jlist=jfmpegService.OpenStreamListByRegion(Integer.parseInt(regionId));
+			//在返回列表前执行过滤操作
+			jlist=this.statusJfmpegList(jfmpegService.OpenStreamListByRegion(Integer.parseInt(regionId)));
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
+			//区域id和流地址都不为空时，打开区域内的单个流，返回区域列表
 			jlist=jfmpegService.OpenOneJFmpeg(rtspStreamUrl, Integer.parseInt(regionId));
 		}else if(StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))) {
+			//区域id为空流地址不为空时，打开单个流，返回全部列表
 			jlist=jfmpegService.OpenOneJFmpeg(rtspStreamUrl, 0);
 		}
 		
@@ -122,7 +130,7 @@ public class JfmpegWebServiceController {
 			//没有区域id和流地址，关闭所有流
 			jlist=jfmpegService.CloseAllStream();
 		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
-			//有区域id没有流地址，关闭区域内的所有流
+			//有区域id没有流地址，关闭区域内的所有流 
 			jlist=jfmpegService.CloseStreamListByRegion(Integer.parseInt(regionId));
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
 			//有区域id和流地址，关闭视频流返回当前区域内流信息
@@ -241,28 +249,35 @@ public class JfmpegWebServiceController {
 		String ip=request.getParameter("ip");
 		String index=request.getParameter("index");
 		String rtspUrl=request.getParameter("rtspUrl");
-		
 		Map<String, String> statusMap=new HashMap<String, String>();
+		
 		DeviceCheckUtil.getInstance().registDevice(ip, port, url);
-		statusMap=DeviceCheckUtil.getInstance().getDeviceStatus(ip, port, url);
+		statusMap = DeviceCheckUtil.getInstance().getDeviceStatus(ip, port, url);
+
 		statusMap.put("index", index);
 		statusMap.put("rtspUrl", rtspUrl);
+		//logger.info(url+" status: "+(statusMap.get("status").equals("1")?"正常":"断开"));
 
 		return statusMap;
 	}
 	
-	@RequestMapping(value="/table",method=RequestMethod.GET)
-	public String testTable(Model model) {
-		return "layuitable";
+	@RequestMapping(value="/videotape.html",method=RequestMethod.GET)
+	public String testTable() {
+		return "videotape";
 	}
 	
 	//单例
-    private static MinaTask instance;
-    public static MinaTask getInstance(){
-        if(instance==null){
-            instance=new MinaTask();
-        }
-        return instance;
+//    private static MinaTask instance;
+//    public static MinaTask getInstance(){
+//        if(instance == null){
+//            instance = new MinaTask();
+//        }
+//        return instance;
+//    }
+//    
+    static {
+    	MinaTask task=new MinaTask();
+    	task.initTask(60);
     }
 	//配置定时任务，10分钟执行一次
 	@Scheduled(cron="0 */10 * * * ?")
@@ -271,8 +286,8 @@ public class JfmpegWebServiceController {
 		List<JFmpeg> jfmepgList = jfmpegService.GetAllJfmpegList();
 		
 //		MinaTask task = new MinaTask();
-		MinaTask task = getInstance();
-		task.initTask(60);
+//		MinaTask task = getInstance();
+//		task.initTask(60);
 		
 		for (JFmpeg jFmpeg : jfmepgList) {
 			String rtspTunnel = "";
@@ -290,6 +305,31 @@ public class JfmpegWebServiceController {
 			DeviceCheckUtil.getInstance().registDevice(host, port, rtspTunnel);
 		}
 		logger.info("所有摄像头注册完成。");
+	}
+	
+	//传入一个list列表，处理不正常的rtsp流状态
+	public List<JFmpeg> statusJfmpegList(List<JFmpeg> jfmpegList) throws URISyntaxException {
+		for (JFmpeg jFmpeg : jfmpegList) {
+			String rtspTunnel = "";
+			if(StringUtils.isEmpty(jFmpeg.getRtspUsername())) {
+				rtspTunnel="rtsp://"+jFmpeg.getStreamUrl();
+			}
+			rtspTunnel="rtsp://"+jFmpeg.getRtspUsername()+":"+jFmpeg.getRtspPassword()+"@"+jFmpeg.getStreamUrl();
+			
+			//使用URI获取host地址和端口号
+			URI uri=new URI("http://"+jFmpeg.getStreamUrl());
+			String host=uri.getHost();
+			int port=uri.getPort();
+			
+			int status = Integer.parseInt(DeviceCheckUtil.getInstance().getDeviceStatus(host, port, rtspTunnel).get("status"));
+			if(status==0) {
+				jFmpeg.setJsmpegpid(0);
+				jFmpeg.setFfmpegpid(0);
+				jfmpegService.CloseSingleStream(jFmpeg.getStreamUrl());
+				continue;
+			}
+		}
+		return jfmpegList;
 	}
 	
 }

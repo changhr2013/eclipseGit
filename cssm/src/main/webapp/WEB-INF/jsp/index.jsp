@@ -11,56 +11,6 @@
     <link rel="stylesheet" href="../resources/iconfont/iconfont.css" media="all">
 </head>
 <body>
-<!-- <ul> -->
-<!-- 	<li> -->
-<!-- 		<a href="openconfigjfmpeg"> -->
-<!-- 			<button>open configure stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="closeconfigjfmpeg"> -->
-<!-- 			<button>close configure stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="addsinglejfmpeg"> -->
-<!-- 			<button>open single stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="removesinglejfmpeg"> -->
-<!-- 			<button>close single stream</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="currentjfmpeglist"> -->
-<!-- 			<button>current stream list</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="serverip"> -->
-<!-- 			<button>server ip address</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- 	<br/> -->
-	
-<!-- 	<li> -->
-<!-- 		<a href="reset"> -->
-<!-- 			<button>reset server environment</button> -->
-<!-- 		</a> -->
-<!-- 	</li> -->
-<!-- </ul> -->
-
     <div class="layui-layout layui-layout-admin kit-layout-admin">
         <div class="layui-header">
             <div class="layui-logo">小浪底视频</div>
