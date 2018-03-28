@@ -49,6 +49,7 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 		}
 }
 
+
 	/**
 	 * 得到当前服务运行的服务器ip地址
 	 * */
@@ -265,7 +266,6 @@ public class JfmpegWebServiceImpl implements JfmpegWebService {
 			}
 			return jfmpegList;
 		} catch (RemoteException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return jfmpegList;

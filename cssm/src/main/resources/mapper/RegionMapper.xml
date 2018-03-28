@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dcode.dao.RegionMapper" >
+  <resultMap id="BaseResultMap" type="com.dcode.entity.Region" >
+    <id column="reginonid" property="reginonid" jdbcType="INTEGER" />
+    <result column="reginonname" property="reginonname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    reginonid, reginonname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from region
+    where reginonid = #{reginonid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="com.dcode.entity.RegionExample">
+  	select
+  	<include refid="Base_Column_List" />
+    from region
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from region
+    where reginonid = #{reginonid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.dcode.entity.RegionExample" >
+    delete from region
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.dcode.entity.Region" >
+    insert into region (reginonid, reginonname)
+    values (#{reginonid,jdbcType=INTEGER}, #{reginonname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.dcode.entity.Region" >
+    insert into region
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reginonid != null" >
+        reginonid,
+      </if>
+      <if test="reginonname != null" >
+        reginonname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reginonid != null" >
+        #{reginonid,jdbcType=INTEGER},
+      </if>
+      <if test="reginonname != null" >
+        #{reginonname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.dcode.entity.RegionExample" resultType="java.lang.Integer" >
+    select count(*) from region
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update region
+    <set >
+      <if test="record.reginonid != null" >
+        reginonid = #{record.reginonid,jdbcType=INTEGER},
+      </if>
+      <if test="record.reginonname != null" >
+        reginonname = #{record.reginonname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update region
+    set reginonid = #{record.reginonid,jdbcType=INTEGER},
+      reginonname = #{record.reginonname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.dcode.entity.Region" >
+    update region
+    <set >
+      <if test="reginonname != null" >
+        reginonname = #{reginonname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where reginonid = #{reginonid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.dcode.entity.Region" >
+    update region
+    set reginonname = #{reginonname,jdbcType=VARCHAR}
+    where reginonid = #{reginonid,jdbcType=INTEGER}
+  </update>
+</mapper>

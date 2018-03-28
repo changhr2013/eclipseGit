@@ -2,7 +2,6 @@ package com.dcode.service;
 
 import java.util.List;
 
-import org.tempuri.MyWebServiceStub.ArrayOfJFmpeg;
 import org.tempuri.MyWebServiceStub.JFmpeg;
 import org.tempuri.MyWebServiceStub.Region;
 

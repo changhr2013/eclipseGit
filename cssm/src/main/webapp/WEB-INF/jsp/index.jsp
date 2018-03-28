@@ -36,7 +36,12 @@
                             <span>录像</span>
                         </a>
                     </li>
-                    
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;" kit-target data-options="{url:'../monitor/monitor',icon:'&#xe6ed;',title:'摄像头',id:'1'}">
+                            <i class="iconfont" aria-hidden="true">&#xe6dc;</i>
+                            <span>摄像头</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
