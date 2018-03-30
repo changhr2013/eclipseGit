@@ -163,11 +163,19 @@
     
 	<%-- 流控制按钮模板 --%>
 	<script type="text/html" id="switchTpl">
-	<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 34px;top: 0px;" lay-event="connect">播放</a>
+{{# if(d.cameraStatus == 1){ }}
+	<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;" lay-event="connect">播放</a>
 	<a lay-event="{{ d.serviceStatus == true ? 'checked' : 'unchecked' }}" class="layui-row switch {{ d.serviceStatus == true ? 'switchon' : 'switchoff' }}">
                         <em></em>
                         <i></i>  
                     </a>
+{{# }else{ }}
+	<a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;">播放</a>
+	<a lay-event="{{ d.serviceStatus == true ? 'checked' : 'unavailable' }}" class="layui-row switch {{ d.serviceStatus == true ? 'switchon' : 'switchoff' }}">
+                        <em></em>
+                        <i></i>  
+                    </a>
+{{# } }}
 	</script>
 
 	<%-- rtsp流状态模板 --%>
@@ -305,10 +313,13 @@
         	    ,page: true //开启分页
         	    ,cols: [[ //表头
 //         	      {field: 'streamUrl', title: 'rtsp', width:140}
-        	      {field: 'rtspAlias', title: 'rtsp', width:140}
+        	      {field: 'rtspAlias', title: 'rtsp', width:180}
         	      ,{field: 'cameraStatus', title: '状态', width:60, templet:'#status'}
-        	      ,{field:'serviceStatus', title:'操作 | 服务', width:200, toolbar:'#switchTpl',unresize: true}
+        	      ,{field:'serviceStatus', title:'操作 | 服务', width:160, toolbar:'#switchTpl',unresize: true}
         	    ]]
+        	  ,done:function(res,curr,count){
+        		  console.log(res);
+        	  }
 <%--
         	  	,done: function(res, curr, count){
           		  console.log(res);
@@ -367,7 +378,7 @@
         	  
           	    var data = obj.data //获得当前行数据
           	    ,layEvent = obj.event; //获得 lay-event 对应的值
-      	    	var streamUrl=data.streamUrl;
+      	    	var rtspUrl = data.rtspUrl;
           	    //console.log(obj);
           	    //console.log(data);
           	    if(layEvent === 'unchecked'){
@@ -377,7 +388,7 @@
           	      tableIns.reload({
   	  			  	 url: 'openjfmpeg'
   			  		,where: {
-  			  		rtspStreamUrl:streamUrl
+  			  		rtspStreamUrl:rtspUrl
   			  		,regionId:STREAM_SERVER.regionId
   			  			}
           	      	,method: 'post'
@@ -389,7 +400,7 @@
             	      tableIns.reload({
 						url: 'closejfmpeg'
 	   			  		,where: {
-	   			  		rtspStreamUrl:streamUrl
+	   			  		rtspStreamUrl:rtspUrl
 	   			  		,regionId:STREAM_SERVER.regionId
 	   			  		}
 	           	      	,method: 'post'
@@ -400,6 +411,14 @@
         	    		
         	    		if(playerList[i]===undefined){
         	    			let wsUrl = data.wsUrl;
+        	    			console.log(wsUrl);
+        	    			if(wsUrl === ""||wsUrl === null){
+        	    				layer.open({
+      	    					  title: '信息提示'
+      	    					  ,content: '播放失败，请检查视频源或后台服务进程。'
+      	    					});
+        	    				return;
+        	    			}
         	    			let imgUrl = "../resources/images/video.png";
         	    			//console.log(wsUrl);
         	    			playerList[i] = new JSMpeg.Player(wsUrl, {canvas: canvasList[i],poster:imgUrl});

@@ -3,7 +3,6 @@ package com.dcode.web;
 import org.slf4j.LoggerFactory;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.tempuri.MyWebServiceStub.JFmpeg;
-import org.tempuri.MyWebServiceStub.Region;
 
 import com.dcode.entity.FrontModel;
 import com.dcode.entity.Monitor;
@@ -84,7 +82,7 @@ public class JfmpegWebServiceController {
 	@ResponseBody
 	public Map<String,Object> GetCurrentJfmpegList(HttpServletRequest request) {
 		
-		String regionId=request.getParameter("regionId");
+		String regionId = request.getParameter("regionId");
 		List<FrontModel> fList=new ArrayList<FrontModel>();
 		List<Streamstat> sList = transcodingService.GetCacheRunningList();
 		if(StringUtils.isEmpty(regionId)) {
@@ -113,8 +111,7 @@ public class JfmpegWebServiceController {
 		String rtspStreamUrl=request.getParameter("rtspStreamUrl");
 		
 		List<FrontModel> fList=new ArrayList<FrontModel>();
-		List<Streamstat> sList = transcodingService.GetCacheRunningList();
-		
+
 		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
 			//区域id和流地址都为空时，打开所有流
 			//在返回列表前执行过滤操作
@@ -124,6 +121,7 @@ public class JfmpegWebServiceController {
 				transcodingService.OpenOneJfmpeg(monitor.getPassword(), monitor.getRtspstreamurl(),
 						monitor.getRtspusername(), monitor.getRtsppsd());
 			}
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 			
 		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
@@ -135,6 +133,7 @@ public class JfmpegWebServiceController {
 				transcodingService.OpenOneJfmpeg(monitor.getPassword(), monitor.getRtspstreamurl(),
 						monitor.getRtspusername(), monitor.getRtsppsd());
 			}
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 			
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
@@ -143,6 +142,7 @@ public class JfmpegWebServiceController {
 			transcodingService.OpenOneJfmpeg(monitor.getPassword(), monitor.getRtspstreamurl(),
 					monitor.getRtspusername(), monitor.getRtsppsd());
 			List<Monitor> mList = monitorService.getByRegionId(Integer.parseInt(regionId));
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 			
 		}else if(StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))) {
@@ -151,7 +151,7 @@ public class JfmpegWebServiceController {
 			transcodingService.OpenOneJfmpeg(monitor.getPassword(), monitor.getRtspstreamurl(),
 					monitor.getRtspusername(), monitor.getRtsppsd());
 			List<Monitor> mList = monitorService.getAll();
-
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 		}
 		
@@ -173,7 +173,6 @@ public class JfmpegWebServiceController {
 		String rtspStreamUrl=request.getParameter("rtspStreamUrl");
 		
 		List<FrontModel> fList=new ArrayList<FrontModel>();
-		List<Streamstat> sList = transcodingService.GetCacheRunningList();
 		
 		if(StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
 			
@@ -183,7 +182,7 @@ public class JfmpegWebServiceController {
 			for (Monitor monitor : mList) {
 				transcodingService.CloseOneJfmpeg(monitor.getRtspstreamurl());
 			}
-			
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 			
 		}else if(!StringUtils.isEmpty(regionId)&&StringUtils.isEmpty(rtspStreamUrl)) {
@@ -194,7 +193,7 @@ public class JfmpegWebServiceController {
 			for (Monitor monitor : mList) {
 				transcodingService.CloseOneJfmpeg(monitor.getRtspstreamurl());
 			}
-
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 			
 		}else if(!StringUtils.isEmpty(regionId)&&(!StringUtils.isEmpty(rtspStreamUrl))){
@@ -203,7 +202,7 @@ public class JfmpegWebServiceController {
 			transcodingService.CloseOneJfmpeg(rtspStreamUrl);
 			
 			List<Monitor> mList = monitorService.getByRegionId(Integer.parseInt(regionId));
-			
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 			
 		}else if(StringUtils.isEmpty(regionId)&&!StringUtils.isEmpty(rtspStreamUrl)) {
@@ -212,7 +211,7 @@ public class JfmpegWebServiceController {
 			transcodingService.CloseOneJfmpeg(rtspStreamUrl);
 			
 			List<Monitor> mList = monitorService.getAll();
-			
+			List<Streamstat> sList = transcodingService.GetCacheRunningList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 		}
 		

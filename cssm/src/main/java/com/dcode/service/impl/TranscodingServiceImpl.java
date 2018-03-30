@@ -38,7 +38,7 @@ public class TranscodingServiceImpl implements TranscodingService {
 			
 			stubList.add(new TranscodingServiceStub(ServiceUrlEnum.ONE_SERVER.getUrl()));
 			stubList.add(new TranscodingServiceStub(ServiceUrlEnum.TWO_SERVER.getUrl()));
-			stubList.add(new TranscodingServiceStub(ServiceUrlEnum.THREE_SERVER.getUrl()));
+			//stubList.add(new TranscodingServiceStub(ServiceUrlEnum.THREE_SERVER.getUrl()));
 			
 			for (TranscodingServiceStub stub : stubList) {
 				stub._getServiceClient().getOptions().setProperty(
@@ -109,7 +109,7 @@ public class TranscodingServiceImpl implements TranscodingService {
 				CloseSingleJFmpeg closeJfmpeg = new CloseSingleJFmpeg();
 				closeJfmpeg.setRtspUrl(rtspUrl);
 				
-				if(host == runningServerIp) {
+				if(host.equals(runningServerIp)) {
 					//调用相应的WebService关闭转码服务
 					Streamstat cStreamstat = stubList.get(index).closeSingleJFmpeg(closeJfmpeg).getCloseSingleJFmpegResult();
 					//更新缓存

@@ -132,12 +132,13 @@ public class WebUtils {
 	 * 检查状态，移除MonitorList列表中状态不正常的monitor
 	 * */
 	public static List<Monitor> FilterRightMonitors(List<Monitor> monitors){
+		List<Monitor> runMonitors = new ArrayList<>(monitors);
 		for (Monitor monitor : monitors) {
 			if(!WebUtils.GetRtspStatus(monitor)) {
-				monitors.remove(monitor);
+				runMonitors.remove(monitor);
 			}
 		}
-		return monitors;
+		return runMonitors;
 	}
 	
 }
