@@ -30,14 +30,16 @@ public class TranscodingServiceImpl implements TranscodingService {
 	protected static List<TranscodingServiceStub> stubList = GetServiceStubList();
 	
 	private final static Logger logger = LoggerFactory.getLogger(TranscodingServiceImpl.class);
-
+	
 	//获取TranscodingService客户端实例列表
 	public static List<TranscodingServiceStub> GetServiceStubList() {
 		try{
 			List<TranscodingServiceStub> stubList = new ArrayList<TranscodingServiceStub>();
-			
-			stubList.add(new TranscodingServiceStub(ServiceUrlEnum.ONE_SERVER.getUrl()));
-			stubList.add(new TranscodingServiceStub(ServiceUrlEnum.TWO_SERVER.getUrl()));
+			for (ServiceUrlEnum urlEnum : ServiceUrlEnum.values()) {
+				stubList.add(new TranscodingServiceStub(urlEnum.getUrl()));
+			}
+			//stubList.add(new TranscodingServiceStub(ServiceUrlEnum.ONE_SERVER.getUrl()));
+			//stubList.add(new TranscodingServiceStub(ServiceUrlEnum.TWO_SERVER.getUrl()));
 			//stubList.add(new TranscodingServiceStub(ServiceUrlEnum.THREE_SERVER.getUrl()));
 			
 			for (TranscodingServiceStub stub : stubList) {
@@ -95,6 +97,10 @@ public class TranscodingServiceImpl implements TranscodingService {
 	
 	//查询缓存中的服务，找到对应的rtspUrl的信息，请求相应的服务器关闭转换服务，对应的更新缓存
 	public Streamstat CloseOneJfmpeg(String rtspUrl) {
+		//如果定时任务已经自动将流关闭，就返回null
+		if(!runningMap.containsKey(rtspUrl)) {
+			return null;
+		}
 		//获取缓存中要关闭服务的相关
 		Streamstat streamstat = runningMap.get(rtspUrl);
 		String runningServerIp = streamstat.getServerIp();

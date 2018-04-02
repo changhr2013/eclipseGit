@@ -2,6 +2,7 @@ package com.dcode.web;
 
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +25,13 @@ import org.tempuri.MyWebServiceStub.JFmpeg;
 
 import com.dcode.entity.FrontModel;
 import com.dcode.entity.Monitor;
+import com.dcode.service.HeartbeatService;
 import com.dcode.service.JfmpegWebService;
 import com.dcode.service.MonitorService;
 import com.dcode.service.RegionService;
 import com.dcode.service.TranscodingService;
 import com.dcode.utils.WebUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xrzn.rtsp.DeviceCheckUtil;
 import com.xrzn.rtsp.MinaTask;
 
@@ -50,6 +53,9 @@ public class JfmpegWebServiceController {
 	
 	@Autowired
 	private TranscodingService transcodingService;
+	
+	@Autowired
+	private HeartbeatService HeartbeatService;
 	
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String GoIndex() {
@@ -83,7 +89,7 @@ public class JfmpegWebServiceController {
 	public Map<String,Object> GetCurrentJfmpegList(HttpServletRequest request) {
 		
 		String regionId = request.getParameter("regionId");
-		List<FrontModel> fList=new ArrayList<FrontModel>();
+		List<FrontModel> fList = new ArrayList<FrontModel>();
 		List<Streamstat> sList = transcodingService.GetCacheRunningList();
 		if(StringUtils.isEmpty(regionId)) {
 			List<Monitor> mList = monitorService.getAll();
@@ -94,7 +100,7 @@ public class JfmpegWebServiceController {
 			fList = WebUtils.FrontModelProduct(sList, mList);
 		}
 		
-		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
+		Map<String,Object> jfmpegMap = new HashMap<String,Object>();
 		jfmpegMap.put("data", fList);
 		jfmpegMap.put("code", 0);
 		jfmpegMap.put("msg", "");
@@ -332,7 +338,7 @@ public class JfmpegWebServiceController {
     	MinaTask task = new MinaTask();
     	task.initTask(60);
     }
-	//配置初始化任务和定时任务，spring初始化执行一次，之后每10分钟执行一次
+	//配置注册摄像头状态服务的初始化任务和定时任务，spring初始化执行一次，之后每10分钟执行一次
     @PostConstruct
 	@Scheduled(cron="0 */10 * * * ?")
 	public void queryRtspStatus(){
@@ -352,6 +358,33 @@ public class JfmpegWebServiceController {
 			DeviceCheckUtil.getInstance().registDevice(host, port, rtspTunnel);
 		}
 		logger.info("所有摄像头注册完成。");
+	}
+    
+    //心跳接收,提交心跳数据刷新心跳缓存
+    @RequestMapping(value="/heartbeatcheck", method=RequestMethod.POST)
+    @ResponseBody
+    public String handleHeartbeat(HttpServletRequest request) {
+    	logger.info("receive heartbeat message form "+ request.getRemoteAddr());
+    	String heartbeat = request.getParameter("clientheart");
+    	if(heartbeat == null) {return null;}
+    	ObjectMapper objectMapper = new ObjectMapper();  
+    	try {
+			@SuppressWarnings("unchecked")
+			List<String> urlList = objectMapper.readValue(heartbeat, ArrayList.class);
+			HeartbeatService.updateHeartbeatCache(urlList);
+
+		} catch (IOException e) {
+			logger.error("心跳json数据格式化出错：\r\n"+e.getMessage());
+		}
+		return "success";
+    }
+    
+    //定时任务：每10分钟执行一次检查，关闭长时间未使用的转码服务
+	@Scheduled(cron="0 */10 * * * ?")
+	public void checkUnConnectedStream(){
+		logger.info("执行定时任务，开始检测服务连通状态...");
+		HeartbeatService.autoCleanUnusedService();
+		logger.info("检查完成，已关闭未使用的连接");
 	}
 	
 	

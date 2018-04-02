@@ -67,7 +67,6 @@
 			
 				<div class="layui-row" style="text-align:center;">
 				
-<!-- 				  <div class="layui-btn-group" style=""> -->
 				  <div style="margin:8px 0;">
 				    <button lay-submit lay-filter="openconfig" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">开启所有</button>
 				    <button lay-submit lay-filter="closeconfig" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">关闭所有</button>
@@ -82,7 +81,6 @@
 				
 				</div>
 			
-								
 				<table class="layui-table" id="videostream" lay-filter="switchdemo"></table>
 			</div>
                 <div class="control">
@@ -163,19 +161,19 @@
     
 	<%-- 流控制按钮模板 --%>
 	<script type="text/html" id="switchTpl">
-{{# if(d.cameraStatus == 1){ }}
-	<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;" lay-event="connect">播放</a>
-	<a lay-event="{{ d.serviceStatus == true ? 'checked' : 'unchecked' }}" class="layui-row switch {{ d.serviceStatus == true ? 'switchon' : 'switchoff' }}">
-                        <em></em>
-                        <i></i>  
-                    </a>
-{{# }else{ }}
-	<a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;">播放</a>
-	<a lay-event="{{ d.serviceStatus == true ? 'checked' : 'unavailable' }}" class="layui-row switch {{ d.serviceStatus == true ? 'switchon' : 'switchoff' }}">
-                        <em></em>
-                        <i></i>  
-                    </a>
-{{# } }}
+	{{# if(d.cameraStatus == 1){ }}
+		<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;" lay-event="connect">播放</a>
+		<a lay-event="{{ d.serviceStatus == true ? 'checked' : 'unchecked' }}" class="layui-row switch {{ d.serviceStatus == true ? 'switchon' : 'switchoff' }}">
+    	                    <em></em>
+    	                    <i></i>  
+    	                </a>
+	{{# }else{ }}
+		<a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;">播放</a>
+		<a lay-event="{{ d.serviceStatus == true ? 'checked' : 'unavailable' }}" class="layui-row switch {{ d.serviceStatus == true ? 'switchon' : 'switchoff' }}">
+    	                    <em></em>
+    	                    <i></i>  
+    	                </a>
+	{{# } }}
 	</script>
 
 	<%-- rtsp流状态模板 --%>
@@ -188,16 +186,32 @@
 	</script>
 	
     <script type="text/javascript">
-    //全局对象，用来存储WebServer返回的常量
-	var STREAM_SERVER={};
-// 	STREAM_SERVER.statusMap=new Map();
+    //全局对象集合，用来统一管理存储全局变量
+	var STREAM_SERVER = {};
+	STREAM_SERVER.playList = new Set();
+// 	STREAM_SERVER.statusMap = new Map();
+	
+	//心跳定时任务
+	STREAM_SERVER.timer = setInterval(function() {
+		STREAM_SERVER.playList.clear();
+		for(var player of playerList){
+			if(player !== undefined){
+				STREAM_SERVER.playList.add(player.rtspUrl);
+			}
+		}
+		//发送心跳包
+		$.post('heartbeatcheck',{
+			clientheart: JSON.stringify(Array.from(STREAM_SERVER.playList))
+		});
+		//console.log(Array.from(STREAM_SERVER.playList));
+		}, 30000);
     
 	    //页面初始化
 	    $(function(){  
 	    	//页面初始化时向服务请求区域列表并动态加载到select中
 	    	$.get('regionlist').done(function(regions){
-	    		let selDom = $('#regionSelect');
-	    		for(let region of regions){
+	    		var selDom = $('#regionSelect');
+	    		for(var region of regions){
 	    			selDom.append('<option value='+region.reginonid+'>'+region.reginonname+'</option>');
 	    		}
 	    		//重新渲染form表单
@@ -206,11 +220,6 @@
 				   form.render();
 				  });
 			});
-	    	
-// 	    	//获取webservice的ip地址
-// 	    	$.get("serverip").done(function(data){
-// 	    		STREAM_SERVER.ip=data;
-// 	    	});
 	    });  
     
         //速度控制线
@@ -224,76 +233,71 @@
             var element = layui.element;
         });
 
-        
-    //画面分割按钮
-    $('.one').click(function(){
-        $(".one").addClass("active");
-        $(".four").removeClass("active");
-        $('.videoone').css("display","block");
-        $('.videofour').css("display","none");
+      //一四画面切换按钮
+        $('.one').click(function () {
+            $(".one").addClass("active");
+            $(".four").removeClass("active");
+            $('.videoone').css("display", "block");
+            $('.videofour').css("display", "none");
+        });
 
-    });
-    $('.four').click(function(){
-        $(".four").addClass("active");
-        $(".one").removeClass("active");
+        $('.four').click(function () {
+            $(".four").addClass("active");
+            $(".one").removeClass("active");
 
-        $('.videoone').css("display","none");
-        $('.videofour').css("display","block");
-    });
+            $('.videoone').css("display", "none");
+            $('.videofour').css("display", "block");
+        });
 
-     $(".direction li:even").mouseover(function(){
-         $(this).addClass("show1");
-     });
-     $(".direction li:even").mouseout(function(){
-         $(this).removeClass("show1");
-    });
-     
-     //视频关闭
-     $(".videolist").each(function(index,element){
-         $(element).mouseover(function(){
-             $(element).find("a").css("display","block");
-             //在这里给a添加事件
-         });
-         $(element).mouseout(function(){
-             $(element).find("a").css("display","none");
-         });
-     })
+        $(".direction li:even").mouseover(function () {
+            $(this).addClass("show1");
+        });
+        $(".direction li:even").mouseout(function () {
+            $(this).removeClass("show1");
+        });
 
-     //关闭销毁jsmpeg播放器对象的方法
-     function closePlayer(index){
-    	 
-         playerList[index].destroy();
-         playerList.splice(index, 1, undefined);
-         
-         //获取webgl对象，将canvas画布设为黑色。
-         var ctx=canvasList[index].getContext('webgl');
-         //console.log(ctx);
-         ctx.clearColor(0, 0, 0, 3)
-         ctx.clearDepth(0.5);
-         ctx.clearStencil(1);
-         ctx.clear(ctx.DEPTH_BUFFER_BIT | ctx.COLOR_BUFFER_BIT);
-     }
+        //视频关闭悬浮按钮
+        $(".videolist").each(function (index, element) {
+            $(element).mouseover(function () {
+                $(element).find("a").css("display", "block");
+            });
+            $(element).mouseout(function () {
+                $(element).find("a").css("display", "none");
+            });
+        })
 
-    	//初始化cavas画布和Player播放器变量
+        //关闭销毁jsmpeg播放器对象的方法
+        function closePlayer(index) {
+            playerList[index].destroy();
+            playerList.splice(index, 1, undefined);
+
+            //获取webgl对象，将canvas画布设为黑色。
+            var ctx = canvasList[index].getContext('webgl');
+            ctx.clearColor(0, 0, 0, 3)
+            ctx.clearDepth(0.5);
+            ctx.clearStencil(1);
+            ctx.clear(ctx.DEPTH_BUFFER_BIT | ctx.COLOR_BUFFER_BIT);
+        }
+
+        //初始化cavas画布和Player播放器变量
         var canvas1 = document.getElementById('video-canvas11');
         var canvas2 = document.getElementById('video-canvas21');
         var canvas3 = document.getElementById('video-canvas22');
         var canvas4 = document.getElementById('video-canvas23');
         var canvas5 = document.getElementById('video-canvas24');
-        
-		var player1,player2,player3,player4,player5;
-		
-		var playerList=[player1,player2,player3,player4,player5]; 
-		var canvasList=[canvas1,canvas2,canvas3,canvas4,canvas5];
+
+        var player1, player2, player3, player4, player5;
+
+        var playerList = [player1, player2, player3, player4, player5];
+        var canvasList = [canvas1, canvas2, canvas3, canvas4, canvas5];
 
         //客户端刷新或者退出页面时关闭视频连接
         window.onbeforeunload = onbeforeunload_handler;
-        function onbeforeunload_handler(){
-            
-            for(let i=0;i<playerList.length;i++){
-            	if(playerList[i]!==undefined){
-                	playerList[i].destroy();
-            	}
+        function onbeforeunload_handler() {
+            for (var i = 0; i < playerList.length; i++) {
+                if (playerList[i] !== undefined) {
+                    playerList[i].destroy();
+                }
             }
         }
         
@@ -303,10 +307,10 @@
         	  ,layer = layui.layer //弹层
         	  ,table = layui.table //表格
         	  ,element = layui.element //元素操作
-        	  ,form=layui.form;
+        	  ,form = layui.form; //表单
         	  
         	  //执行一个 table 实例
-        	  var tableIns=table.render({
+        	  var tableIns = table.render({
         	    elem: '#videostream'
         	    ,height: 400
         	    ,url: 'curstreamlist' //数据接口
@@ -315,137 +319,96 @@
 //         	      {field: 'streamUrl', title: 'rtsp', width:140}
         	      {field: 'rtspAlias', title: 'rtsp', width:180}
         	      ,{field: 'cameraStatus', title: '状态', width:60, templet:'#status'}
-        	      ,{field:'serviceStatus', title:'操作 | 服务', width:160, toolbar:'#switchTpl',unresize: true}
+        	      ,{field: 'serviceStatus', title:'操作 | 服务', width:160, toolbar:'#switchTpl',unresize: true}
         	    ]]
-        	  ,done:function(res,curr,count){
-        		  console.log(res);
-        	  }
-<%--
-        	  	,done: function(res, curr, count){
-          		  console.log(res);
-          		  let data=res.data;
-
-          		  for(let i=0;i<count;i++){
-          			  
-					//获取rtsp流地址的端口号          			  
-				  	let parser=document.createElement('a');
-				  	parser.href='http://'+data[i].streamUrl
-				  	let port=parser.port;
-				  
-				  //逐条记录发送post ajax请求摄像头状态
-          	    	$.post("getstatus",{
-          	    		url:'rtsp://'+data[i].rtspUsername+':'+data[i].rtspPassword+'@'+data[i].streamUrl
-          	    		,ip:data[i].streamUrl.split(':')[0]
-          	    		,port:port
-          	    		,status:'0'
-          	    		,index:i
-          	    		,rtspUrl:data[i].streamUrl
-          	    	}).done(function(newdata){
-          	    		console.log(newdata);
-          	    		//收到状态回应之后更新状态的dom结构
-          	    		let successStatus='<i class="layui-icon" style="font-size:25px;">&#x1005;</i>';
-          	    		let failStatus='<i class="layui-icon" style="font-size:25px;">&#x1007;</i>';
-                		let nodelist=$('.layui-table-cell.laytable-cell-1-status');
-                		let index= parseInt(newdata.index)+1;
-                		
-          	    		if(newdata.status==='0'){
-          	    			//rtsp异常时
-                    		nodelist[index].innerHTML = failStatus;
-                    		console.log(index-1);
-                    		return;
-          	    		}else if(newdata.status === '1'){
-          	    			//rtsp正常时
-                    		nodelist[index].innerHTML=successStatus;
-          	    			
-          	    			//获取事件绑定状态
-          	    			let selectStr='.layui-row.switch:eq('+(index-1)+')';
-          	    			//如果流已经启动，跳出方法
-          	    			if($(selectStr).attr('lay-event')==='checked'){
-          	    				return;
-          	    			}
-          	    			//如果流未启动，返回可以启动的事件绑定
-          	    			$(selectStr).attr('lay-event','unchecked');
-                    		return;
-          	    		}
-        	    	});
-          		  }
-          	  }
---%>
         	  });
         	  
-        	  //监听switch开关操作
-        	  table.on('tool(switchdemo)', function(obj){
-        	  
-          	    var data = obj.data //获得当前行数据
-          	    ,layEvent = obj.event; //获得 lay-event 对应的值
-      	    	var rtspUrl = data.rtspUrl;
-          	    //console.log(obj);
-          	    //console.log(data);
-          	    if(layEvent === 'unchecked'){
-          	    	STREAM_SERVER.regionId = $("#regionSelect option:selected").val();
-          	      //layer.msg('开启视频流');
-          	      
-          	      tableIns.reload({
-  	  			  	 url: 'openjfmpeg'
-  			  		,where: {
-  			  		rtspStreamUrl:rtspUrl
-  			  		,regionId:STREAM_SERVER.regionId
-  			  			}
-          	      	,method: 'post'
-          	      	});
+        	//监听switch开关操作
+        	  table.on('tool(switchdemo)', function (obj) {
+        	      //获得当前行数据和 lay-event 对应的值
+        	      var data = obj.data, layEvent = obj.event;
+        	      var rtspUrl = data.rtspUrl;
+        	      var wsUrl = data.wsUrl;
 
+        	      if (layEvent === 'unchecked') {
+        	          //重载表格，打开相应的视频流服务
+        	          STREAM_SERVER.regionId = $("#regionSelect option:selected").val();
+        	          tableIns.reload({
+        	              url: 'openjfmpeg'
+        	              , where: {
+        	                  rtspStreamUrl: rtspUrl
+        	                  , regionId: STREAM_SERVER.regionId
+        	              }
+        	              , method: 'post'
+        	          });
+        	      } else if (layEvent === 'checked') {
+        	          //重载表格，关闭相应的视频流服务
+        	          STREAM_SERVER.regionId = $("#regionSelect option:selected").val();
+        	          tableIns.reload({
+        	              url: 'closejfmpeg'
+        	              , where: {
+        	                  rtspStreamUrl: rtspUrl
+        	                  , regionId: STREAM_SERVER.regionId
+        	              }
+        	              , method: 'post'
+        	          });
+        	      } else if (layEvent === 'connect') {
 
-          	    }else if(layEvent === 'checked'){
-          	    	STREAM_SERVER.regionId=$("#regionSelect option:selected").val();
-            	      tableIns.reload({
-						url: 'closejfmpeg'
-	   			  		,where: {
-	   			  		rtspStreamUrl:rtspUrl
-	   			  		,regionId:STREAM_SERVER.regionId
-	   			  		}
-	           	      	,method: 'post'
-	           	      	});
-          	    }else if(layEvent === 'connect'){
-        	    	
-        	    	for(let i=0;i<playerList.length;i++){
-        	    		
-        	    		if(playerList[i]===undefined){
-        	    			let wsUrl = data.wsUrl;
-        	    			console.log(wsUrl);
-        	    			if(wsUrl === ""||wsUrl === null){
-        	    				layer.open({
-      	    					  title: '信息提示'
-      	    					  ,content: '播放失败，请检查视频源或后台服务进程。'
-      	    					});
-        	    				return;
-        	    			}
-        	    			let imgUrl = "../resources/images/video.png";
-        	    			//console.log(wsUrl);
-        	    			playerList[i] = new JSMpeg.Player(wsUrl, {canvas: canvasList[i],poster:imgUrl});
-        	    			//console.log(playerList[i]);
-    	    				layer.msg("加载中...",{time:1000});
-        	    			setTimeout(function(index){
-            	    			if(playerList[index].demuxer.bits===null){
-            	    				layer.open({
-            	    					  title: '信息提示'
-            	    					  ,content: '播放失败，请检查视频源或后台服务进程。'
-            	    					});
-            	    				playerList[index].destroy();
-            	    				playerList.splice(index,1,undefined);
-            	    			}
-        	    			},2000, i);
+        	          for (var i = 0; i < playerList.length; i++) {
+        	              //如果有未占用的canvas，就将视频显示到空闲的canvas上
+        	              if (playerList[i] === undefined) {
 
-        	    			return;
-        	    		}
-        	    		
-        	    		if(i===playerList.length-1){
-        	    			playerList[0].destroy();
-        	    			let wsUrl = data.wsUrl;
-        	    			playerList[0] = new JSMpeg.Player(wsUrl, {canvas: canvasList[0]});
-        	    			//console.log(playerList);
-        	    		}
-        	    	}
-             	}
+        	                  //如果传入的WebSocket流未空，就弹窗提示用户
+        	                  if (wsUrl === "" || wsUrl === null) {
+        	                      layer.open({
+        	                          title: '信息提示'
+        	                          , content: '未获取到服务地址，请检查视频源或后台服务进程。'
+        	                      });
+        	                      return;
+        	                  }
+        	                  //在空闲的canvas上初始化jsmpegPlayer播放器对象
+        	                  playerList[i] = new JSMpeg.Player(wsUrl, { canvas: canvasList[i] });
+        	                  //将服务器地址字段存入jsmpegPlayer对象
+        	                  playerList[i].rtspUrl = data.rtspUrl;
+        	                  //加载中提示信息
+        	                  layer.msg("加载中...", { time: 1000 });
+        	                  //设置定时器，2s后检测jsmpegPlayer是否有数据流传入
+        	                  setTimeout(function (index) {
+        	                      //数据流为null就销毁播放器解除占用并提示用户
+        	                      if (playerList[index].demuxer.bits === null) {
+        	                          layer.open({
+        	                              title: '信息提示'
+        	                              , content: '播放失败，请检查视频源或后台服务进程。'
+        	                          });
+        	                          playerList[index].destroy();
+        	                          playerList.splice(index, 1, undefined);
+        	                      }
+        	                  }, 2000, i);
+        	                  return;
+        	              }
+        	              //如果视频窗口都在占用，就将新的视频显示在第一个窗口上
+        	              if (i === playerList.length - 1) {
+        	                  playerList[0].destroy();
+        	                  playerList[0] = new JSMpeg.Player(wsUrl, { canvas: canvasList[0] });
+        	                  playerList[0].rtspUrl = data.rtspUrl;
+        	                  //加载中提示信息
+        	                  layer.msg("加载中...", { time: 1000 });
+        	                  //设置定时器，2s后检测jsmpegPlayer是否有数据流传入
+        	                  setTimeout(function () {
+        	                      //数据流为null就销毁播放器解除占用并提示用户
+        	                      if (playerList[0].demuxer.bits === null) {
+        	                          layer.open({
+        	                              title: '信息提示'
+        	                              , content: '播放失败，请检查视频源或后台服务进程。'
+        	                          });
+        	                          playerList[0].destroy();
+        	                          playerList.splice(0, 1, undefined);
+        	                      }
+        	                  }, 2000, i);
+        	                  return;
+        	              }
+        	          }
+        	      }
         	  });
         	  
         	  //总控按钮：启动配置流，关闭配置流，重置环境
@@ -501,9 +464,8 @@
         	      }
         	    }
         	  });
-        	 
+        	  
         	});
-
     </script>
 </body>
 </html>
