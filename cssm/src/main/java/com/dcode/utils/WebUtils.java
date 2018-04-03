@@ -107,6 +107,15 @@ public class WebUtils {
 		return frontModels;
 	}
 	
+	//拼装前端显示的model数据
+	public static FrontModel FrontModelProduct(Streamstat streamstat,Monitor monitor){
+		FrontModel frontModel = new FrontModel(monitor.getRtspstreamurl(), monitor.getMonitor(), monitor.getRtspusername(), monitor.getRtsppsd());
+		frontModel = WebUtils.GetRtspStatus(frontModel);
+		frontModel.setServiceStatus(streamstat.getStatus());
+		frontModel.setWsUrl(streamstat.getWsUrl());
+		return frontModel;
+	}
+	
 	/**
 	 * 获取RTSP流的状态
 	 * @param Monitor

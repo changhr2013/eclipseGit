@@ -25,6 +25,7 @@ import org.tempuri.MyWebServiceStub.JFmpeg;
 
 import com.dcode.entity.FrontModel;
 import com.dcode.entity.Monitor;
+import com.dcode.entity.MonitorExample;
 import com.dcode.service.HeartbeatService;
 import com.dcode.service.JfmpegWebService;
 import com.dcode.service.MonitorService;
@@ -32,6 +33,7 @@ import com.dcode.service.RegionService;
 import com.dcode.service.TranscodingService;
 import com.dcode.utils.WebUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
 import com.xrzn.rtsp.DeviceCheckUtil;
 import com.xrzn.rtsp.MinaTask;
 
@@ -61,12 +63,6 @@ public class JfmpegWebServiceController {
 	public String GoIndex() {
 		return "index";
 	}
-	@RequestMapping(value="/test",method=RequestMethod.GET)
-	@ResponseBody
-	public Streamstat GoTest() {
-		Streamstat streamstat = transcodingService.OpenOneJfmpeg("12345", "192.168.0.201:554", "admin", "zlsd12345");
-		return streamstat;
-	}
 	
 	//返回WebService服务器的IP地址
 	@RequestMapping(value = "/serverip", method = RequestMethod.GET)
@@ -89,14 +85,28 @@ public class JfmpegWebServiceController {
 	public Map<String,Object> GetCurrentJfmpegList(HttpServletRequest request) {
 		
 		String regionId = request.getParameter("regionId");
+		int page= Integer.parseInt(request.getParameter("page"));
+		int limit = Integer.parseInt(request.getParameter("limit"));
+		int count = 0;
+		
 		List<FrontModel> fList = new ArrayList<FrontModel>();
 		List<Streamstat> sList = transcodingService.GetCacheRunningList();
+
 		if(StringUtils.isEmpty(regionId)) {
-			List<Monitor> mList = monitorService.getAll();
+			//List<Monitor> mList = monitorService.getAll();
+			PageInfo<Monitor> pageInfo=monitorService.findByPage(page, limit, new MonitorExample());
+			count = (int) pageInfo.getTotal();
+			List<Monitor> mList = pageInfo.getList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 			
 		}else {
-			List<Monitor> mList = monitorService.getByRegionId(Integer.parseInt(regionId));
+			//List<Monitor> mList = monitorService.getByRegionId(Integer.parseInt(regionId));
+			//初始化查询参数
+			MonitorExample monitorExample = new MonitorExample();
+			monitorExample.createCriteria().andRegionidEqualTo(Integer.parseInt(regionId));
+			PageInfo<Monitor> pageInfo = monitorService.findByPage(page, limit, monitorExample);
+			count=(int) pageInfo.getTotal();
+			List<Monitor> mList = pageInfo.getList();
 			fList = WebUtils.FrontModelProduct(sList, mList);
 		}
 		
@@ -104,7 +114,7 @@ public class JfmpegWebServiceController {
 		jfmpegMap.put("data", fList);
 		jfmpegMap.put("code", 0);
 		jfmpegMap.put("msg", "");
-		jfmpegMap.put("count", fList.size());
+		jfmpegMap.put("count", count);
 		return jfmpegMap;
 	}
 
@@ -385,6 +395,17 @@ public class JfmpegWebServiceController {
 		logger.info("执行定时任务，开始检测服务连通状态...");
 		HeartbeatService.autoCleanUnusedService();
 		logger.info("检查完成，已关闭未使用的连接");
+	}
+	
+	@RequestMapping(value="/openoneservice",method=RequestMethod.GET)
+	@ResponseBody
+	public FrontModel openOneService(HttpServletRequest request) {
+		String rtspUrl = request.getParameter("rtspUrl");
+		Monitor monitor = monitorService.getByRtspUrl(rtspUrl);
+		Streamstat streamstat = transcodingService.OpenOneJfmpeg(monitor.getPassword(), monitor.getRtspstreamurl(), 
+										monitor.getRtspusername(), monitor.getRtsppsd());
+		FrontModel frontModel = WebUtils.FrontModelProduct(streamstat, monitor);
+		return frontModel;
 	}
 	
 	
