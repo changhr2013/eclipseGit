@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-sm3 layui-col-md3 webright ">
+            <div class="layui-col-sm3 layui-col-md3  ">
 			<div class="right-top">
 			
 				<div class="layui-row" style="text-align:center;">
@@ -78,12 +78,11 @@
 		          <option value="">搜索或选择区域...</option>
 		        </select>
 				</form>
-				
-				</div>
-			
 				<table class="layui-table" id="videostream" lay-filter="switchdemo"></table>
+				</div>
+
 			</div>
-                <div class="control">
+                <div class="control"  style='background:#393d49;padding:10px 0 0 10px;'>
                     <div class="control1">
                         <div class="control1-left">
                             <select>
@@ -160,7 +159,7 @@
     <script type="text/javascript" src="../resources/jsmpeg.min.js"></script>
     
 	<%-- 流控制按钮模板(旧：带服务控制) --%>
-	<script type="text/html" id="switchTpl">
+	<script type="text/html" id="switchTpl-old">
 	{{# if(d.cameraStatus == 1){ }}
 		<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;" lay-event="connect">播放</a>
 		<a lay-event="{{ d.serviceStatus == true ? 'checked' : 'unchecked' }}" class="layui-row switch {{ d.serviceStatus == true ? 'switchon' : 'switchoff' }}">
@@ -177,11 +176,11 @@
 	</script>
 	
 	<%-- 流控制按钮模板 (新：不带服务控制)--%>
-	<script type="text/html" id="switchTpl-new">
+	<script type="text/html" id="switchTpl">
 	{{# if(d.cameraStatus == 1){ }}
-		<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 45px;top: 0px;" lay-event="connect">播放</a>
+		<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;width:100%;top: 0px;" lay-event="connect">播放</a>
 	{{# }else{ }}
-		<a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 45px;top: 0px;">播放</a>
+		<a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-radius" style="height:28px;line-height:28px;width:100%;top: 0px;">播放</a>
 	{{# } }}
 	</script>
 	
@@ -325,15 +324,15 @@
         	  //执行一个 table 实例
         	  var tableIns = table.render({
         	    elem: '#videostream'
-        	    ,height: 400
+        	    ,height: 405
         	    ,url: 'curstreamlist' //数据接口
-        	    ,page: true //开启分页
-        	    ,limit: 7
+				,page: {groups:3,layout:['count','prev', 'page', 'next']}
+        	    ,limit: 8
         	    ,cols: [[ //表头
 //         	      {field: 'streamUrl', title: 'rtsp', width:140}
-        	      {field: 'rtspAlias', title: 'rtsp', width:180}
+        	      {field: 'rtspAlias', title: 'rtsp', width:260}
         	      ,{field: 'cameraStatus', title: '状态', width:60, templet:'#status'}
-        	      ,{field: 'serviceStatus', title:'操作 | 服务', width:160, toolbar:'#switchTpl',unresize: true}
+        	      ,{field: 'serviceStatus', title:'操作', toolbar:'#switchTpl',unresize: true}
         	    ]]
         	  });
         	  

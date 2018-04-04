@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.hnxurui.TranscodingServiceStub;
 import org.hnxurui.TranscodingServiceStub.ArrayOfStreamstat;
 import org.hnxurui.TranscodingServiceStub.CloseSingleJFmpeg;
@@ -96,7 +98,7 @@ public class TranscodingServiceImpl implements TranscodingService {
 	}
 	
 	//查询缓存中的服务，找到对应的rtspUrl的信息，请求相应的服务器关闭转换服务，对应的更新缓存
-	public Streamstat CloseOneJfmpeg(String rtspUrl) {
+	public synchronized Streamstat CloseOneJfmpeg(String rtspUrl) {
 		//如果定时任务已经自动将流关闭，就返回null
 		if(!runningMap.containsKey(rtspUrl)) {
 			return null;
@@ -131,6 +133,7 @@ public class TranscodingServiceImpl implements TranscodingService {
 	}
 	
 	//获取所有的服务器运行的服务列表
+	@PostConstruct
 	public List<Streamstat> GetServerRunningList(){
 		List<Streamstat> streamstatList = new ArrayList<Streamstat>();
 		//实例化获取运行的服务列表
@@ -140,9 +143,10 @@ public class TranscodingServiceImpl implements TranscodingService {
 			for (TranscodingServiceStub stub : stubList) {
 				ArrayOfStreamstat arrayOfStreamstat = stub.getRunningList(runningList).getGetRunningListResult();
 				Streamstat[] streamstatsArr = arrayOfStreamstat.getStreamstat();
-				
-				for (Streamstat streamstat : streamstatsArr) {
-					streamstatList.add(streamstat);
+				if(streamstatsArr!=null) {
+					for (Streamstat streamstat : streamstatsArr) {
+						streamstatList.add(streamstat);
+					}
 				}
 			}
 			return streamstatList;
