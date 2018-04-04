@@ -66,13 +66,13 @@
 			<div class="right-top">
 			
 				<div class="layui-row" style="text-align:center;">
-				
+<%-- 
 				  <div style="margin:8px 0;">
 				    <button lay-submit lay-filter="openconfig" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">开启所有</button>
 				    <button lay-submit lay-filter="closeconfig" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">关闭所有</button>
 				    <button lay-submit lay-filter="reset" class="layui-btn" style="border-radius:10px;height:30px;line-height:30px;">重置环境</button>
 				  </div>
-				  
+--%>				  
 				<form class="layui-form" action="" style="margin-bottom:-10px;">
 		        <select id="regionSelect" name="region" lay-filter="region" lay-verify="required" lay-search="">
 		          <option value="">搜索或选择区域...</option>
@@ -179,9 +179,9 @@
 	<%-- 流控制按钮模板 (新：不带服务控制)--%>
 	<script type="text/html" id="switchTpl-new">
 	{{# if(d.cameraStatus == 1){ }}
-		<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;" lay-event="connect">播放</a>
+		<a class="layui-btn layui-btn-xs layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 45px;top: 0px;" lay-event="connect">播放</a>
 	{{# }else{ }}
-		<a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 15px;top: 0px;">播放</a>
+		<a class="layui-btn layui-btn-xs layui-btn-disabled layui-btn-radius" style="height:28px;line-height:28px;position: absolute;left: 45px;top: 0px;">播放</a>
 	{{# } }}
 	</script>
 	
@@ -191,6 +191,8 @@
 		<i class="layui-icon" style="font-size:25px;">&#x1005;</i>
 	{{# }else if(d.cameraStatus == 0){}}
 		<i class="layui-icon" style="font-size:25px;">&#x1007;</i>
+	{{# }else if(d.cameraStatus == -1){}}
+		<i class="layui-icon" style="font-size:25px;">&#xe607;</i>
 	{{# }}}
 	</script>
 	
@@ -412,7 +414,10 @@
 									if (playerList[index].demuxer.bits === null) {
 										layer.open({
 											title: '信息提示'
-											, content: '播放失败，请检查视频源或后台服务进程。'
+											, content: '播放失败，请检查视频源后重试。'
+										});
+										obj.update({
+											wsUrl: ""
 										});
 										playerList[index].destroy();
 										playerList.splice(index, 1, undefined);
@@ -465,7 +470,10 @@
 									if (playerList[index].demuxer.bits === null) {
 										layer.open({
 											title: '信息提示'
-											, content: '播放失败，请检查视频源或后台服务进程。'
+											, content: '播放失败，请检查视频源后重试。'
+										});
+										obj.update({
+											wsUrl: ""
 										});
 										playerList[index].destroy();
 										playerList.splice(index, 1, undefined);
@@ -476,7 +484,7 @@
 						}
 					}
         	  });
-        	  
+<%--
         	  //总控按钮：启动配置流，关闭配置流，重置环境
         	  form.on('submit(openconfig)', function(data){
         		  STREAM_SERVER.regionId=$("#regionSelect option:selected").val();
@@ -504,7 +512,7 @@
         		      	,method: 'get'
         		      	});
         	  });
-        	  
+--%>
         	  //监听下拉列表选中事件
         	  form.on('select(region)', function(data){
         		  //console.log(data);
@@ -517,19 +525,6 @@
         		      	,method: 'post'
         		      	});
         		});
-        	  
-        	  //分页
-//         	  laypage.render({
-//         	    elem: 'pageDemo' //分页容器的id
-//         	    ,count: 100 //总页数
-//         	    ,skin: '#1E9FFF' //自定义选中色值
-//         	    //,skip: true //开启跳页
-//         	    ,jump: function(obj, first){
-//         	      if(!first){
-//         	        layer.msg('第'+ obj.curr +'页');
-//         	      }
-//         	    }
-//         	  });
         	  
         	});
     </script>

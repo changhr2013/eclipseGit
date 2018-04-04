@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,13 +22,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.tempuri.MyWebServiceStub.JFmpeg;
 
 import com.dcode.entity.FrontModel;
 import com.dcode.entity.Monitor;
 import com.dcode.entity.MonitorExample;
 import com.dcode.service.HeartbeatService;
-import com.dcode.service.JfmpegWebService;
 import com.dcode.service.MonitorService;
 import com.dcode.service.RegionService;
 import com.dcode.service.TranscodingService;
@@ -45,9 +44,6 @@ public class JfmpegWebServiceController {
 	private final static Logger logger = LoggerFactory.getLogger(JfmpegWebServiceController.class);
 
 	@Autowired
-	private JfmpegWebService jfmpegService;
-	
-	@Autowired
 	private MonitorService monitorService;
 	
 	@Autowired
@@ -57,19 +53,11 @@ public class JfmpegWebServiceController {
 	private TranscodingService transcodingService;
 	
 	@Autowired
-	private HeartbeatService HeartbeatService;
+	private HeartbeatService heartbeatService;
 	
 	@RequestMapping(value="/index",method=RequestMethod.GET)
 	public String GoIndex() {
 		return "index";
-	}
-	
-	//返回WebService服务器的IP地址
-	@RequestMapping(value = "/serverip", method = RequestMethod.GET)
-	@ResponseBody
-	public String GetWebServerIp() {
-		String serverip = jfmpegService.GetWebServerIp();
-		return serverip;
 	}
 	
 	//返回region列表数据
@@ -85,7 +73,7 @@ public class JfmpegWebServiceController {
 	public Map<String,Object> GetCurrentJfmpegList(HttpServletRequest request) {
 		
 		String regionId = request.getParameter("regionId");
-		int page= Integer.parseInt(request.getParameter("page"));
+		int page = Integer.parseInt(request.getParameter("page"));
 		int limit = Integer.parseInt(request.getParameter("limit"));
 		int count = 0;
 		
@@ -240,74 +228,6 @@ public class JfmpegWebServiceController {
 		return jfmpegMap;
 	}
 	
-	
-/* 通过提交的表单参数打开一个JFMPEG视频流
-
-	@RequestMapping(value = "/opensinglejfmpeg", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> OpenSingleJfmpeg(HttpServletRequest request) {
-		String rtspUrl=request.getParameter("rtspUrl");
-		String rtspUsername=request.getParameter("rtspUsername");
-		String rtspPassword=request.getParameter("rtspPassword");
-		String jsmpegPassword=request.getParameter("jsmpegPassword");
-		
-		List<JFmpeg> jlist = jfmpegService.OpenSingleStream(rtspUrl, rtspUsername, rtspPassword, jsmpegPassword);
-		
-		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
-		jfmpegMap.put("data", jlist);
-		jfmpegMap.put("code", 0);
-		jfmpegMap.put("msg", "");
-		jfmpegMap.put("count", jlist.size());
-		
-		return jfmpegMap;
-	}
-*/	
-/* 通过提交的RTSP视频流地址关闭相应的转换进程
-
-	@RequestMapping(value = "/closesinglejfmpeg", method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String,Object> CloseSingleJfmpeg(HttpServletRequest request) {
-		String rtspStreamUrl = request.getParameter("rtspUrl");
-		
-		List<JFmpeg> jlist = jfmpegService.CloseSingleStream(rtspStreamUrl);
-		
-		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
-		jfmpegMap.put("data", jlist);
-		jfmpegMap.put("code", 0);
-		jfmpegMap.put("msg", "");
-		jfmpegMap.put("count", jlist.size());
-		
-		return jfmpegMap;
-	}
-*/
-	//强制杀死所有与WebService相关的进程，重置WebService服务器的系统环境
-	@RequestMapping(value = "/reset", method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String,Object> Reset() {
-		
-		String result=jfmpegService.Reset();
-		Map<String,Object> jfmpegMap=new HashMap<String,Object>();
-		if(result.equals("JFmpeg's Environment has been Reset.")) {
-			
-			List<JFmpeg> jlist=jfmpegService.GetCurWebServiceList();
-			
-			jfmpegMap.put("data", jlist);
-			jfmpegMap.put("code", 0);
-			jfmpegMap.put("msg", "重置成功");
-			jfmpegMap.put("count", jlist.size());
-			return jfmpegMap;
-		}
-		
-		logger.info("重置环境出错！");
-		jfmpegMap.put("data", null);
-		jfmpegMap.put("code", 0);
-		jfmpegMap.put("msg", "重置出错，请重新重置。");
-		jfmpegMap.put("count", 0);
-		
-		return jfmpegMap;
-		
-	}
-	
 	//video页面辅助重定向(暂用)
 	@RequestMapping(value = "/video.html", method = RequestMethod.GET)
 	public String videopage() {
@@ -320,29 +240,6 @@ public class JfmpegWebServiceController {
 		return "videotape";
 	}
 
-/* 逐条请求RTSP摄像头状态
-	@RequestMapping(value="/getstatus",method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, String> getStatus(HttpServletRequest request) throws InterruptedException{
-		
-		String url = request.getParameter("url");
-		int port = Integer.parseInt(request.getParameter("port"));
-		String ip = request.getParameter("ip");
-		String index = request.getParameter("index");
-		String rtspUrl = request.getParameter("rtspUrl");
-		Map<String, String> statusMap = new HashMap<String, String>();
-		
-		//DeviceCheckUtil.getInstance().registDevice(ip, port, url);
-		statusMap = DeviceCheckUtil.getInstance().getDeviceStatus(ip, port, url);
-
-		statusMap.put("index", index);
-		statusMap.put("rtspUrl", rtspUrl);
-		//logger.info(url+" status: "+(statusMap.get("status").equals("1")?"正常":"断开"));
-
-		return statusMap;
-	}
-*/
-	
 	//MinaTask初始化
     static {
     	MinaTask task = new MinaTask();
@@ -353,14 +250,14 @@ public class JfmpegWebServiceController {
 	@Scheduled(cron="0 */10 * * * ?")
 	public void queryRtspStatus(){
 		logger.info("执行定时任务，开始注册所有摄像头...");
-		List<JFmpeg> jfmepgList = jfmpegService.GetAllJfmpegList();
+		List<Monitor> monitorList = monitorService.getAll();
 		
-		for (JFmpeg jFmpeg : jfmepgList) {
+		for (Monitor monitor : monitorList) {
 			
-			String rtspTunnel = WebUtils.RtspUrlProduct(jFmpeg.getStreamUrl(), jFmpeg.getRtspUsername(), jFmpeg.getRtspPassword());
+			String rtspTunnel = WebUtils.RtspUrlProduct(monitor.getRtspstreamurl(), monitor.getRtspusername(), monitor.getRtsppsd());
 			
 			//使用URI获取host地址和端口号
-			URI uri = WebUtils.GetUri(jFmpeg.getStreamUrl());
+			URI uri = WebUtils.GetUri(monitor.getRtspstreamurl());
 			String host = uri.getHost();
 			int port = uri.getPort();
 			
@@ -381,10 +278,10 @@ public class JfmpegWebServiceController {
     	try {
 			@SuppressWarnings("unchecked")
 			List<String> urlList = objectMapper.readValue(heartbeat, ArrayList.class);
-			HeartbeatService.updateHeartbeatCache(urlList);
+			heartbeatService.updateHeartbeatCache(urlList);
 
 		} catch (IOException e) {
-			logger.error("心跳json数据格式化出错：\r\n"+e.getMessage());
+			logger.error("心跳包json数据格式化出错：\r\n"+e.getMessage());
 		}
 		return "success";
     }
@@ -393,7 +290,7 @@ public class JfmpegWebServiceController {
 	@Scheduled(cron="0 */10 * * * ?")
 	public void checkUnConnectedStream(){
 		logger.info("执行定时任务，开始检测服务连通状态...");
-		HeartbeatService.autoCleanUnusedService();
+		heartbeatService.autoCleanUnusedService();
 		logger.info("检查完成，已关闭未使用的连接");
 	}
 	
@@ -404,6 +301,8 @@ public class JfmpegWebServiceController {
 		Monitor monitor = monitorService.getByRtspUrl(rtspUrl);
 		Streamstat streamstat = transcodingService.OpenOneJfmpeg(monitor.getPassword(), monitor.getRtspstreamurl(), 
 										monitor.getRtspusername(), monitor.getRtsppsd());
+		//首次开启服务时更新一次心跳数据，用来防止前端开启服务但心跳包未发送期间服务端生命周期任务自动结束新开启的服务
+		heartbeatService.updateHeartbeatCache(Arrays.asList(rtspUrl));
 		FrontModel frontModel = WebUtils.FrontModelProduct(streamstat, monitor);
 		return frontModel;
 	}

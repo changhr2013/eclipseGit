@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hnxurui.TranscodingServiceStub.Streamstat;
 import org.slf4j.Logger;
@@ -70,7 +71,14 @@ public class WebUtils {
 		String host = uri.getHost();
 		int port = uri.getPort();
 		//获取摄像头RTSP流状态
-		int status = Integer.parseInt(DeviceCheckUtil.getInstance().getDeviceStatus(host, port, rtspTunnel).get("status"));
+		Map<String, String> statusMap = DeviceCheckUtil.getInstance().getDeviceStatus(host, port, rtspTunnel);
+		int status = 0;
+		//摄像头未注册时返回-1
+		if(statusMap == null) {
+			status = -1;
+		}else {
+			status = Integer.parseInt(statusMap.get("status"));
+		}
 		//更新frontModel
 		frontModel.setCameraStatus(status);
 		
