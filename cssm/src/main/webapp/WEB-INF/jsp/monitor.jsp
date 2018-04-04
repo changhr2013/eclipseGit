@@ -4,16 +4,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-    <script type="text/javascript" src="../resources/js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="../resources/js/rating.min.js"></script>
-    <link rel="stylesheet" href="../resources/plugins/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="./resources/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="./resources/js/rating.min.js"></script>
+    <link rel="stylesheet" href="./resources/plugins/layui/css/layui.css" media="all">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../resources/build/css/app.css" media="all">
-    <link rel="stylesheet" href="../resources/iconfont/iconfont.css" media="all">
+    <link rel="stylesheet" href="./resources/build/css/app.css" media="all">
+    <link rel="stylesheet" href="./resources/iconfont/iconfont.css" media="all">
 </head>
 <body>
    <table id="demo" lay-filter="test"></table>
-   <script src="../resources/plugins/layui/layui.js"></script>
+   <script src="./resources/plugins/layui/layui.js"></script>
 <script>
 layui.use('table', function(){
   var table = layui.table;
@@ -30,7 +30,6 @@ layui.use('table', function(){
       ,{field: 'rtsppsd', title: 'rtsppsd', width:160, sort: false}
       ,{field: 'rtspusername', title: 'rtspusername', width:120} 
       ,{field: 'password', title: 'password', width: 120}
-      ,{field: 'experience', title: 'experience', width: 120, sort: false}
       ,{field: 'regionid', title: 'regionid', width: 120, sort: false}
     ]]
   });

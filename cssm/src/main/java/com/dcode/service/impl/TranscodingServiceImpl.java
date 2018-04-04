@@ -133,7 +133,6 @@ public class TranscodingServiceImpl implements TranscodingService {
 	}
 	
 	//获取所有的服务器运行的服务列表
-	@PostConstruct
 	public List<Streamstat> GetServerRunningList(){
 		List<Streamstat> streamstatList = new ArrayList<Streamstat>();
 		//实例化获取运行的服务列表
@@ -146,6 +145,7 @@ public class TranscodingServiceImpl implements TranscodingService {
 				if(streamstatsArr!=null) {
 					for (Streamstat streamstat : streamstatsArr) {
 						streamstatList.add(streamstat);
+						runningMap.put(streamstat.getRtspUrl(), streamstat);
 					}
 				}
 			}
@@ -154,6 +154,27 @@ public class TranscodingServiceImpl implements TranscodingService {
 			logger.error("获取远程运行服务列表出错:\r\n"+remoteE.getMessage());
 		}
 		return streamstatList;
+	}
+	
+	//初始化任务，项目重启时请求远程节点恢复Running Cache信息
+	@PostConstruct
+	public void RecoverRunningCache() {
+		//实例化获取运行的服务列表
+		GetRunningList runningList = new GetRunningList();
+		try {
+			//获取各个服务器运行的服务列表
+			for (TranscodingServiceStub stub : stubList) {
+				ArrayOfStreamstat arrayOfStreamstat = stub.getRunningList(runningList).getGetRunningListResult();
+				Streamstat[] streamstatsArr = arrayOfStreamstat.getStreamstat();
+				if(streamstatsArr!=null) {
+					for (Streamstat streamstat : streamstatsArr) {
+						runningMap.put(streamstat.getRtspUrl(), streamstat);
+					}
+				}
+			}
+		} catch (RemoteException remoteE) {
+			logger.error("获取远程运行服务列表出错:\r\n"+remoteE.getMessage());
+		}
 	}
 	
 	//获取缓存中运行的服务列表

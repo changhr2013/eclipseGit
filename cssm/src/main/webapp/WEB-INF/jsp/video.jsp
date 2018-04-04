@@ -4,13 +4,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-    <script type="text/javascript" src="../resources/js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="../resources/js/rating.min.js"></script>
-    <link rel="stylesheet" href="../resources/plugins/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="./resources/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="./resources/js/rating.min.js"></script>
+    <link rel="stylesheet" href="./resources/plugins/layui/css/layui.css" media="all">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../resources/build/css/app.css" media="all">
-    <link rel="stylesheet" href="../resources/css/style.css" media="all">
-    <link rel="stylesheet" href="../resources/iconfont/iconfont.css" media="all">
+    <link rel="stylesheet" href="./resources/build/css/app.css" media="all">
+    <link rel="stylesheet" href="./resources/css/style.css" media="all">
+    <link rel="stylesheet" href="./resources/iconfont/iconfont.css" media="all">
     <style type="text/css">
         .videoPlayer{
             border: 1px solid #000;
@@ -153,10 +153,10 @@
     </div>
     
     <%-- layui js库 --%>
-    <script type="text/javascript" src="../resources/plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="./resources/plugins/layui/layui.js"></script>
     
     <%-- jsmpeg依赖的js库 --%>
-    <script type="text/javascript" src="../resources/jsmpeg.min.js"></script>
+    <script type="text/javascript" src="./resources/jsmpeg.min.js"></script>
     
 	<%-- 流控制按钮模板(旧：带服务控制) --%>
 	<script type="text/html" id="switchTpl-old">

@@ -20,17 +20,17 @@ import com.github.pagehelper.PageInfo;
 
 
 @Controller
-@RequestMapping("/monitor") 
+@RequestMapping("/") 
 public class MonitorController {
 
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final static Logger logger = LoggerFactory.getLogger(MonitorController.class);
 
 	@Autowired
 	private MonitorService monitorService;
 	@Autowired
 	private RegionService regionService;
 	
-	@RequestMapping(value="/monitor",method=RequestMethod.GET)
+	@RequestMapping(value="monitor",method=RequestMethod.GET)
 	public String GoIndex() {
 		return "monitor";
 	}
@@ -42,7 +42,7 @@ public class MonitorController {
 	 * @param m
 	 * @return
 	 */
-	@RequestMapping(value = "/grid")
+	@RequestMapping(value = "grid")
 	@ResponseBody
 	public Map<String,Object> grid(int page,int limit,Monitor m) {
 		Map<String,Object> resultMap = new HashMap<String,Object>();
@@ -57,7 +57,7 @@ public class MonitorController {
 	 * 获取所有的摄像头列表
 	 * @return
 	 */
-	@RequestMapping(value = "/getAll")
+	@RequestMapping(value = "getAll")
 	@ResponseBody
 	public List<Monitor> getAll() {
 		return monitorService.getAll();
@@ -67,7 +67,7 @@ public class MonitorController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/getById")
+	@RequestMapping(value = "getById")
 	@ResponseBody
 	public Monitor getById(int id){
 		return monitorService.getById(id);
@@ -77,7 +77,7 @@ public class MonitorController {
 	 * @param rtspurl
 	 * @return
 	 */
-	@RequestMapping(value = "/getByRtspUrl")
+	@RequestMapping(value = "getByRtspUrl")
 	@ResponseBody
 	public Monitor getByRtspUrl(String rtspurl){
 		return monitorService.getByRtspUrl(rtspurl);
@@ -87,7 +87,7 @@ public class MonitorController {
 	 * @param regionId
 	 * @return
 	 */
-	@RequestMapping(value = "/getByRegionId")
+	@RequestMapping(value = "getByRegionId")
 	@ResponseBody
 	public List<Monitor> findMonitorByRegionId(int regionId){
 		return monitorService.getByRegionId(regionId);
@@ -96,7 +96,7 @@ public class MonitorController {
 	 * 获取所有区域信息
 	 * @return
 	 */
-	@RequestMapping(value = "/getAllRegion")
+	@RequestMapping(value = "getAllRegion")
 	@ResponseBody
 	public List<Region> getAllRegion(){
 		return regionService.getAll();
@@ -106,7 +106,7 @@ public class MonitorController {
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value = "/getRegionById")
+	@RequestMapping(value = "getRegionById")
 	@ResponseBody
 	public Region getRegionById(int id){
 		return regionService.getById(id);

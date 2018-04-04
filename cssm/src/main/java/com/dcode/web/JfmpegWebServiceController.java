@@ -38,7 +38,7 @@ import com.xrzn.rtsp.MinaTask;
 
 
 @Controller
-@RequestMapping("/jfmpeg") 
+@RequestMapping("/") 
 public class JfmpegWebServiceController {
 
 	private final static Logger logger = LoggerFactory.getLogger(JfmpegWebServiceController.class);
@@ -55,20 +55,20 @@ public class JfmpegWebServiceController {
 	@Autowired
 	private HeartbeatService heartbeatService;
 	
-	@RequestMapping(value="/index",method=RequestMethod.GET)
+	@RequestMapping(value="index",method=RequestMethod.GET)
 	public String GoIndex() {
 		return "index";
 	}
 	
 	//返回region列表数据
-	@RequestMapping(value="/regionlist",method=RequestMethod.GET)
+	@RequestMapping(value="regionlist",method=RequestMethod.GET)
 	@ResponseBody
 	public List<com.dcode.entity.Region> GetAllRegionList(){
 		return regionService.getAll();
 	}
 	
 	//获取最新的视频流列表信息
-	@RequestMapping(value="/curstreamlist")
+	@RequestMapping(value="curstreamlist")
 	@ResponseBody
 	public Map<String,Object> GetCurrentJfmpegList(HttpServletRequest request) {
 		
@@ -107,7 +107,7 @@ public class JfmpegWebServiceController {
 	}
 
 	//通过参数打开相应的流（1.无参数打开所有 2.有regionId打开区域内的流3.有regionId和rtspUrl打开单个流）
-	@RequestMapping(value = "/openjfmpeg", method = RequestMethod.POST)
+	@RequestMapping(value = "openjfmpeg", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> OpenConfigJfmpeg(HttpServletRequest request) {
 		
@@ -169,7 +169,7 @@ public class JfmpegWebServiceController {
 	}
 		
 	//通过参数关闭相应的流（1.无参数关闭所有 2.有regionId关闭区域内的流 3.有regionId和rtspUrl关闭单个流）
-	@RequestMapping(value = "/closejfmpeg", method = RequestMethod.POST)
+	@RequestMapping(value = "closejfmpeg", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> CloseConfigJfmpeg(HttpServletRequest request) {
 		
@@ -229,13 +229,13 @@ public class JfmpegWebServiceController {
 	}
 	
 	//video页面辅助重定向(暂用)
-	@RequestMapping(value = "/video.html", method = RequestMethod.GET)
+	@RequestMapping(value = "video.html", method = RequestMethod.GET)
 	public String videopage() {
 		return "video";
 	}
 	
 	//videotape页面辅助重定向(暂用)
-	@RequestMapping(value="/videotape.html",method=RequestMethod.GET)
+	@RequestMapping(value="videotape.html",method=RequestMethod.GET)
 	public String testTable() {
 		return "videotape";
 	}
@@ -268,7 +268,7 @@ public class JfmpegWebServiceController {
 	}
     
     //心跳接收,提交心跳数据刷新心跳缓存
-    @RequestMapping(value="/heartbeatcheck", method=RequestMethod.POST)
+    @RequestMapping(value="heartbeatcheck", method=RequestMethod.POST)
     @ResponseBody
     public String handleHeartbeat(HttpServletRequest request) {
     	logger.info("receive heartbeat message form "+ request.getRemoteAddr());
@@ -294,7 +294,7 @@ public class JfmpegWebServiceController {
 		logger.info("检查完成，已关闭未使用的连接");
 	}
 	
-	@RequestMapping(value="/openoneservice",method=RequestMethod.GET)
+	@RequestMapping(value="openoneservice",method=RequestMethod.GET)
 	@ResponseBody
 	public FrontModel openOneService(HttpServletRequest request) {
 		String rtspUrl = request.getParameter("rtspUrl");

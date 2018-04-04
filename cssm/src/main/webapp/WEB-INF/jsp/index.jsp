@@ -5,10 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Index Control Page</title>
-    <link rel="stylesheet" href="../resources/plugins/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="./resources/plugins/layui/css/layui.css" media="all">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../resources/build/css/app.css" media="all">
-    <link rel="stylesheet" href="../resources/iconfont/iconfont.css" media="all">
+    <link rel="stylesheet" href="./resources/build/css/app.css" media="all">
+    <link rel="stylesheet" href="./resources/iconfont/iconfont.css" media="all">
 </head>
 <body>
     <div class="layui-layout layui-layout-admin kit-layout-admin">
@@ -37,7 +37,7 @@
                         </a>
                     </li>
                     <li class="layui-nav-item layui-nav-itemed">
-                        <a href="javascript:;" kit-target data-options="{url:'../monitor/monitor',icon:'&#xe6ed;',title:'摄像头',id:'1'}">
+                        <a href="javascript:;" kit-target data-options="{url:'./monitor',icon:'&#xe6ed;',title:'摄像头',id:'1'}">
                             <i class="iconfont" aria-hidden="true">&#xe6dc;</i>
                             <span>摄像头</span>
                         </a>
@@ -58,12 +58,12 @@
         </div>
     </div>
 
-    <script src="../resources/plugins/layui/layui.js"></script>
+    <script src="./resources/plugins/layui/layui.js"></script>
 
     <script>
         var message;
         layui.config({
-            base: '../resources/build/js/'
+            base: './resources/build/js/'
         }).use(['app', 'message'], function () {
             var app = layui.app,
                 $ = layui.jquery,
@@ -78,7 +78,7 @@
                 layer.open({
                     title: false,
                     type: 1,
-                    content: '<img src="../resources/build/images/pay.png" />',
+                    content: '<img src="./resources/build/images/pay.png" />',
                     area: ['500px', '250px'],
                     shadeClose: true
                 });

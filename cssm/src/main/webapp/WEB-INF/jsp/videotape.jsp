@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>视频</title>
-    <script type="text/javascript" src="../resources/js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="../resources/js/rating.min.js"></script>
-     <script type="text/javascript" src="../resources/js/backplay.js"></script> 
-    <link rel="stylesheet" href="../resources/plugins/layui/css/layui.css" media="all">
+    <script type="text/javascript" src="./resources/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="./resources/js/rating.min.js"></script>
+     <script type="text/javascript" src="./resources/js/backplay.js"></script> 
+    <link rel="stylesheet" href="./resources/plugins/layui/css/layui.css" media="all">
     <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../resources/build/css/app.css" media="all">
-    <link rel="stylesheet" href="../resources/css/style.css" media="all">
-    <link rel="stylesheet" href="../resources/iconfont/iconfont.css" media="all">
+    <link rel="stylesheet" href="./resources/build/css/app.css" media="all">
+    <link rel="stylesheet" href="./resources/css/style.css" media="all">
+    <link rel="stylesheet" href="./resources/iconfont/iconfont.css" media="all">
     <style type="text/css">
         .videoPlayer{
             border: 1px solid #000;
@@ -40,7 +40,7 @@
             <div class="layui-col-sm10 layui-col-md10 videoone" style="display:none;">
                 <div class="layui-row">
                     <div class="layui-col-sm12 layui-col-md12  videolist">
-                        <img src="../resources/images/video.png" class="layui-img">
+                        <img src="./resources/images/video.png" class="layui-img">
                     </div>
                     
                 </div>
@@ -50,16 +50,16 @@
                 <!-- 视频列表 -->
                 <div class="layui-row layui-col-space10">
                     <div class="layui-col-sm12 layui-col-md6 videolist">
-                        <img src="../resources/images/video.png" class="layui-img">
+                        <img src="./resources/images/video.png" class="layui-img">
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
-                        <img src="../resources/images/video.png" class="layui-img">
+                        <img src="./resources/images/video.png" class="layui-img">
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
-                        <img src="../resources/images/video.png" class="layui-img">
+                        <img src="./resources/images/video.png" class="layui-img">
                     </div>
                     <div class="layui-col-sm12 layui-col-md6 videolist">
-                        <img src="../resources/images/video.png" class="layui-img">
+                        <img src="./resources/images/video.png" class="layui-img">
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="../resources/plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="./resources/plugins/layui/layui.js"></script>
     <script type="text/javascript">
         //速度控制线
         $(document).ready(function () {
