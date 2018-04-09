@@ -294,11 +294,20 @@ public class JfmpegWebServiceController {
 		logger.info("检查完成，已关闭未使用的连接");
 	}
 	
+    //定时任务：每60分钟执行一次检查，关闭出错的转码服务
+	@Scheduled(cron="0 0 */1 * * ?")
+	public void checkExceptionStream(){
+		logger.info("执行定时任务，开始比对检出异常服务...");
+		heartbeatService.autoCleanUnrunningExceptionService();
+		logger.info("完成，已清理异常服务缓存");
+	}
+	
 	@RequestMapping(value="openoneservice",method=RequestMethod.GET)
 	@ResponseBody
 	public FrontModel openOneService(HttpServletRequest request) {
 		String rtspUrl = request.getParameter("rtspUrl");
 		Monitor monitor = monitorService.getByRtspUrl(rtspUrl);
+		logger.info("开启--->"+rtspUrl);
 		Streamstat streamstat = transcodingService.OpenOneJfmpeg(monitor.getPassword(), monitor.getRtspstreamurl(), 
 										monitor.getRtspusername(), monitor.getRtsppsd());
 		//首次开启服务时更新一次心跳数据，用来防止前端开启服务但心跳包未发送期间服务端生命周期任务自动结束新开启的服务

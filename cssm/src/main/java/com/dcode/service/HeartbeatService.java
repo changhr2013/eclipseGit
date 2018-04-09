@@ -9,4 +9,7 @@ public interface HeartbeatService {
 	
 	//比对缓存池，自动结束长时间未使用的转码服务
 	void autoCleanUnusedService();
+	
+	//异常服务清理
+	void autoCleanUnrunningExceptionService();
 }
